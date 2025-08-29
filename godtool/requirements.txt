@@ -1,0 +1,8 @@
+argparse
+pytube
+PyPDF2
+imaplib2
+pyautogui
+schedule
+os
+smtplib
