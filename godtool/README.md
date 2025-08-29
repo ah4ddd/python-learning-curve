@@ -8,7 +8,7 @@ An all-in-one Python command-line automation tool to run your digital life on au
 - 📄 Merge PDFs
 - 📥 Sort emails
 - 🔁 Schedule everything
-
+- 🌐 web schedular
 ## Usage
 
 `All commands shall run from root of folder`
