@@ -31,5 +31,4 @@ build/
 Thumbs.db
 
 #config files
-godtool/config/
 godtool/forme.txt
