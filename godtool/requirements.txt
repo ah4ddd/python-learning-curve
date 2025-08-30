@@ -7,3 +7,27 @@ schedule
 os
 smtplib
 request
+pytz
+
+# Core dependencies
+requests>=2.28.0
+beautifulsoup4>=4.11.0
+schedule>=1.2.0
+
+# YouTube downloading
+yt-dlp>=2023.1.0
+
+# PDF operations
+PyPDF2>=3.0.0
+
+# Email operations (built-in imaplib is used)
+
+# Optional: Enhanced features
+lxml>=4.9.0
+html5lib>=1.1
+urllib3>=1.26.0
+
+# Development dependencies (optional)
+pytest>=7.0.0
+black>=22.0.0
+flake8>=5.0.0

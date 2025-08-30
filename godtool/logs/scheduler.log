@@ -1,0 +1,35 @@
+2025-08-30 07:49:11,720 - INFO - 🚀 Scheduler daemon started
+2025-08-30 07:49:40,931 - INFO - 📴 Shutdown signal received
+2025-08-30 07:49:42,925 - INFO - 📴 Scheduler daemon stopped
+2025-08-30 07:50:18,349 - INFO - 🚀 Scheduler daemon started
+2025-08-30 08:21:02,247 - INFO - 📴 Shutdown signal received
+2025-08-30 08:21:06,755 - INFO - 📴 Shutdown signal received
+2025-08-30 08:21:07,182 - INFO - 📴 Shutdown signal received
+2025-08-30 08:21:07,474 - INFO - 📴 Shutdown signal received
+2025-08-30 08:21:14,309 - INFO - 📴 Shutdown signal received
+2025-08-30 08:21:14,807 - INFO - 📴 Shutdown signal received
+2025-08-30 08:21:14,835 - INFO - 📴 Shutdown signal received
+2025-08-30 08:21:14,867 - INFO - 📴 Shutdown signal received
+2025-08-30 08:21:14,897 - INFO - 📴 Shutdown signal received
+2025-08-30 08:21:14,926 - INFO - 📴 Shutdown signal received
+2025-08-30 08:21:14,956 - INFO - 📴 Shutdown signal received
+2025-08-30 08:21:15,122 - INFO - 📴 Shutdown signal received
+2025-08-30 08:21:15,312 - INFO - 📴 Shutdown signal received
+2025-08-30 08:21:15,492 - INFO - 📴 Shutdown signal received
+2025-08-30 08:21:15,679 - INFO - 📴 Shutdown signal received
+2025-08-30 08:21:20,152 - INFO - 📴 Shutdown signal received
+2025-08-30 08:24:50,737 - INFO - 🚀 Scheduler daemon started
+2025-08-30 08:24:50,740 - INFO - Executing job 2 - fetch
+2025-08-30 08:24:54,937 - INFO - Web fetch result (first 200 chars): 📊 Fetch Results for: https://httpbin.org/json
+🕒 Time: 2025-08-30 08:24:54
+📋 Status: 200 | Type: application/json
+============================================================
+
+📄 Content Type: JSON
+----...
+2025-08-30 08:24:54,937 - INFO - Job 2 completed successfully
+2025-08-30 08:25:19,594 - INFO - 📴 Shutdown signal received
+2025-08-30 08:25:21,873 - INFO - 📴 Scheduler daemon stopped
+2025-08-30 08:27:27,265 - INFO - 🚀 Scheduler daemon started
+2025-08-30 08:28:25,404 - INFO - 📴 Shutdown signal received
+2025-08-30 08:28:28,505 - INFO - 📴 Scheduler daemon stopped
