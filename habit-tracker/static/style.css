@@ -1,0 +1,47 @@
+/* Custom styles for our habit tracker */
+
+body {
+    background-color: #f8f9fa;
+}
+
+.navbar-brand {
+    font-weight: bold;
+}
+
+.card {
+    border: none;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    transition: transform 0.2s;
+}
+
+.card:hover {
+    transform: translateY(-2px);
+}
+
+.progress {
+    height: 10px;
+}
+
+.btn {
+    border-radius: 25px;
+}
+
+/* Make completed habits look different */
+.habit-completed {
+    opacity: 0.7;
+}
+
+.habit-completed .card {
+    background-color: #f8f9fa;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .container {
+        padding: 0 15px;
+    }
+
+    .display-4 {
+        font-size: 2rem;
+    }
+}

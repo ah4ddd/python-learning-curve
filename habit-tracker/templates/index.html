@@ -1,0 +1,49 @@
+{% extends "base.html" %}
+
+{% block title %}Home - Habit Tracker{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-8 text-center">
+        <h1 class="display-4 mb-4">🎯 Welcome to Your Habit Tracker</h1>
+        <p class="lead">Build better habits, one day at a time</p>
+
+        <!-- Hero section with call to action -->
+        <div class="card mt-5">
+            <div class="card-body">
+                <h5 class="card-title">Ready to start building habits?</h5>
+                <p class="card-text">Track your daily habits, see your progress, and build streaks that stick.</p>
+                <a href="{{ url_for('habits') }}" class="btn btn-primary btn-lg">View My Habits</a>
+            </div>
+        </div>
+
+        <!-- Quick stats preview (we'll make this dynamic later) -->
+        <div class="row mt-5">
+            <div class="col-md-4">
+                <div class="card bg-success text-white">
+                    <div class="card-body">
+                        <h3>3</h3>
+                        <p>Total Habits</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card bg-info text-white">
+                    <div class="card-body">
+                        <h3>2</h3>
+                        <p>Completed Today</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card bg-warning text-white">
+                    <div class="card-body">
+                        <h3>5</h3>
+                        <p>Best Streak</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
