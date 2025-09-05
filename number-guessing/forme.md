@@ -122,7 +122,3 @@ So when you guessed **38** and that was the number, the game said:
 
 ---
 
-Your 12 tries are normal for random guessing between 1-100. If you wanted to **gamble and win faster**, there’s a **pro trick called binary search** where you guess smart instead of random—but that’s next level.
-
----
-
