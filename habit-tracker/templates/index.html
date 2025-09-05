@@ -1,49 +1,89 @@
-{% extends "base.html" %}
+<!DOCTYPE html>
+<html>
 
-{% block title %}Home - Habit Tracker{% endblock %}
+<head>
+    <title>Habit Tracker - Home</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="/static/style.css">
+</head>
 
-{% block content %}
-<div class="row justify-content-center">
-    <div class="col-md-8 text-center">
-        <h1 class="display-4 mb-4">🎯 Welcome to Your Habit Tracker</h1>
-        <p class="lead">Build better habits, one day at a time</p>
+<body>
+    <div class="container mt-4">
+        <nav class="mb-4">
+            <a href="/" class="btn btn-primary">Home</a>
+            <a href="/habits" class="btn btn-outline-primary">My Habits</a>
+        </nav>
 
-        <!-- Hero section with call to action -->
-        <div class="card mt-5">
-            <div class="card-body">
-                <h5 class="card-title">Ready to start building habits?</h5>
-                <p class="card-text">Track your daily habits, see your progress, and build streaks that stick.</p>
-                <a href="{{ url_for('habits') }}" class="btn btn-primary btn-lg">View My Habits</a>
+        <div class="text-center mb-5">
+            <h1 class="display-4 mb-4">🎯 Your Habit Tracker</h1>
+            <p class="lead">Build better habits, one day at a time</p>
+        </div>
+
+        <!-- Stats cards -->
+        <div class="row mb-5">
+            <div class="col-md-4 mb-3">
+                <div class="card text-center h-100">
+                    <div class="card-body">
+                        <div class="display-6 text-primary mb-2">{{ stats.total_habits }}</div>
+                        <h5 class="card-title">Total Habits</h5>
+                        <p class="card-text text-muted">Habits you're tracking</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4 mb-3">
+                <div class="card text-center h-100">
+                    <div class="card-body">
+                        <div class="display-6 text-success mb-2">{{ stats.completed_today }}</div>
+                        <h5 class="card-title">Completed Today</h5>
+                        <p class="card-text text-muted">Great progress!</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4 mb-3">
+                <div class="card text-center h-100">
+                    <div class="card-body">
+                        <div class="display-6 text-warning mb-2">🔥 {{ stats.best_streak }}</div>
+                        <h5 class="card-title">Best Streak</h5>
+                        <p class="card-text text-muted">Days in a row</p>
+                    </div>
+                </div>
             </div>
         </div>
 
-        <!-- Quick stats preview (we'll make this dynamic later) -->
-        <div class="row mt-5">
-            <div class="col-md-4">
-                <div class="card bg-success text-white">
-                    <div class="card-body">
-                        <h3>3</h3>
-                        <p>Total Habits</p>
-                    </div>
+        <!-- Quick actions -->
+        <div class="text-center">
+            {% if stats.total_habits == 0 %}
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Welcome! 👋</h5>
+                    <p class="card-text">You haven't added any habits yet. Start building better habits today!</p>
+                    <a href="/habits" class="btn btn-primary btn-lg">Add Your First Habit</a>
                 </div>
             </div>
-            <div class="col-md-4">
-                <div class="card bg-info text-white">
-                    <div class="card-body">
-                        <h3>2</h3>
-                        <p>Completed Today</p>
-                    </div>
+            {% else %}
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Ready to continue? 💪</h5>
+                    {% set completion_percentage = (stats.completed_today / stats.total_habits * 100)|int if
+                    stats.total_habits > 0 else 0 %}
+                    {% if completion_percentage == 100 %}
+                    <p class="card-text">🎉 Perfect! You've completed all your habits today!</p>
+                    <a href="/habits" class="btn btn-success btn-lg">View Your Progress</a>
+                    {% elif completion_percentage >= 50 %}
+                    <p class="card-text">You're doing great! {{ completion_percentage }}% of habits completed today.</p>
+                    <a href="/habits" class="btn btn-primary btn-lg">Finish Strong</a>
+                    {% else %}
+                    <p class="card-text">Let's get started! You have {{ stats.total_habits - stats.completed_today }}
+                        habits left for today.</p>
+                    <a href="/habits" class="btn btn-outline-primary btn-lg">Continue Building</a>
+                    {% endif %}
                 </div>
             </div>
-            <div class="col-md-4">
-                <div class="card bg-warning text-white">
-                    <div class="card-body">
-                        <h3>5</h3>
-                        <p>Best Streak</p>
-                    </div>
-                </div>
-            </div>
+            {% endif %}
         </div>
     </div>
-</div>
-{% endblock %}
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+
+</html>

@@ -45,3 +45,115 @@ body {
         font-size: 2rem;
     }
 }
+
+/* Custom styles for our habit tracker */
+
+body {
+    background-color: #f8f9fa;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.navbar-brand {
+    font-weight: bold;
+}
+
+.card {
+    border: none;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    transition: transform 0.2s, box-shadow 0.2s;
+    border-radius: 12px;
+}
+
+.card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+}
+
+.habit-card {
+    border-left: 4px solid #007bff;
+}
+
+.habit-card:hover {
+    border-left-color: #0056b3;
+}
+
+.progress {
+    height: 10px;
+    border-radius: 10px;
+}
+
+.btn {
+    border-radius: 25px;
+    font-weight: 500;
+}
+
+.btn-group .btn {
+    border-radius: 20px !important;
+    margin-left: 5px;
+}
+
+.badge {
+    font-size: 0.75em;
+    padding: 0.5em 0.75em;
+    border-radius: 12px;
+}
+
+/* Completed habits styling */
+.habit-completed {
+    opacity: 0.8;
+    background-color: #f8f9fa;
+}
+
+.habit-completed .card {
+    border-left-color: #28a745;
+}
+
+/* Mobile responsiveness */
+@media (max-width: 768px) {
+    .container {
+        padding: 0 15px;
+    }
+
+    .btn-group {
+        flex-direction: column;
+        width: 100%;
+    }
+
+    .btn-group .btn {
+        margin: 2px 0;
+        border-radius: 25px !important;
+    }
+
+    .text-end {
+        text-align: center !important;
+        margin-top: 15px;
+    }
+}
+
+/* Animation for new habits */
+@keyframes slideIn {
+    from {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.habit-card {
+    animation: slideIn 0.3s ease-out;
+}
+
+/* Streak badge glow effect */
+.badge.bg-warning {
+    background: linear-gradient(45deg, #ffc107, #ff8c00) !important;
+    box-shadow: 0 2px 4px rgba(255, 193, 7, 0.3);
+}
+
+/* Success button hover effect */
+.btn-success:hover {
+    transform: scale(1.05);
+    transition: transform 0.1s;
+}
