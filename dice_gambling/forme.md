@@ -171,10 +171,3 @@ if player_money <= 0:
 * `continue` → restart loop if invalid input
 
 ---
-
-💡 **Blunt takeaway:**
-
-> This project is basically **gambling + random number guessing**.
-> You’re now using **loops, conditionals, variables, and randomness together**—the perfect next step after quiz and banking.
-
----
