@@ -125,6 +125,17 @@ if attempts == 0:
 
 ---
 
+# **execution**
+
+➜ word_scramble git:(main) python3 ws.py
+Welcome to Word Scramble!
+Unscramble this word: nufcniot
+The word has 8 letters. You have 11 attempts. Good luck, dumbass!
+Your guess: function
+Fuck yeah! You got it right!
+
+---
+
 # **What You’re Learning Here**
 
 * **Randomness** → pick words, shuffle letters
