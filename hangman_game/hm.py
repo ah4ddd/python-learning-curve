@@ -1,12 +1,18 @@
 import random
 
-word_list = ["python", "hangman", "computer", "programming", "developer"]
-word = random.choice(word_list)
+full_list = ["python", "hangman", "computer", "programming", "developer", "algorithm", "function", "variable"]
+
+options = random.sample(full_list, 5)
+
+word = random.choice(options)
+
 guessed_letters = []
 wrong_letters = []
 attempts = 6
 
 print("Welcome to Hangman, loser!")
+print("Here are your possible words:")
+print(", ".join(options))
 print(f"The word has {len(word)} letters. Good luck, dumbass!")
 
 while attempts > 0:
