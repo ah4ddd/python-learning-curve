@@ -1,5 +1,4 @@
-# The Full Breakdown
-
+### **File organizer Automated**
 ## 1. Imports
 
 ```python
@@ -276,6 +275,7 @@ my_folder/
    ```bash
    python3 fat.py
    ```
+
 4. Watch the magic → messy files > organized
 
 ---
