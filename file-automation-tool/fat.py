@@ -1,36 +1,39 @@
 import os
 import shutil
 
-folder_path = "./my_folder"  # Change this to your folder
-
-def organize_files(path):
-    for filename in os.listdir(path):  # list all files/folders
-        file_path = os.path.join(path, filename)  # get full path
-        if os.path.isfile(file_path):  # check if it’s a file
-            ext = filename.split('.')[-1]  # get file extension
-            ext_folder = os.path.join(path, ext)  # folder for that type
-            if not os.path.exists(ext_folder):
-                os.makedirs(ext_folder)  # create folder if not exists
-            shutil.move(file_path, os.path.join(ext_folder, filename))  # move file
-
-def rename_files(path, prefix):
-    for count, filename in enumerate(os.listdir(path), 1):
-        file_path = os.path.join(path, filename)
-        if os.path.isfile(file_path):
-            ext = filename.split('.')[-1]
-            new_name = f"{prefix}_{count}.{ext}"  # new name
-            new_path = os.path.join(path, new_name)
-            os.rename(file_path, new_path)  # rename
+folder_path = "./my_folder"
 
 def backup_files(path, backup_folder):
     if not os.path.exists(backup_folder):
         os.makedirs(backup_folder)
+    for root, _, files in os.walk(path):
+        for filename in files:
+            file_path = os.path.join(root, filename)
+            shutil.copy(file_path, os.path.join(backup_folder, filename))
+
+def organize_files(path):
     for filename in os.listdir(path):
         file_path = os.path.join(path, filename)
         if os.path.isfile(file_path):
-            shutil.copy(file_path, os.path.join(backup_folder, filename))
+            ext = filename.split('.')[-1]
+            ext_folder = os.path.join(path, ext)
+            if not os.path.exists(ext_folder):
+                os.makedirs(ext_folder)
+            shutil.move(file_path, os.path.join(ext_folder, filename))
 
-organize_files(folder_path)
-rename_files(folder_path, "project")
+def rename_files_recursive(path, prefix):
+    count = 1
+    for root, _, files in os.walk(path):
+        for filename in files:
+            ext = filename.split('.')[-1]
+            old_path = os.path.join(root, filename)
+            new_name = f"{prefix}_{count}.{ext}"
+            new_path = os.path.join(root, new_name)
+            os.rename(old_path, new_path)
+            count += 1
+
 backup_files(folder_path, "./backup")
-print("Files organized, renamed, and backed up! ✅")
+organize_files(folder_path)
+rename_files_recursive(folder_path, "project")
+
+print("Files backed up, organized, and renamed! ✅")
