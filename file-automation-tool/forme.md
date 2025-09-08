@@ -148,9 +148,6 @@ print("Files organized, renamed, and backed up! ✅")  # Final message
    ```bash
    python3 fat.py
    ```
-
-4. ✅ Watch the magic → new folders (`txt/`, `jpg/`, `mp3/`) appear, files move inside them.
-
 ---
    ```
 4. Watch the magic → messy files **organized automatically**.
