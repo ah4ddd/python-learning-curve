@@ -148,9 +148,7 @@ print("Files organized, renamed, and backed up! ✅")  # Final message
    ```bash
    python3 fat.py
    ```
----
-   ```
-4. Watch the magic → messy files **organized automatically**.
+4. Watch the magic → messy files
 
 ---
 
