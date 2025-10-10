@@ -1,8 +1,8 @@
-# F-String Project 🚀
+# Formatted strings, or f-strings, are a way to create strings that can dynamically include variable values, expressions, math calculations, function outputs, and even inline logic. They allow multiple placeholders in a single string, support nested expressions, and can be stored in variables or returned from functions for reuse. Essentially, f-strings make printing dynamic, readable, and concise by letting Python evaluate and insert values directly into the string.”
 
 # Variables
 name = "Ahad"
-age = 20
+age = 22
 messages = 7
 tasks_completed = 5
 tasks_total = 8
