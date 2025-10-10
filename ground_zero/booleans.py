@@ -1,29 +1,28 @@
-# Step 1: Create some variables
-x = 10
-y = 5
-z = 10
+# Step 1: Create variables
+has_key = True
+knows_password = False
+is_door_locked = True
 
-# Step 2: Boolean comparisons
-print("x > y:", x > y)      # True, because 10 > 5
-print("x < y:", x < y)      # False, because 10 is not < 5
-print("x == z:", x == z)    # True, 10 equals 10
-print("x != y:", x != y)    # True, 10 not equal 5
+# Step 2: Basic comparisons
+print("Door locked?", is_door_locked)            # Prints True
+print("User has key?", has_key)                  # Prints True
+print("User knows password?", knows_password)    # Prints False
 
-# Step 3: Store Boolean results in variables
-is_x_greater = x > y
-is_x_equal_z = x == z
+# Step 3: Boolean expressions
+can_open_door = has_key or knows_password        # True if has key OR knows password
+cannot_open_door = not can_open_door            # Flip it
 
-print("\nStored Boolean values:")
-print("is_x_greater:", is_x_greater)
-print("is_x_equal_z:", is_x_equal_z)
+print("\nBoolean expressions:")
+print("Can open door?", can_open_door)          # True
+print("Cannot open door?", cannot_open_door)    # False
 
-# Step 4: Combine Booleans with logical operators
-print("\nLogical operators:")
-print("x > y and x == z:", (x > y) and (x == z))  # True and True = True
-print("x > y or x < y:", (x > y) or (x < y))      # True or False = True
-print("not(x > y):", not(x > y))                  # not True = False
+# Step 4: Combine with logical operators
+full_access = (has_key and knows_password) or (not is_door_locked)
+print("\nCombined logic:")
+print("Full access granted?", full_access)      # True if both conditions or door unlocked
 
-# Step 5: Complex Boolean expressions
-print("\nComplex Boolean expression:")
-print(x > y and x == z or y > z)
-# Python evaluates as: ((x > y) and (x == z)) or (y > z)
+# Step 5: Update variable dynamically
+knows_password = True
+full_access = (has_key and knows_password) or (not is_door_locked)
+print("\nAfter user learns password:")
+print("Full access granted?", full_access)      # True
