@@ -1,49 +1,55 @@
 # ------------------------------
-# VARIABLES OF DIFFERENT TYPES
+# BASIC TYPES
 # ------------------------------
+age = 20                 # int
+price = 19.99            # float
+name = "Ahad"            # str
+is_active = True         # bool
+result = None            # NoneType
 
-# Numbers
-age = 20                  # int
-price = 19.99             # float
-
-# Strings
-name = "Ahad"
-task = "Learn Python"
-
-# Booleans
-is_active = True
-game_over = False
-
-# NoneType (special type for "nothing")
-result = None
-
-# ------------------------------
-# PRINTING VALUES AND TYPES
-# ------------------------------
-print("=== Numbers ===")
+print("=== Basic Types ===")
 print(f"age = {age}, type: {type(age)}")
 print(f"price = {price}, type: {type(price)}")
-
-print("\n=== Strings ===")
 print(f"name = {name}, type: {type(name)}")
-print(f"task = {task}, type: {type(task)}")
-
-print("\n=== Booleans ===")
 print(f"is_active = {is_active}, type: {type(is_active)}")
-print(f"game_over = {game_over}, type: {type(game_over)}")
-
-print("\n=== NoneType ===")
 print(f"result = {result}, type: {type(result)}")
 
 # ------------------------------
-# COMBINED EXPRESSIONS WITH TYPES
+# COLLECTION TYPES
 # ------------------------------
-total = age + price
-print("\n=== Expression Result ===")
-print(f"total = age + price = {total}, type: {type(total)}")
+numbers_list = [1, 2, 3, 4]                     # list
+numbers_tuple = (1, 2, 3, 4)                   # tuple
+unique_numbers_set = {1, 2, 3, 4}              # set
+user_data = {"name": "Ahad", "age": 25}        # dict
 
-status_message = name + " is learning Python"
+print("\n=== Collection Types ===")
+print(f"numbers_list = {numbers_list}, type: {type(numbers_list)}")
+print(f"numbers_tuple = {numbers_tuple}, type: {type(numbers_tuple)}")
+print(f"unique_numbers_set = {unique_numbers_set}, type: {type(unique_numbers_set)}")
+print(f"user_data = {user_data}, type: {type(user_data)}")
+
+# ------------------------------
+# ADVANCED / SPECIAL TYPES
+# ------------------------------
+complex_number = 2 + 3j                           # complex
+raw_bytes = b"hello"                              # bytes
+range_example = range(5)                          # range
+immutable_set = frozenset([1, 2, 3, 4])          # frozenset
+
+print("\n=== Advanced / Special Types ===")
+print(f"complex_number = {complex_number}, type: {type(complex_number)}")
+print(f"raw_bytes = {raw_bytes}, type: {type(raw_bytes)}")
+print(f"range_example = {list(range_example)}, type: {type(range_example)}")
+print(f"immutable_set = {immutable_set}, type: {type(immutable_set)}")
+
+# ------------------------------
+# EXPRESSIONS & COMBINED TYPES
+# ------------------------------
+total = age + price                                 # int + float → float
+status_message = name + " is learning Python"      # str + str
+can_proceed = is_active and not result             # bool expression
+
+print("\n=== Expressions Combining Types ===")
+print(f"total = {total}, type: {type(total)}")
 print(f"status_message = {status_message}, type: {type(status_message)}")
-
-can_proceed = is_active and not game_over
 print(f"can_proceed = {can_proceed}, type: {type(can_proceed)}")
