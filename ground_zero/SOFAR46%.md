@@ -10,7 +10,7 @@
 
 ```python
 name = "Ahad"      # string
-age = 22           # number
+age = 20           # number
 available = True   # boolean
 ```
 
