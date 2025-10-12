@@ -32,3 +32,4 @@ if not is_student: #level 1  (independent if)
     print("Consider taking some courses to improve your coding skills.")
 
 print("\nThanks for visiting the Rough Code Experience!")
+
