@@ -12,13 +12,12 @@ favorite_films.remove("incendies")
 
 favorite_films.pop(3)
 
-removed_film = favorite_films.pop(3)
+removed_film = favorite_films.pop(5)
 
 for film in favorite_films:
     print(film)
 
-print(f"Removed: {removed_film}")
+print(f"Removed: {removed_film} and {len(favorite_films)} films left.")
 
-print(len(favorite_films))
 
 
