@@ -1,23 +1,33 @@
-favorite_films = ["city of god", "in the mood for love", "incendies", "come and see", "paris texas"]
+# Temperature Tracker
+temperatures = [20, 22, 25, 23, 24]
 
-favorite_films.append("la haine")
+print("🌡️ Current Temperatures:", temperatures)
 
-favorite_films[5] = "stalker"
+# Update a reading (single)
+temperatures[2] = 26
+print("Updated 3rd reading:", temperatures)
 
-favorite_films.append("the 400 blows")
+# Update multiple readings (slice)
+temperatures[1:4] = [21, 27, 28]
+print("Updated 2nd to 4th readings:", temperatures)
 
-favorite_films.insert(2, "mulholland Drive")
+# Add new readings
+temperatures.append(29)
+temperatures.append(30)
+print("After adding new readings:", temperatures)
 
-favorite_films.remove("incendies")
+# Remove a wrong reading
+wrong = temperatures.pop(3)  # removes 4th
+print(f"Removed wrong reading: {wrong}")
+print("Temperatures now:", temperatures)
 
-favorite_films.pop(3)
+# Dynamically increase all readings by 1 (like warming up)
+for i in range(len(temperatures)):
+    temperatures[i] += 1
+print("After increasing all readings by 1:", temperatures)
 
-removed_film = favorite_films.pop(5)
+# Show average temperature
+average = sum(temperatures) / len(temperatures)
+print(f"Average Temperature: {average:.2f}°C")
 
-for film in favorite_films:
-    print(film)
-
-print(f"Removed: {removed_film} and {len(favorite_films)} films left.")
-
-
-
+# list[start:end] → starts at 'start' index, goes **up to but NOT including** 'end' index
