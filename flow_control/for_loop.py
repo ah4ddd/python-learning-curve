@@ -1,80 +1,52 @@
-# types of for loops in Python
+# Ultimate Adventure Game
+# A simple text-based adventure game demonstrating for loops, nested loops, and control flow.
 
-#basic for loop to iterate over a range of numbers
-# Print numbers 1–5
-for i in range(1, 6):
-    print(i)
+import random
 
-# Output: 1 2 3 4 5
+# Player setup
+player_name = input("Enter your adventurer's name: ").strip()
+points = 0
 
-# for loop to iterate over a list
-fruits = ["apple", "banana", "cherry"]
-for fruit in fruits:
-    print(f"I love {fruit}")
+print(f"\nWelcome, {player_name}! Your quest begins...\n")
 
-# Output:
-# I love apple
-# I love banana
-# I love cherry
+# Dungeon has 3 rooms
+for room in range(1, 4):
+    print(f"--- Entering Room {room} ---")
+    monsters = ["Goblin", "Orc", "Troll"]
 
-# for loop to iterate over a string
-for letter in "Python":
-    print(letter)
+    # Nested loop: fight monsters
+    for monster in monsters:
+        action = input(f"A {monster} appears! (fight/run/quit): ").lower().strip()
 
-# Output: P y t h o n
+        if action == "run":
+            print(f"You skipped the {monster}.")
+            continue  # skip this monster
 
-# for loop with enumerate to get index and value
-names = ["Ahad", "Lily"]
-ages = [23, 22]
+        elif action == "quit":
+            print("You fled the dungeon! Game over.")
+            break  # break out of monster loop
 
-for name, age in zip(names, ages):
-    print(f"{name} is {age} years old")
+        elif action == "fight":
+            # Randomly decide outcome
+            if random.randint(0, 1) == 1:
+                print(f"You defeated the {monster}! 💪")
+                points += 10
+            else:
+                print(f"The {monster} hit you! You lose 5 points 😢")
+                points -= 5
+        else:
+            print("Invalid action. The monster attacks! You lose 5 points.")
+            points -= 5
 
-# Output:
-# Ahad is 23 years old
-# Lily is 22 years old
+    else:
+        # Else runs if we didn't break (quit)
+        print(f"Room {room} cleared! ✅\n")
+        continue  # move to next room
 
-# nested for loop to create a multiplication table
-for i in range(1, 4):       # outer loop
-    for j in range(1, 4):   # inner loop
-        print(f"{i} x {j} = {i*j}")
+    break  # if break happened in inner loop (quit), stop dungeon
 
-# Output:
-# 1 x 1 = 1
-# 1 x 2 = 2
-# 1 x 3 = 3
-# 2 x 1 = 2
-# 2 x 2 = 4
-# 2 x 3 = 6
-# 3 x 1 = 3
-# 3 x 2 = 6
-# 3 x 3 = 9
-
-# for loop with a conditional statement
-for i in range(1, 11):
-    if i % 2 == 0:
-        print(f"{i} is even")
-
-# Output: 2 4 6 8 10
-
-# for loop with break and continue statements
-for i in range(1, 6):
-    if i == 3:
-        continue  # skip 3
-    print(i)
-for i in range(1, 6):
-    if i == 3:
-        break  # stop the loop when i is 3
-    print(i)
-
-# for loop with else clause
-for i in range(1, 4):
-    print(i)
 else:
-    print("Loop finished successfully!")
+    print("Congratulations! You cleared all rooms of the dungeon! 🏆")
 
-# Output:
-# 1
-# 2
-# 3
-# Loop finished successfully!
+print(f"\n{player_name}, your total points: {points}")
+print("Thanks for playing the Ultimate Adventure Game!")
