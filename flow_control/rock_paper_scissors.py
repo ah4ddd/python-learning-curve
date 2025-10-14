@@ -15,6 +15,11 @@ while True:
     # Player choice
     player_choice = input("Choose rock, paper, or scissors (or 'quit' to exit): ").lower()
 
+    # Quit check immediately
+    if player_choice == "quit":
+        print("\nThanks for playing!")
+        break
+
     # Computer choice
     options = ["rock", "paper", "scissors"]
     computer_choice = random.choice(options)
@@ -25,43 +30,34 @@ while True:
     # Determine winner
     if player_choice == computer_choice:
         print("It's a tie! Nobody wins.")
-
-    elif player_choice == "rock": # rock case
+    elif player_choice == "rock":
         if computer_choice == "scissors":
             print("Rock crushes scissors! You win! 💪")
             player_score += 1
         else:
             print("Paper covers rock! Computer wins! 🤖")
             computer_score += 1
-
-    elif player_choice == "paper": # paper case
+    elif player_choice == "paper":
         if computer_choice == "rock":
             print("Paper covers rock! You win! 💪")
             player_score += 1
         else:
             print("Scissors cut paper! Computer wins! 🤖")
             computer_score += 1
-
-    elif player_choice == "scissors": # scissors case
+    elif player_choice == "scissors":
         if computer_choice == "paper":
             print("Scissors cut paper! You win! 💪")
             player_score += 1
         else:
             print("Rock crushes scissors! Computer wins! 🤖")
             computer_score += 1
-
     else:
         print("Invalid choice! Please type rock, paper, or scissors next time.")
         round_number -= 1  # invalid round doesn't count
         continue
-
-    if player_choice == "quit":
-        print("\nThanks for playing!")
-        break
 
     # Show current score
     print(f"\nScore: You {player_score} - Computer {computer_score}")
 
 # Final score
 print(f"\nFinal Score after {round_number} rounds: You {player_score} - Computer {computer_score}")
-
