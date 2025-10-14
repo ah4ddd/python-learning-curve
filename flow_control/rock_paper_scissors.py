@@ -28,23 +28,26 @@ while True:
     print(f"Computer chose: {computer_choice}\n")
 
     # Determine winner
-    if player_choice == computer_choice:
+    if player_choice == computer_choice: #if both choose same
         print("It's a tie! Nobody wins.")
-    elif player_choice == "rock":
+
+    elif player_choice == "rock": #rock case
         if computer_choice == "scissors":
             print("Rock crushes scissors! You win! 💪")
             player_score += 1
         else:
             print("Paper covers rock! Computer wins! 🤖")
             computer_score += 1
-    elif player_choice == "paper":
+
+    elif player_choice == "paper": # paper case
         if computer_choice == "rock":
             print("Paper covers rock! You win! 💪")
             player_score += 1
         else:
             print("Scissors cut paper! Computer wins! 🤖")
             computer_score += 1
-    elif player_choice == "scissors":
+
+    elif player_choice == "scissors": # scissors case
         if computer_choice == "paper":
             print("Scissors cut paper! You win! 💪")
             player_score += 1
