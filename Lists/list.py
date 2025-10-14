@@ -9,6 +9,3 @@ print(favorite_films[5])
 
 print(len(favorite_films))
 
-
-for film in favorite_films:
-    print(film)
