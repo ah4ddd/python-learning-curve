@@ -14,6 +14,10 @@ for i in range(len(temps)):
     if temps[i] > 30:
         print(f"{days[i]} → Too hot!")
 
+for index,days in enumerate(days):
+    print(f"{days} had {steps[index]} steps")
+
+
 for i in range(len(steps)):
     if steps[i] < 5000:
         steps[i] *= 2
