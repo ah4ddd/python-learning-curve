@@ -1,25 +1,13 @@
-temps = [22, 28, 31, 19, 25]
-days = ["Mon", "Tue", "Wed", "Thu", "Fri"]
-steps = [4500, 8000, 3000, 6000, 7000]
+days = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"]
+steps = [4500, 8000, 3000, 6000, 4000, 9500, 7000]
 
-for temp in temps:
-    if temp > 30:
-        print(f"{temp}°C → Too hot!")
-    elif temp < 20:
-        print(f"{temp}°C → Too cold!")
-    else:
-        print(f"{temp}°C → Just right.")
-
-for i in range(len(temps)):
-    if temps[i] > 30:
-        print(f"{days[i]} → Too hot!")
-
-for index,days in enumerate(days):
-    print(f"{days} had {steps[index]} steps")
-
-
-for i in range(len(steps)):
+for i in range(len(steps)): #range(7) also works but less flexible
     if steps[i] < 5000:
         steps[i] *= 2
+        print(f"On {days[i]}, you walked less than 5000 steps. Steps doubled to {steps[i]}.")
 
-print(steps)
+    elif steps[i] <= 8000:
+        print(f"On {days[i]}, you walked a moderate amount of {steps[i]} steps.")
+
+    else:
+        print(f"On {days[i]}, you walked a lot with {steps[i]} steps!")
