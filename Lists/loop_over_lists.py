@@ -7,4 +7,3 @@ for i in range(len(steps)):
 
 for index, step in enumerate(steps):
     print(f"{days[index]}: {step} steps")
-
