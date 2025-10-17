@@ -781,3 +781,200 @@ tasks = ["Buy milk", "Clean room", "Study Python"]
 
 ---
 
+### **List Recap**
+
+---
+
+### **1. What a list is**
+
+* A **list is an ordered collection of items** in Python.
+* It can contain **anything**: numbers, strings, booleans, even other lists.
+* Lists are **mutable**, meaning you can **change them after creation**.
+
+```python
+fruits = ["apple", "banana", "cherry"]
+numbers = [1, 2, 3, 4]
+mixed = [1, "hello", True, 3.14]
+nested = [1, [2, 3], 4]
+```
+
+---
+
+### **2. Basic operations**
+
+* **Accessing elements** (index starts at 0):
+
+```python
+print(fruits[0])  # apple
+print(fruits[2])  # cherry
+```
+
+* **Changing elements**:
+
+```python
+fruits[1] = "blueberry"
+print(fruits)  # ['apple', 'blueberry', 'cherry']
+```
+
+* **Length**:
+
+```python
+len(fruits)  # 3
+```
+
+---
+
+### **3. Adding & Removing**
+
+* Add: `append()`, `insert()`, `extend()`
+
+```python
+fruits.append("orange")       # add at the end
+fruits.insert(1, "kiwi")      # add at index 1
+fruits.extend(["mango", "pear"])  # add multiple
+```
+
+* Remove: `remove()`, `pop()`, `del`
+
+```python
+fruits.remove("kiwi")  # remove by value
+fruits.pop()           # remove last element
+del fruits[0]          # delete by index
+```
+
+---
+
+### **4. Looping through a list**
+
+```python
+for fruit in fruits:
+    print(fruit)
+```
+
+* With index:
+
+```python
+for i, fruit in enumerate(fruits):
+    print(i, fruit)
+```
+
+---
+
+### **5. Common tricks**
+
+* **Slicing**:
+
+```python
+numbers = [1, 2, 3, 4, 5]
+numbers[1:4]  # [2, 3, 4]  (from index 1 to 3)
+numbers[:3]   # [1, 2, 3]  (start to index 2)
+numbers[2:]   # [3, 4, 5]  (index 2 to end)
+```
+
+* **Check if in list**:
+
+```python
+if "apple" in fruits:
+    print("Yes!")
+```
+
+* **Sorting & reversing**:
+
+```python
+numbers.sort()  # ascending
+numbers.reverse()  # reverse order
+```
+
+---
+
+### **6. Why lists are powerful**
+
+* Dynamic: you can **add/remove/change** easily.
+* Ordered: you know the position of each element.
+* Flexible: can hold **mixed data types**, nested lists, or even objects.
+
+---
+
+### **replace an item without knowing the index**
+
+---
+
+We start with:
+
+```python
+fruits = ["apple", "banana", "cherry"]
+old_value = "banana"
+new_value = "grapes"
+```
+
+---
+
+### **Step 1: Check if value exists**
+
+```
+[ "apple", "banana", "cherry" ]
+      0       1        2       <- indexes
+
+old_value = "banana"
+
+if old_value in fruits:
+    # YES, banana exists
+```
+
+---
+
+### **Step 2: Find index**
+
+```
+index = fruits.index(old_value)
+
+Search list:
+  0 -> "apple" != "banana"  -> skip
+  1 -> "banana" == "banana" -> FOUND
+
+index = 1
+```
+
+---
+
+### **Step 3: Replace element**
+
+```
+fruits[index] = new_value
+fruits[1] = "grapes"
+
+Before assignment: ["apple", "banana", "cherry"]
+                   0        1        2
+
+After assignment:  ["apple", "grapes", "cherry"]
+                   0        1        2
+```
+
+---
+
+### **Flow in “CCI style” text diagram**
+
+```
+START
+  |
+  v
+Check if old_value in fruits?
+  |
+  |-- NO --> skip
+  |
+  v YES
+Find index of old_value
+  |
+  v
+Assign index = fruits.index(old_value)
+  |
+  v
+Replace fruits[index] with new_value
+  |
+  v
+END
+```
+
+---
+
+
