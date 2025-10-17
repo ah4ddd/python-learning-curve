@@ -977,4 +977,149 @@ END
 
 ---
 
+```python
+numbers = [3, 7, 1, 9, 1, 9]
 
+max_value = max(numbers)          # 9
+all_max_indexes = [i for i, n in enumerate(numbers) if n == max_value]
+
+print(f"Maximum value: {max_value} found at indexes: {all_max_indexes}")
+```
+
+---
+
+```python
+all_max_indexes = [i for i, n in enumerate(numbers) if n == max_value]
+```
+
+---
+
+### **Step 0: Setup**
+
+```python
+numbers = [3, 7, 1, 9, 1, 9]
+max_value = max(numbers)  # 9
+```
+
+Think of memory like this:
+
+```
+Index:   0   1   2   3   4   5
+Value:   3   7   1   9   1   9
+```
+
+`max_value = 9` → we want **all indexes where 9 appears**.
+
+---
+
+### **Step 1: What `enumerate(numbers)` does**
+
+`enumerate(numbers)` transforms the list into **pairs of (index, value)**:
+
+```
+(0, 3)
+(1, 7)
+(2, 1)
+(3, 9)
+(4, 1)
+(5, 9)
+```
+
+* First number = index in the list
+* Second number = value at that index
+
+---
+
+### **Step 2: The list comprehension**
+
+```python
+[i for i, n in enumerate(numbers) if n == max_value]
+```
+
+* `[i ...]` → “we want a list of **indexes (`i`)**”
+* `for i, n in enumerate(numbers)` → loop over each `(index, value)` pair
+* `if n == max_value` → **only keep the index if value equals 9**
+
+Step by step:
+
+| i | n | n == max_value? | Keep i? |
+| - | - | --------------- | ------- |
+| 0 | 3 | 3 == 9 → False  | ❌       |
+| 1 | 7 | 7 == 9 → False  | ❌       |
+| 2 | 1 | 1 == 9 → False  | ❌       |
+| 3 | 9 | 9 == 9 → True   | ✅ 3     |
+| 4 | 1 | 1 == 9 → False  | ❌       |
+| 5 | 9 | 9 == 9 → True   | ✅ 5     |
+
+✅ Resulting list: `[3, 5]`
+
+---
+
+### **Step 3: What happens in memory**
+
+* `all_max_indexes` → new list that stores only the **indexes of max values**.
+
+Memory view:
+
+```
+all_max_indexes -> [3, 5]
+numbers          -> [3, 7, 1, 9, 1, 9]
+max_value        -> 9
+```
+
+So later you can do:
+
+```python
+for i in all_max_indexes:
+    print("Max value at index", i)
+```
+
+Output:
+
+```
+Max value at index 3
+Max value at index 5
+```
+
+---
+```python
+START
+  |
+  v
+numbers = [3, 7, 1, 9, 1, 9]
+max_value = max(numbers)   # 9
+  |
+  v
+FOR each element in numbers with index (i, n)
+  |
+  |-- Is n == max_value? ---- NO --> skip to next element
+  |                         |
+  |                         YES
+  |                          |
+  v                          v
+  Add i to all_max_indexes
+  |
+  v
+NEXT element
+  |
+  v
+END loop
+  |
+  v
+all_max_indexes contains [3, 5]  <- indexes of all max values
+  |
+  v
+END
+```
+
+---
+
+✅ **summary:**
+
+1. `enumerate()` → gives index + value for every element
+2. `if n == max_value` → pick only the values equal to the max
+3. `[i for ...]` → collect their **indexes** into a list
+
+This is **how Python lets you find all positions of extreme values dynamically**.
+
+---
