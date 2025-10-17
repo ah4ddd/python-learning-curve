@@ -1,23 +1,12 @@
-fruits = ["apple", "banana", "cherry"]
-numbers = [1, 2, 3, 4]
-mixed = [1, "hello", True, 3.14]
-nested = [1, [2, 3], 4]
+number = 100000000000
 
-fruits.append("orange")
-fruits.insert(1, "kiwi")
-fruits.extend(["mango", "pear"])
-fruits[1] = "berry"
+if float('inf') > number:
+    print(f"Infinity is greater than {number}")
 
-old_value = "banana"
-new_value = "grapes"
+number_2 = - 100000000000
 
-if old_value in fruits:               # check if it exists
-    index = fruits.index(old_value)  # find its index
-    fruits[index] = new_value        # replace it
-else:
-    print(f"{old_value} not found in the list")
+if -float('inf') < number_2:
+    print(f"-Infinity is less than {number_2}")
 
-for i in range(len(fruits)):
-    print(f"Fruit {i+1}: {fruits[i]}")
-
-
+bicycles = ['trek', 'cannondale', 'redline', 'specialized']
+print(bicycles[0].title())
