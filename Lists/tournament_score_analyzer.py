@@ -43,7 +43,9 @@ print(f"Overall Lowest Score: {min_score} by {min_player} in Round {min_round}")
 
 print("\nTop performer per round:")
 
+
 for r in range(num_rounds):
+
     top_score = -float('inf')
     top_player = ""
 
