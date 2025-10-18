@@ -558,4 +558,483 @@ Round 3: Bob with 8 points
 
 ---
 
+Let’s walk through this slowly and concretely, no fog.
+I’ll literally **show you the lists in memory** and then track exactly what every line in that block is doing to them.
 
+---
+
+### Suppose this is what exists in memory right before that code runs
+
+```python
+players = ["Ahad", "Leo", "Maya"]
+
+scores = [
+    [15, 25, 10],   # Ahad's scores (round1, round2, round3)
+    [30, 22, 18],   # Leo's scores
+    [12, 50, 45]    # Maya's scores
+]
+
+num_players = 3
+num_rounds = 3
+```
+
+Think of `scores` as a **table of numbers**:
+
+```
+          round0  round1  round2
+Ahad  ->   15      25      10
+Leo   ->   30      22      18
+Maya  ->   12      50      45
+```
+
+* `scores[0]` → `[15,25,10]`  → Ahad’s row
+* `scores[1]` → `[30,22,18]`  → Leo’s row
+* `scores[2]` → `[12,50,45]`  → Maya’s row
+* `scores[i][r]` → look inside the table: row *i*, column *r*.
+
+---
+
+### Now the code
+
+```python
+for r in range(num_rounds):
+
+    top_score = -float('inf')
+    top_player = ""
+
+    for i in range(num_players):
+        if scores[i][r] > top_score:
+            top_score = scores[i][r]
+            top_player = players[i]
+
+    print(f"Round {r+1}: {top_player} with {top_score} points")
+```
+
+Let’s visualize **how it moves through memory**.
+
+---
+
+#### 1️⃣ Outer loop: `for r in range(num_rounds)`
+
+* `range(num_rounds)` → `[0,1,2]`
+* So the variable `r` will be 0, then 1, then 2.
+* You can think of `r` as a pointer moving **column by column** across the table.
+
+```
+First outer loop → r = 0  (column 0)
+Second outer loop → r = 1  (column 1)
+Third outer loop → r = 2   (column 2)
+```
+
+---
+
+#### 2️⃣ Each round starts with reset
+
+```python
+top_score = -float('inf')
+top_player = ""
+```
+
+We clear out any leftover data so that the next round starts fresh.
+
+`-float('inf')` just means “start lower than any real number” so the first real score will always replace it.
+
+---
+
+#### 3️⃣ Inner loop: `for i in range(num_players)`
+
+* `range(num_players)` → `[0,1,2]`
+* So `i` will be 0 → 1 → 2 inside each round.
+* You can think of `i` as a pointer moving **row by row** down the table.
+
+When `r=0` (Round 1):
+
+| i | Expression     | What it points to | Value |
+| - | -------------- | ----------------- | ----- |
+| 0 | `scores[0][0]` | Ahad, Round 1     | 15    |
+| 1 | `scores[1][0]` | Leo, Round 1      | 30    |
+| 2 | `scores[2][0]` | Maya, Round 1     | 12    |
+
+That’s how it “uses the list”: the first index chooses the player’s row, the second chooses which round inside that player’s row.
+
+---
+
+#### 4️⃣ The comparison
+
+```python
+if scores[i][r] > top_score:
+    top_score = scores[i][r]
+    top_player = players[i]
+```
+
+**What happens inside Round 1 (`r=0`):**
+
+1. `i=0`:
+
+   * `scores[0][0] = 15`
+   * Compare `15 > -∞` → True
+   * Update → `top_score = 15`, `top_player = "Ahad"`
+
+2. `i=1`:
+
+   * `scores[1][0] = 30`
+   * Compare `30 > 15` → True
+   * Update → `top_score = 30`, `top_player = "Leo"`
+
+3. `i=2`:
+
+   * `scores[2][0] = 12`
+   * Compare `12 > 30` → False
+   * Nothing changes.
+
+When the inner loop finishes, we’ve scanned that whole column (Round 1) and found that Leo has the highest number.
+
+---
+
+#### 5️⃣ Print the result for that round
+
+```python
+print(f"Round {r+1}: {top_player} with {top_score} points")
+```
+
+Prints →
+`Round 1: Leo with 30 points`
+
+---
+
+#### 6️⃣ Outer loop continues
+
+Next outer iteration `r=1` (Round 2)
+
+The inner loop repeats the same process, but this time it’s looking at **column 1** in each row:
+
+| i | scores[i][1] | Player | Comparison                    |
+| - | ------------ | ------ | ----------------------------- |
+| 0 | 25           | Ahad   | 25 > -∞ → top=25, player=Ahad |
+| 1 | 22           | Leo    | 22 > 25 ❌                     |
+| 2 | 50           | Maya   | 50 > 25 ✅ top=50, player=Maya |
+
+Result → `Round 2: Maya with 50 points`
+
+Then again for `r=2` (Round 3) → Maya with 45 points.
+
+---
+
+### 🔍 The connection you were missing
+
+You *do* see the lists being used here:
+
+* `scores[i][r]` → accesses the score directly out of the nested list.
+* `players[i]` → grabs the player’s name from the list of names.
+
+So the code is literally pulling data from those two lists every time the inner loop runs.
+No magic.
+Just:
+
+1. pick a round (`r`)
+2. look through all players (`i`)
+3. read from the two lists at those indexes.
+
+---
+
+### If you visualize it as coordinates
+
+Imagine the table again with row/column coordinates:
+
+```
+          r=0   r=1   r=2
+i=0 Ahad   15    25    10
+i=1 Leo    30    22    18
+i=2 Maya   12    50    45
+```
+
+* Outer loop (`r`) moves → right
+* Inner loop (`i`) moves ↓ down
+* `scores[i][r]` means → “go to row i, column r”
+
+That’s literally how Python walks through the data and gets the correct numbers.
+
+---
+
+ASCII flowchart style, step by step, **top to bottom**, and visualize everything that happens behind the scenes
+
+---
+
+```python
+START
+ |
+ |--> Initialize empty lists
+ |       players = []
+ |       scores = []
+ |
+ |--> Get number of players (num_players) and rounds (num_rounds)
+ |
+ |--> PLAYER LOOP (for p in range(num_players))
+ |       |
+ |       |--> Input player name
+ |       |       name = input(...)
+ |       |--> Append to players list
+ |       |       players.append(name)
+ |       |
+ |       |--> Initialize empty player_scores list
+ |       |       player_scores = []
+ |       |
+ |       |--> ROUND LOOP (for r in range(num_rounds))
+ |       |       |
+ |       |       |--> Input score for this player, this round
+ |       |       |       score = int(input(...))
+ |       |       |--> Append score to player_scores
+ |       |       |       player_scores.append(score)
+ |       |
+ |       |--> Append completed player_scores to scores
+ |               scores.append(player_scores)
+ |
+ |--> At this point:
+ |       players = ["Ahad", "Leo", "Maya", ...]
+ |       scores = [
+ |           [15, 20, 18],  # Ahad's scores
+ |           [30, 25, 28],  # Leo's scores
+ |           [12, 14, 17],  # Maya's scores
+ |           ...
+ |       ]
+ |
+ |--> Initialize max/min trackers
+ |       max_score = -float('inf')
+ |       min_score = float('inf')
+ |       max_player = ""
+ |       min_player = ""
+ |       max_round = 0
+ |       min_round = 0
+ |
+ |--> FIND OVERALL MAX/MIN SCORES
+ |       PLAYER LOOP (for i in range(num_players))
+ |           |
+ |           ROUND LOOP (for j in range(num_rounds))
+ |               |
+ |               |--> Get current score
+ |               |       score = scores[i][j]
+ |               |
+ |               |--> Check if score > max_score
+ |               |       If yes:
+ |               |           max_score = score
+ |               |           max_player = players[i]
+ |               |           max_round = j+1
+ |               |
+ |               |--> Check if score < min_score
+ |                       If yes:
+ |                           min_score = score
+ |                           min_player = players[i]
+ |                           min_round = j+1
+ |
+ |--> Print Overall Highest and Lowest Scores
+ |
+ |--> TOP PERFORMER PER ROUND
+ |       ROUND LOOP (for r in range(num_rounds))
+ |           |
+ |           |--> Reset top_score and top_player for this round
+ |           |       top_score = -float('inf')
+ |           |       top_player = ""
+ |           |
+ |           PLAYER LOOP (for i in range(num_players))
+ |               |
+ |               |--> Check if scores[i][r] > top_score
+ |                       If yes:
+ |                           top_score = scores[i][r]
+ |                           top_player = players[i]
+ |           |
+ |           Print top player for this round
+ |
+END
+```
+
+---
+
+### 💡 Behind-the-Scenes Walkthrough (Step-by-Step)
+
+1. **Players and scores lists**
+
+   * `players` stores the **names**.
+   * `scores` stores a **list of scores for each player** → this is a 2D list.
+
+2. **Nested loops to fill scores**
+
+   * Outer loop = player by player.
+   * Inner loop = round by round for that player.
+   * By the end, `scores[i][j]` is the score of **player i in round j**.
+
+3. **Max/min search**
+
+   * Outer loop = all players.
+   * Inner loop = all rounds.
+   * Each `score = scores[i][j]` → checks against `max_score` and `min_score`.
+   * **If condition triggers**, it updates `max_score` and **links that score to the player & round** via `max_player = players[i]` and `max_round = j+1`.
+
+4. **Top performer per round**
+
+   * Outer loop = round by round (r = 0 → first round, r = 1 → second round, etc.).
+   * Reset `top_score` and `top_player` **for each round**.
+   * Inner loop = iterate over all players for **that same round**.
+   * Compare each player’s score for that round → update top_score and top_player.
+   * Print after inner loop finishes → winner for that round is known.
+
+---
+
+### 🔑 Key Insights
+
+* **Nested loops are essential** for 2D data: rows = players, columns = rounds.
+* **`scores[i][r]`** = magic formula linking the **row (player)** and **column (round)**.
+* **Updating player names** is done automatically when the score beats the current `top_score` or `max_score`.
+* Resetting variables per round ensures no leftover data from previous rounds.
+
+---
+
+**properly visualized**, step by step — like a “pointer moving through a 2D grid” so you can literally see how `scores[i][r]` is being accessed in the top performer per round part.
+
+Let’s assume 3 players and 3 rounds:
+
+```python
+Players: ["Ahad", "Leo", "Maya"]
+
+Scores (2D list):
+      Round 1  Round 2  Round 3
+Ahad    15       20       18
+Leo     30       25       28
+Maya    12       14       17
+```
+
+---
+
+### Step 1: Outer loop = Round by round
+
+
+```python
+for r in range(num_rounds):
+    top_score = -inf
+    top_player = ""
+```
+
+* `r = 0` → Round 1
+* `r = 1` → Round 2
+* `r = 2` → Round 3
+* **We reset `top_score` and `top_player` for each round**, so previous round’s winner doesn’t interfere.
+
+---
+
+### Step 2: Inner loop = Iterate players
+
+```python
+for i in range(num_players):
+    if scores[i][r] > top_score:
+        top_score = scores[i][r]
+        top_player = players[i]
+```
+
+* `i = 0` → Ahad
+* `i = 1` → Leo
+* `i = 2` → Maya
+
+**Now visualize the pointer moving through the grid for Round 1 (r=0):**
+
+```python
+[Round 1 pointer → r=0]
+
+Check Ahad: scores[0][0] = 15
+   top_score = -inf → 15 > -inf → YES
+   top_score = 15
+   top_player = "Ahad"
+
+Check Leo: scores[1][0] = 30
+   top_score = 15 → 30 > 15 → YES
+   top_score = 30
+   top_player = "Leo"
+
+Check Maya: scores[2][0] = 12
+   top_score = 30 → 12 > 30 → NO
+   top_score stays 30
+   top_player stays "Leo"
+
+Round 1 winner = Leo with 30 points
+```
+
+* ✅ The inner loop **checks all players for the same round**.
+* ✅ The outer loop controls **which round we are checking**.
+* After inner loop finishes, we print the winner.
+
+---
+
+### Step 3: Round 2 (r=1)
+
+```python
+Check Ahad: scores[0][1] = 20
+   top_score = -inf → 20 > -inf → YES
+   top_score = 20
+   top_player = "Ahad"
+
+Check Leo: scores[1][1] = 25
+   top_score = 20 → 25 > 20 → YES
+   top_score = 25
+   top_player = "Leo"
+
+Check Maya: scores[2][1] = 14
+   top_score = 25 → 14 > 25 → NO
+   top_score stays 25
+   top_player stays "Leo"
+
+Round 2 winner = Leo with 25 points
+```
+
+---
+
+### Step 4: Round 3 (r=2)
+
+```python
+Check Ahad: scores[0][2] = 18
+   top_score = -inf → 18 > -inf → YES
+   top_score = 18
+   top_player = "Ahad"
+
+Check Leo: scores[1][2] = 28
+   top_score = 18 → 28 > 18 → YES
+   top_score = 28
+   top_player = "Leo"
+
+Check Maya: scores[2][2] = 17
+   top_score = 28 → 17 > 28 → NO
+   top_score stays 28
+   top_player stays "Leo"
+
+Round 3 winner = Leo with 28 points
+```
+
+---
+
+### 🔑 Visualization Summary
+
+* **Outer loop (r)** → Which round we are checking → locks the column.
+* **Inner loop (i)** → Which player we are checking → moves down the rows of that column.
+* `scores[i][r]` → Accesses the **cell at row i (player), column r (round)**.
+* The `if` condition → decides whether to update the top_score and top_player.
+* Once inner loop ends → we know the **winner of that round**.
+* Then outer loop increments → move to next round → repeat.
+
+---
+
+### Quick ASCII Grid View (Pointer Example)
+
+```
+Scores Grid:
+           R1  R2  R3
+Ahad        ↑
+Leo         ↑
+Maya        ↑
+```
+
+* Round 1 → outer loop locks R1
+* Inner loop → pointer goes down the column: Ahad → Leo → Maya
+* Winner stored in top_player
+* Round 2 → outer loop locks R2
+* Inner loop → pointer goes down column R2: Ahad → Leo → Maya
+* Winner stored in top_player
+* Round 3 → same for column R3
+
+---

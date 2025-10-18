@@ -55,3 +55,8 @@ for r in range(num_rounds):
             top_player = players[i]
 
     print(f"Round {r+1}: {top_player} with {top_score} points")
+
+#          round0  round1  round2
+#Ahad  ->   15      25      10
+#Leo   ->   30      22      18
+#Maya  ->   12      50      45
