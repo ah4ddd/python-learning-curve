@@ -1,26 +1,28 @@
-numbers = [10, 20, 30, 40]
-total = sum(numbers)
-print(total)
+# Step 1: Get input for number of products and days
+num_products = int(input("How many products? "))
+num_days = int(input("How many days of sales? "))
 
-numbers = [100, 20, 30, 40]
-total = 0
-for num in numbers:
-    total += num
-print(total)
+# Step 2: Store product names and their daily sales
+products = []
+sales = []
 
-numbers = [10, 20, 30, 40, 50, 60]
-total = sum(num for num in numbers if num > 20)
-print(total)
+for p in range(num_products):
+    name = input(f"Enter name of product {p+1}: ")
+    products.append(name)
 
-numbers = [5, 15, 25, 35, 45]
-total = sum(filter(lambda x: x > 20, numbers))
-print(total)
+    daily_sales = []
+    for d in range(num_days):
+        sale = int(input(f"Sales for {name} on day {d+1}: "))
+        daily_sales.append(sale)
 
-matrix = [[1, 2], [3, 4], [5, 6]]
+    sales.append(daily_sales)
 
-total = sum(sum(inner) for inner in matrix)
-print(total)
+# Step 3: Sum sales per product
+print("\nTotal sales per product:")
+for i in range(num_products):
+    total = sum(sales[i])  # sums the list of daily sales
+    print(f"{products[i]}: {total}")
 
-items = [10, "20", 30]       # Mixed integers and string numbers
-total = sum(int(x) for x in items)
-print(total)
+# Step 4: Sum overall sales
+overall_total = sum(sum(sales[i]) for i in range(num_products))
+print(f"\nOverall total sales: {overall_total}")
