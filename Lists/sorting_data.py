@@ -30,4 +30,3 @@ combined.sort(reverse=True, key=lambda item: item[1])
 print("\n*-*-*-* Astronaut Leaderboard *-*-*-*")
 for astronaut in combined:
     print(f"{astronaut[0]}: {astronaut[1]} points")
-
