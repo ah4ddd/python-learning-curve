@@ -1,12 +1,13 @@
-number = 100000000000
+numbers = [45, 89, 12, 36, 74]
 
-if float('inf') > number:
-    print(f"Infinity is greater than {number}")
+max_num = numbers[0]
+min_num = numbers[0]
 
-number_2 = - 100000000000
+for n in numbers:
+    if n > max_num:
+        max_num = n
+    if n < min_num:
+        min_num = n
 
-if -float('inf') < number_2:
-    print(f"-Infinity is less than {number_2}")
-
-bicycles = ['trek', 'cannondale', 'redline', 'specialized']
-print(bicycles[0].title())
+print("Max:", max_num)
+print("Min:", min_num)
