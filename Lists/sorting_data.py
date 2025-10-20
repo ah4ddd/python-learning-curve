@@ -16,20 +16,18 @@ for p in range(num_players):
 
     scores.append(astronaut_scores)
 
-# Calculate total scores
 total_scores = []
 for i in range(num_players):
     total_scores.append(sum(scores[i]))
 
-# Combine players and scores into a list of lists
 combined = []
 for i in range(num_players):
     combined.append([players[i], total_scores[i]])
 
-# Use simple sort() to sort by the score
-combined.sort(reverse=True, key=lambda item: item[1])  # Just to point out: key needed here is unavoidable if sorting by score
 
-# Print leaderboard
+combined.sort(reverse=True, key=lambda item: item[1])
+
 print("\n*-*-*-* Astronaut Leaderboard *-*-*-*")
 for astronaut in combined:
     print(f"{astronaut[0]}: {astronaut[1]} points")
+

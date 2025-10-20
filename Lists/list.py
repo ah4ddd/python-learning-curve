@@ -1,13 +1,15 @@
-numbers = [45, 89, 12, 36, 74]
+astronauts = ["Neil", "Buzz", "Yuri", "Valentina"]
+scores = [85, 92, 78, 95]
 
-max_num = numbers[0]
-min_num = numbers[0]
+sorted_scores = sorted(scores)
+print("Original scores:", scores)
+print("Sorted copy of scores:", sorted_scores)
 
-for n in numbers:
-    if n > max_num:
-        max_num = n
-    if n < min_num:
-        min_num = n
+scores.sort()
+print("Original scores after sort():", scores)
 
-print("Max:", max_num)
-print("Min:", min_num)
+combined = list(zip(astronauts, scores))
+print("Astronauts paired with sorted scores:", combined)
+
+combined.sort(key=lambda x: x[1])
+print("Combined sorted by score:", combined)
