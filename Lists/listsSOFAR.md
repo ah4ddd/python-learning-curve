@@ -1123,3 +1123,196 @@ END
 This is **how Python lets you find all positions of extreme values dynamically**.
 
 ---
+
+```python
+combined.sort(key=lambda item: item[1])
+```
+
+---
+
+### 🧩 Our starting point
+
+```python
+combined = [
+    ["Neil", 80],
+    ["Buzz", 95],
+    ["Michael", 70]
+]
+```
+
+Imagine three boxes lined up in memory:
+
+```
+ ┌───────────────┐   ┌───────────────┐   ┌─────────────────┐
+ │ ["Neil", 80]  │   │ ["Buzz", 95]  │   │ ["Michael", 70] │
+ └───────────────┘   └───────────────┘   └─────────────────┘
+         ↑                  ↑                     ↑
+     combined[0]        combined[1]           combined[2]
+```
+
+Each box = a list inside the main list `combined`.
+
+---
+
+### 🧠 Step 1: Python sees `.sort()`
+
+Python gets the command:
+
+```
+sort the combined list
+```
+
+So it prepares to **compare the boxes** to decide which one should come first.
+
+But then it sees something special inside:
+
+```python
+key=lambda item: item[1]
+```
+
+---
+
+### 🔍 Step 2: What does “key=” mean?
+
+Python asks itself:
+
+> “Hmm, okay. When I compare two boxes… which *part* of each should I look at?”
+
+That’s what `key=` answers.
+
+Without `key`, Python would look at the *first item* of each small list (`"Neil"`, `"Buzz"`, `"Michael"`),
+and sort **alphabetically**.
+
+But we’re telling it something else.
+
+---
+
+### ⚙️ Step 3: Python builds a tiny *function brain* from `lambda`
+
+When Python sees:
+
+```python
+lambda item: item[1]
+```
+
+it secretly creates a **tiny function** (without a name) like this:
+
+```
+(item) → return item[1]
+```
+
+That means:
+
+> “Whenever you give me a list, I’ll give you back its second thing.”
+
+So if Python feeds this function `["Neil", 80]` → it returns `80`.
+
+If it feeds `["Buzz", 95]` → it returns `95`.
+
+If it feeds `["Michael", 70]` → it returns `70`.
+
+---
+
+### 🧩 Step 4: Python tests each box with that “lambda brain”
+
+Python now runs through `combined`, one by one:
+
+| item            | item[1] (lambda output) |
+| --------------- | ----------------------- |
+| ["Neil", 80]    | 80                      |
+| ["Buzz", 95]    | 95                      |
+| ["Michael", 70] | 70                      |
+
+Now it knows:
+
+```
+Neil → 80
+Buzz → 95
+Michael → 70
+```
+
+---
+
+### 📊 Step 5: Sorting process
+
+Python uses **only those numbers (80, 95, 70)** to decide order.
+
+It compares:
+
+```
+70 < 80 < 95
+```
+
+Then it rearranges the **original boxes** to match that order.
+
+Visualization:
+
+```
+Before sorting:
+┌───────────────┐ ┌───────────────┐ ┌─────────────────┐
+│ ["Neil", 80]  │ │ ["Buzz", 95]  │ │ ["Michael", 70] │
+└───────────────┘ └───────────────┘ └─────────────────┘
+         │                 │                    │
+         └─────────────────┴────────────────────┘
+                     ↓
+   (Sort by these numbers: 80, 95, 70)
+
+After sorting:
+┌─────────────────┐ ┌───────────────┐ ┌───────────────┐
+│ ["Michael", 70] │ │ ["Neil", 80]  │ │ ["Buzz", 95]  │
+└─────────────────┘ └───────────────┘ └───────────────┘
+```
+
+---
+
+### 🔁 Step 6: If you add `reverse=True`
+
+If we want **highest score first**, we just flip the order:
+
+```python
+combined.sort(key=lambda item: item[1], reverse=True)
+```
+
+Now Python sorts by:
+
+```
+95 > 80 > 70
+```
+
+Result:
+
+```
+[
+  ["Buzz", 95],
+  ["Neil", 80],
+  ["Michael", 70]
+]
+```
+
+Visualization:
+
+```
+┌───────────────┐ ┌───────────────┐ ┌─────────────────┐
+│ ["Buzz", 95]  │ │ ["Neil", 80]  │ │ ["Michael", 70] │
+└───────────────┘ └───────────────┘ └─────────────────┘
+```
+
+---
+
+### 🧠 Step 7: Mental summary (in raw human words)
+
+* `sort()` = rearranges a list
+* `key=` = tells Python *what part of each item* to look at when comparing
+* `lambda` = a small “function brain” that extracts that part (in this case, the score)
+* `item` = each mini list inside the main list
+* `item[1]` = the actual score value
+* `reverse=True` = flips order (high to low)
+
+---
+
+### ⚡ Final Understanding in One Line
+
+> “Sort the combined list, but instead of sorting by name (first thing),
+> look at the **second thing** (score) inside each small list and arrange accordingly.”
+
+---
