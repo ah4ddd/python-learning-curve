@@ -1,15 +1,33 @@
-fruits = ["apple", "banana", "apple", "orange", "banana", "apple"]
+# Step 1: Daily sales list
+sales = [
+    "soap", "cake", "soap", "shampoo", "cake",
+    "soap", "bread", "cake", "bread", "shampoo"
+]
 
-unique_fruits = []  # store unique names
-counts = []         # store counts
+# Step 2: List of unique products
+products = list(set(sales))  # automatically removes duplicates
 
-for fruit in fruits:
-    if fruit in unique_fruits:
-        index = unique_fruits.index(fruit)
-        counts[index] += 1
-    else:
-        unique_fruits.append(fruit)
-        counts.append(1)
+# Step 3: Count each product
+print("Total sales per product:")
+for product in products:
+    total = sales.count(product)
+    print(f"{product}: {total}")
 
-for i in range(len(unique_fruits)):
-    print(f"{unique_fruits[i]}: {counts[i]}")
+
+###############*# Project 2 *###########################
+
+#by using collections.Counter
+
+from collections import Counter
+
+sales = [
+    "soap", "cake", "soap", "shampoo", "cake",
+    "soap", "bread", "cake", "bread", "shampoo"
+]
+
+sales_counts = Counter(sales)
+
+print("Total sales per product:")
+for product, count in sales_counts.items():
+    print(f"{product}: {count}")
+
