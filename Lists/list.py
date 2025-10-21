@@ -1,22 +1,15 @@
-good_day = ["6", "Millions", "X", "D"]
-land_stolen = ["then", "stole", "land", "from", "native", "middle", "eastern", "peoples"]
-victims = ["still", "playing", "victims"]
-list1 = ["proxy", "wars"]
-list2 = ["are", "cash", "cows"]
-terror = ["sponsors", "terror", "for", "profit"]
-peace = ["and", "never", "face", "consequences"]
+fruits = ["apple", "banana", "apple", "orange", "banana", "apple"]
 
-kinks = " | ".join(good_day + land_stolen + victims)
-print("Kinks joined:")
-print(kinks)
-print()
+unique_fruits = []  # store unique names
+counts = []         # store counts
 
-combined = list1 + list2
-print("Combined list items:")
-for item in combined:
-    print(item)
-print()
+for fruit in fruits:
+    if fruit in unique_fruits:
+        index = unique_fruits.index(fruit)
+        counts[index] += 1
+    else:
+        unique_fruits.append(fruit)
+        counts.append(1)
 
-terror.extend(peace)
-print("Terror + peace:")
-print(terror)
+for i in range(len(unique_fruits)):
+    print(f"{unique_fruits[i]}: {counts[i]}")
