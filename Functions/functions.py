@@ -1,8 +1,8 @@
-def calculate_area(length, width):
-    area = length * width
-    return area
+def calculate_average(sales_list):
+    total = sum(sales_list)
+    average = total / len(sales_list)
+    return average
 
-# Now just call it!
-print(calculate_area(10, 5))   # 50
-print(calculate_area(20, 8))   # 160
-print(calculate_area(15, 12))  # 180
+daily_sales = [10, 15, 20]
+avg = calculate_average(daily_sales)
+print(f"Average: {avg}")
