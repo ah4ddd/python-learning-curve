@@ -1,8 +1,7 @@
-def calculate_average(sales_list):
-    total = sum(sales_list)
-    average = total / len(sales_list)
-    return average
+def record_sale(product, quantity):
+    print(f"Recorded sale: {quantity} units of {product}")
 
-daily_sales = [10, 15, 20]
-avg = calculate_average(daily_sales)
-print(f"Average: {avg}")
+record_sale("Soap", 5)
+record_sale("Cake", 3)
+record_sale("Bread", 7)
+record_sale("Shampoo", 2)
