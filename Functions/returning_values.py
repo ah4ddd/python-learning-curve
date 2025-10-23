@@ -1,24 +1,24 @@
-def calculate_bill(product, price, quantity, discount=0):
-    total = price * quantity
-    total_after_discount = total - (total * discount / 100)
+def calculate_price(price, quantity, discount_percent):
+    total_price = price * quantity
+    discounted_price = total_price * (1 - discount_percent/100)
+    return discounted_price
 
-    print(f"Product: {product}")
-    print(f"Quantity: {quantity}")
-    print(f"Price per item: ₹{price}")
-    print(f"Discount: {discount}%")
-    print(f"Total: ₹{total_after_discount}\n")
+products = []
+num_products = int(input("How many products are you buying? "))
 
-    return total_after_discount
+for i in range(num_products):
+    name = input(f"Enter name of product {i+1}: ")
+    price = float(input(f"Enter price for {name}: "))
+    quantity = int(input(f"Enter quantity for {name}: "))
+    discount = float(input(f"Enter discount % for {name}: "))
 
-bill1 = calculate_bill("Laptop", 50000, 1, 10)
-bill2 = calculate_bill("Smartphone", 20000, 2)
-bill3 = calculate_bill("Headphones", 1500, 3, 5)
+    total = calculate_price(price, quantity, discount)
+    products.append((name, total))
 
-grand_total = bill1 + bill2 + bill3
-print(f"💰 GRAND TOTAL: ₹{grand_total}")
+# Step 3: Show per-product totals
+print("\nTotals per product:")
+for name, total in products:
+    print(f"{name}: ${total:.2f}")
 
-if grand_total > 50000:
-    print("🎉 You get FREE SHIPPING!")
-else:
-    print(f"₹{50000 - grand_total} more for free shipping!")
-
+overall_total = sum(total for _, total in products)
+print(f"\nOverall total to pay: ${overall_total:.2f}")
