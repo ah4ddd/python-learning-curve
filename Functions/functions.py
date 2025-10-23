@@ -1,17 +1,10 @@
-def calculate_bill(product, price, quantity, discount=0):
-    total = price * quantity
-    total_after_discount = total - (total * discount / 100)
+def person_age(age):
+    return 100 - age
 
-    print(f"Product: {product}")
-    print(f"Quantity: {quantity}")
-    print(f"Price per item: ₹{price}")
-    print(f"Discount: {discount}%")
-    print(f"Total bill: ₹{total_after_discount}\n")
+until_100 = person_age(22)
+print(f"You will turn 100 in the year: {until_100}")
 
-    return total_after_discount
-
-laptop_bill = calculate_bill("Laptop", 50000, 1, 10)
-phone_bill = calculate_bill("Smartphone", 20000, 2)
-
-grand_total = laptop_bill + phone_bill
-print(f"🛒 Grand Total: ₹{grand_total}")
+if until_100 < 95:
+    print("You still have time to live!")
+else:
+    print("Hurry up! Time is running out!")
