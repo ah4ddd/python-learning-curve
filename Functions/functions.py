@@ -1,22 +1,10 @@
-def calculate_savings(income, expenses):
-    savings = income - expenses
-    return savings
+def area_of_rectangle(length, width):
+    area = length * width
+    return area
 
-alice_saves = calculate_savings(5000, 3000)
-bob_saves = calculate_savings(6000, 4500)
-charlie_saves = calculate_savings(4500, 3200)
-
-def greet_user(name):
-    print("=" * 30)
-    print(f"Hello, {name}!")
-    print("Welcome to our app!")
-    print("=" * 30)
-
-greet_user("Alice")
-greet_user("Bob")
-greet_user("Charlie")
-
-print(f"Alice saves: ${alice_saves}")
-print(f"Bob saves: ${bob_saves}")
-print(f"Charlie saves: ${charlie_saves}")
-
+room_1_area = area_of_rectangle(10, 12)
+room_2_area = area_of_rectangle(14, 16)
+print(f"Area of Room 1: {room_1_area} square units")
+print(f"Area of Room 2: {room_2_area} square units")
+total_area = room_1_area + room_2_area
+print(f"Total area of both rooms: {total_area} square units")
