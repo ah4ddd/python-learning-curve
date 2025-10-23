@@ -1,7 +1,4 @@
 def calculate_bill(product, price, quantity, discount=0):
-    """
-    Calculates total price for a product with optional discount.
-    """
     total = price * quantity           # base total
     total_after_discount = total - (total * discount / 100)   # apply discount
     print(f"Product: {product}")
@@ -9,6 +6,7 @@ def calculate_bill(product, price, quantity, discount=0):
     print(f"Price per item: ₹{price}")
     print(f"Discount: {discount}%")
     print(f"Total bill: ₹{total_after_discount}\n")
+    return total_after_discount
 
 calculate_bill("Laptop", 50000, 1, 10)
 calculate_bill("Smartphone", 20000, 2)
