@@ -1,18 +1,23 @@
-def final_price(base_price,quantity,tax_rate,shipping_cost):
-    tax_amount = base_price * tax_rate
-    total_price = (base_price + tax_amount + shipping_cost) * quantity
+def calculate_item_price(base_price, tax, discount):
+    final_price = base_price * (1 + tax/100) - discount
+    return final_price
 
-    print(f"🧾 Final Price Calculation")
-    print("=" * 40)
-    print(f"Base Price: ${base_price:.2f}")
-    print(f"Quantity: {quantity}")
-    print(f"Tax Rate: {tax_rate*100:.2f}%")
-    print(f"Shipping Cost: ${shipping_cost:.2f}")
-    print("-" * 40)
-    print(f"Total Price: ${total_price:.2f}")
-    print("=" * 40)
-    return total_price
+def calculate_total_order(*items):
+    total = sum(items)
+    return total
 
-order1 = final_price(20.0, 3, 0.07, 5.0)
-order2 = final_price(15.5, 2, 0.05, 7.5)
-order3 = final_price(50.0, 1, 0.08, 10.0)
+def suggest_tip(total, tip_percent=10):
+    tip_amount = total * tip_percent / 100
+    return tip_amount
+
+latte = calculate_item_price(120, 5, 10)
+espresso = calculate_item_price(80, 5, 5)
+cappuccino = calculate_item_price(150, 5, 15)
+
+total_bill = calculate_total_order(latte, espresso, cappuccino)
+
+tip = suggest_tip(total_bill, tip_percent=12)
+
+print(f"Latte: ₹{latte:.2f}, Espresso: ₹{espresso:.2f}, Cappuccino: ₹{cappuccino:.2f}")
+print(f"Total Bill: ₹{total_bill:.2f}")
+print(f"Suggested Tip (12%): ₹{tip:.2f}")
