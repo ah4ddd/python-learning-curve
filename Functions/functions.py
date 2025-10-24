@@ -1,14 +1,27 @@
-name = "Global Alice"
+def function_a():
+    print("A starts")
+    function_b()
+    print("A ends")
 
-def outer_function():
-    name = "Outer Bob"
+def function_b():
+    print("B starts")
+    function_c()
+    print("B ends")
 
-    def inner_function():
-        name = "Inner Charlie"
-        print(f"Inner: {name}")
+def function_c():
+    print("C runs")
 
-    inner_function()
-    print(f"Outer: {name}")
+function_b()
 
-outer_function()
-print(f"Global: {name}")
+def check_age(age):
+    if age < 18:
+        return "Too young"
+    elif age > 65:
+        return "Senior"
+    else:
+        return "Adult"
+
+    print("This never runs!")  # Dead code!
+
+result = check_age(25)
+print(result)
