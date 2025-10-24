@@ -1700,3 +1700,500 @@ if years_until_100(95) < 10:
 
 ---
 
+## **Topic 4: Using Multiple Parameters**
+
+---
+
+### **What's the Deal with Multiple Parameters?**
+
+Okay so you've used functions with one or two parameters already. But here's the thing—**real-world functions often need MORE information to do their job properly.**
+
+**Simple truth:** Multiple parameters let you give your function ALL the ingredients it needs to work with complex data.
+
+Think of it like this:
+
+**Ordering a pizza 🍕:**
+- **One parameter:** "Give me a pizza" (what size? what toppings? confused pizza guy! 😵)
+- **Multiple parameters:** "Give me a LARGE pizza with PEPPERONI, EXTRA CHEESE, and THIN crust" (NOW we're talking! 🎯)
+
+**More parameters = More control = More flexibility!**
+
+---
+
+## **You've Already Been Using Multiple Parameters!**
+
+Look at YOUR code babe:
+
+```python
+def calculate_price(price, quantity, discount_percent):
+    # THREE parameters right here!
+```
+
+You're already doing it! But let's break down WHY and HOW to do it like a pro! 💪
+
+---
+
+## **How Multiple Parameters Work (The Mechanics):**
+
+When you define a function with multiple parameters:
+
+```python
+def create_profile(name, age, city, country):
+    print(f"{name}, {age} years old")
+    print(f"Lives in {city}, {country}")
+```
+
+**Behind the scenes:**
+- Python creates FOUR temporary containers: `name`, `age`, `city`, `country`
+- When you call the function, values fill them IN ORDER
+- All four exist inside the function and can be used however you want
+
+```python
+create_profile("Alice", 25, "Mumbai", "India")
+```
+
+**What happens:**
+1. `name` gets `"Alice"`
+2. `age` gets `25`
+3. `city` gets `"Mumbai"`
+4. `country` gets `"India"`
+5. Function runs using all four values
+6. Function ends, all four disappear
+
+**They're like temporary workers—hired for the job, then they leave!** 👷‍♀️
+
+---
+
+## **Order REALLY Matters with Multiple Parameters:**
+
+**This is where people fuck up!** 😅
+
+```python
+def book_flight(from_city, to_city, date, passengers):
+    print(f"Booking flight from {from_city} to {to_city}")
+    print(f"Date: {date}, Passengers: {passengers}")
+
+# Correct order:
+book_flight("Delhi", "Mumbai", "2025-10-30", 2)
+# ✅ Booking flight from Delhi to Mumbai
+# ✅ Date: 2025-10-30, Passengers: 2
+
+# Wrong order:
+book_flight(2, "2025-10-30", "Mumbai", "Delhi")
+# ❌ Booking flight from 2 to 2025-10-30
+# ❌ Date: Mumbai, Passengers: Delhi
+# TOTAL NONSENSE!
+```
+
+**Python doesn't think—it just fills slots in order!**
+
+**Pro tip:** Use clear parameter names so you remember the order!
+
+---
+
+## **Real-World Example: Student Report Card**
+
+Let's build something complex with multiple parameters:
+
+```python
+def generate_report(student_name, math_score, science_score, english_score):
+    total = math_score + science_score + english_score
+    average = total / 3
+
+    print(f"📊 Report Card for {student_name}")
+    print("=" * 40)
+    print(f"Math: {math_score}")
+    print(f"Science: {science_score}")
+    print(f"English: {english_score}")
+    print("-" * 40)
+    print(f"Total: {total}")
+    print(f"Average: {average:.2f}")
+
+    # Determine grade based on average
+    if average >= 90:
+        grade = "A+"
+    elif average >= 80:
+        grade = "A"
+    elif average >= 70:
+        grade = "B"
+    else:
+        grade = "C"
+
+    print(f"Grade: {grade}")
+    return average
+
+# Use it for multiple students:
+alice_avg = generate_report("Alice", 95, 88, 92)
+bob_avg = generate_report("Bob", 78, 82, 85)
+charlie_avg = generate_report("Charlie", 65, 70, 68)
+```
+
+**FOUR parameters working together to create a complete report!** 📝
+
+---
+
+## **Mixing Different Data Types in Parameters:**
+
+**You can mix whatever types you need!**
+
+```python
+def create_product(name, price, in_stock, tags):
+    # string, float, boolean, list - ALL DIFFERENT TYPES!
+    print(f"Product: {name}")
+    print(f"Price: ₹{price}")
+    print(f"In stock: {in_stock}")
+    print(f"Tags: {', '.join(tags)}")
+
+    return {
+        "name": name,
+        "price": price,
+        "available": in_stock,
+        "tags": tags
+    }
+
+laptop = create_product(
+    "Gaming Laptop",
+    75000.00,
+    True,
+    ["electronics", "gaming", "computers"]
+)
+```
+
+**String, float, boolean, list—all in ONE function!** 🎯
+
+---
+
+## **How Many Parameters is TOO Many?**
+
+**General rule of thumb:**
+
+### ✅ **Sweet spot: 2-4 parameters**
+```python
+def calculate_price(base_price, quantity, discount):
+    # Perfect! Easy to remember and use
+```
+
+### ⚠️ **Getting messy: 5-6 parameters**
+```python
+def create_user(name, email, age, city, country, phone):
+    # Still okay, but getting hard to remember order
+```
+
+### ❌ **Hell no: 7+ parameters**
+```python
+def crazy_function(a, b, c, d, e, f, g, h, i, j):
+    # WTFFFF! No one can remember this!
+```
+
+**If you need THAT many parameters, there are better ways (dictionaries, classes—you'll learn later!).**
+
+---
+
+## **Parameters Can Work Together:**
+
+**This is the POWER of multiple parameters—they collaborate!**
+
+```python
+def calculate_shipping(weight, distance, express):
+    base_rate = 10
+
+    # Weight affects cost
+    weight_cost = weight * 5
+
+    # Distance affects cost
+    distance_cost = distance * 0.5
+
+    # Express doubles the cost
+    total = base_rate + weight_cost + distance_cost
+    if express:
+        total = total * 2
+
+    return total
+
+# Different combinations:
+normal_light = calculate_shipping(2, 100, False)   # ₹120
+express_light = calculate_shipping(2, 100, True)   # ₹240
+normal_heavy = calculate_shipping(10, 100, False)  # ₹160
+express_heavy = calculate_shipping(10, 100, True)  # ₹320
+```
+
+**All THREE parameters work together to calculate the final cost!** 🚚
+
+---
+
+## **Your Shopping Cart Example Breakdown:**
+
+Let's analyze YOUR code:
+
+```python
+def calculate_price(price, quantity, discount_percent):
+    total_price = price * quantity
+    discounted_price = total_price * (1 - discount_percent/100)
+    return discounted_price
+```
+
+**Three parameters working together:**
+1. **`price`** - Base price per item
+2. **`quantity`** - How many you're buying
+3. **`discount_percent`** - How much off
+
+**Each one affects the final calculation!**
+
+- Change `price`? Final changes! ✅
+- Change `quantity`? Final changes! ✅
+- Change `discount_percent`? Final changes! ✅
+
+**That's the beauty of multiple parameters—flexible combinations!** 💫
+
+---
+
+## **Common Patterns with Multiple Parameters:**
+
+### **Pattern 1: Related data pieces**
+```python
+def create_address(street, city, state, zip_code):
+    # All parts of ONE address
+    return f"{street}, {city}, {state} - {zip_code}"
+```
+
+### **Pattern 2: Calculation inputs**
+```python
+def calculate_bmi(weight_kg, height_m):
+    # Both needed for the calculation
+    return weight_kg / (height_m ** 2)
+```
+
+### **Pattern 3: Configuration options**
+```python
+def send_email(to, subject, body, cc=None, bcc=None):
+    # Main params + optional params
+    # (You'll learn about default values soon!)
+```
+
+---
+
+## **Parameters vs Arguments (Quick Reminder):**
+
+```python
+def book_hotel(hotel_name, check_in, check_out, guests):
+    # ↑ These are PARAMETERS (in definition)
+    pass
+
+book_hotel("Taj Hotel", "2025-11-01", "2025-11-05", 2)
+#          ↑ These are ARGUMENTS (when calling)
+```
+
+**Parameters** = Placeholders in the function definition
+**Arguments** = Actual values you pass when calling
+
+---
+
+## **Organizing Multiple Parameters (Best Practices):**
+
+### ✅ **DO: Group related parameters together**
+```python
+def create_rectangle(length, width, color, border_thickness):
+    # Size params together, style params together
+```
+
+### ✅ **DO: Put required parameters first**
+```python
+def send_message(recipient, message, priority, timestamp):
+    # Most important first
+```
+
+### ❌ **DON'T: Random order that makes no sense**
+```python
+def confusing_function(color, length, timestamp, width):
+    # WTF is this order?!
+```
+
+---
+
+## **Real-World Challenge: Restaurant Bill Calculator**
+
+Let's build something more complex:
+
+```python
+def calculate_restaurant_bill(food_cost, drinks_cost, num_people, tip_percent, tax_percent):
+    # Calculate subtotal
+    subtotal = food_cost + drinks_cost
+
+    # Add tax
+    tax_amount = subtotal * (tax_percent / 100)
+    after_tax = subtotal + tax_amount
+
+    # Add tip (on after-tax amount)
+    tip_amount = after_tax * (tip_percent / 100)
+    total = after_tax + tip_amount
+
+    # Split among people
+    per_person = total / num_people
+
+    print(f"💰 Restaurant Bill Breakdown")
+    print("=" * 40)
+    print(f"Food: ₹{food_cost}")
+    print(f"Drinks: ₹{drinks_cost}")
+    print(f"Subtotal: ₹{subtotal}")
+    print(f"Tax ({tax_percent}%): ₹{tax_amount:.2f}")
+    print(f"Tip ({tip_percent}%): ₹{tip_amount:.2f}")
+    print(f"TOTAL: ₹{total:.2f}")
+    print(f"Per person ({num_people} people): ₹{per_person:.2f}")
+
+    return per_person
+
+# Use it:
+my_share = calculate_restaurant_bill(
+    food_cost=2500,
+    drinks_cost=800,
+    num_people=4,
+    tip_percent=15,
+    tax_percent=18
+)
+```
+
+**FIVE parameters, all working together to split a restaurant bill!** 🍽️
+
+---
+
+## **When You Need Even More Flexibility:**
+
+**What if different calls need different numbers of parameters?**
+
+You'll learn about:
+- **Default parameters** (coming soon!)
+- **`*args`** for unlimited positional arguments
+- **`**kwargs`** for unlimited keyword arguments
+
+**But for now, focus on mastering fixed multiple parameters!** 💪
+
+---
+
+## **Common Mistakes with Multiple Parameters:**
+
+### ❌ **Mistake 1: Wrong number of arguments**
+```python
+def greet(name, age, city):
+    pass
+
+greet("Alice", 25)  # ❌ Missing 'city'
+greet("Alice", 25, "Mumbai", "India")  # ❌ Too many!
+greet("Alice", 25, "Mumbai")  # ✅ Perfect!
+```
+
+### ❌ **Mistake 2: Wrong order**
+```python
+def divide(numerator, denominator):
+    return numerator / denominator
+
+divide(10, 2)  # 5.0 ✅
+divide(2, 10)  # 0.2 ❌ Wrong answer!
+```
+
+### ❌ **Mistake 3: Confusing parameter names with actual values**
+```python
+def greet(name, age):
+    print(f"Hi {name}, you're {age}")
+
+# WRONG:
+greet(name, age)  # ❌ What are 'name' and 'age'?!
+
+# RIGHT:
+greet("Alice", 25)  # ✅ Actual values!
+```
+
+---
+
+## **Mini Practice Challenge:**
+
+Create a function that calculates the final price of an item with these parameters:
+- Base price
+- Quantity
+- Tax percentage
+- Shipping cost
+
+Return the final total.
+
+Try it yourself first...
+
+...
+
+**Here's one solution:**
+
+```python
+def calculate_final_price(base_price, quantity, tax_percent, shipping):
+    subtotal = base_price * quantity
+    tax_amount = subtotal * (tax_percent / 100)
+    total = subtotal + tax_amount + shipping
+    return total
+
+# Test it:
+final = calculate_final_price(500, 3, 18, 100)
+print(f"Final price: ₹{final}")  # ₹1870.0
+```
+
+---
+
+## **Leveling Up Your Shopping Cart:**
+
+Here's how you could add MORE parameters to make it even better:
+
+```python
+def calculate_price(price, quantity, discount_percent, tax_percent=18, loyalty_points=0):
+    # Calculate base
+    subtotal = price * quantity
+
+    # Apply discount
+    after_discount = subtotal * (1 - discount_percent/100)
+
+    # Deduct loyalty points (₹1 per point)
+    after_loyalty = after_discount - loyalty_points
+
+    # Add tax
+    tax_amount = after_loyalty * (tax_percent / 100)
+    final_price = after_loyalty + tax_amount
+
+    return final_price
+
+# Now way more flexible!
+total = calculate_price(1000, 2, 10, 18, 50)
+# Price: 1000, Qty: 2, 10% off, 18% tax, 50 loyalty points used
+```
+
+---
+
+## **Summary (Key Takeaways):**
+
+### **What Are Multiple Parameters?**
+- Give your function ALL the info it needs
+- Each parameter is a separate input
+- They can work together in calculations
+
+### **How to Use Them:**
+```python
+def function_name(param1, param2, param3, param4):
+    # Use all parameters inside
+    result = param1 + param2 - param3 * param4
+    return result
+```
+
+### **Important Rules:**
+1. ✅ **Order matters!** First argument → First parameter
+2. ✅ **Use descriptive names** so you remember what goes where
+3. ✅ **2-4 parameters is sweet spot** (5-6 okay, 7+ too many)
+4. ✅ **Group related parameters together**
+5. ✅ **All parameters can work together** in the function body
+
+### **Why They're Powerful:**
+- Handle complex real-world scenarios
+- Give you fine-grained control
+- Make functions super flexible
+- ONE function, INFINITE combinations of inputs!
+
+---
+
+---
+
+
+
+---

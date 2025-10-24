@@ -1,31 +1,18 @@
-def calculate_restaurant_bill(food_cost, drinks_cost, num_people, tip_percent, tax_percent):
+def final_price(base_price,quantity,tax_rate,shipping_cost):
+    tax_amount = base_price * tax_rate
+    total_price = (base_price + tax_amount + shipping_cost) * quantity
 
-    subtotal = food_cost + drinks_cost
-
-    tax_amount = subtotal * (tax_percent / 100)
-    after_tax = subtotal + tax_amount
-
-    tip_amount = after_tax * (tip_percent / 100)
-    total = after_tax + tip_amount
-
-    per_person = total / num_people
-
-    print(f"💰 Restaurant Bill Breakdown")
+    print(f"🧾 Final Price Calculation")
     print("=" * 40)
-    print(f"Food: ₹{food_cost}")
-    print(f"Drinks: ₹{drinks_cost}")
-    print(f"Subtotal: ₹{subtotal}")
-    print(f"Tax ({tax_percent}%): ₹{tax_amount:.2f}")
-    print(f"Tip ({tip_percent}%): ₹{tip_amount:.2f}")
-    print(f"TOTAL: ₹{total:.2f}")
-    print(f"Per person ({num_people} people): ₹{per_person:.2f}")
+    print(f"Base Price: ${base_price:.2f}")
+    print(f"Quantity: {quantity}")
+    print(f"Tax Rate: {tax_rate*100:.2f}%")
+    print(f"Shipping Cost: ${shipping_cost:.2f}")
+    print("-" * 40)
+    print(f"Total Price: ${total_price:.2f}")
+    print("=" * 40)
+    return total_price
 
-    return per_person
-
-my_share = calculate_restaurant_bill(
-    food_cost=2500,
-    drinks_cost=800,
-    num_people=4,
-    tip_percent=15,
-    tax_percent=18
-)
+order1 = final_price(20.0, 3, 0.07, 5.0)
+order2 = final_price(15.5, 2, 0.05, 7.5)
+order3 = final_price(50.0, 1, 0.08, 10.0)
