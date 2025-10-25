@@ -2818,3 +2818,581 @@ tip = calculate_tip(total, 12)
 - Functions work together to solve big problems
 
 ---
+
+---
+
+## **Topic 6: Function and Variable Scope**
+
+---
+
+### **What the Hell is "Scope"?**
+
+**Simple definition:** Scope is WHERE a variable can be used—which parts of your code can "see" and access that variable.
+
+Think of it like this:
+
+**Your bedroom 🛏️:**
+- Stuff in YOUR room = Only YOU can use it
+- Stuff in the living room = Everyone in the house can use it
+- You can't use stuff from your neighbor's house = It's out of your scope!
+
+**In code:**
+- Variables inside a function = Only THAT function can use them (local scope)
+- Variables outside functions = Everyone can use them (global scope)
+
+**Scope answers the question: "Where does this variable exist and who can touch it?"**
+
+---
+
+## **The Two Main Types of Scope:**
+
+### **1. Local Scope (Inside Functions)**
+### **2. Global Scope (Outside Functions)**
+
+Let me show you what I mean:
+
+---
+
+## **Local Scope: Variables Born Inside Functions**
+
+When you create a variable INSIDE a function, it only exists INSIDE that function:
+
+```python
+def my_function():
+    inside_var = "I'm local!"
+    print(inside_var)  # ✅ Works here
+
+my_function()  # Prints: I'm local!
+
+print(inside_var)  # ❌ ERROR! 'inside_var' doesn't exist out here!
+```
+
+**What happened?**
+1. `inside_var` was created INSIDE the function
+2. It lives and dies INSIDE the function
+3. Outside the function? It doesn't exist!
+
+**It's like a secret conversation in a closed room—once you leave the room, the conversation is gone!** 🚪
+
+---
+
+## **Why Does This Happen?**
+
+**Functions are isolated bubbles!** When a function finishes running, ALL its local variables disappear—POOF! 💨
+
+```python
+def calculate_tax():
+    price = 100
+    tax = price * 0.18
+    total = price + tax
+    return total
+
+result = calculate_tax()
+print(result)  # 118.0 ✅ We got the RETURN value
+
+print(price)  # ❌ ERROR! 'price' was local, it's gone now!
+print(tax)    # ❌ ERROR! 'tax' was local, it's gone now!
+print(total)  # ❌ ERROR! 'total' was local, it's gone now!
+```
+
+**The ONLY way to get data out is through `return`!**
+
+---
+
+## **Real Example from YOUR Code:**
+
+Look at your own function:
+
+```python
+def apply_discount(price, discount_percent):
+    return price * (1 - discount_percent / 100)
+```
+
+**Local variables here:**
+- `price` (parameter = local variable)
+- `discount_percent` (parameter = local variable)
+
+**These ONLY exist while the function runs!**
+
+```python
+final = apply_discount(100, 10)  # Function runs, variables exist
+print(final)  # 90.0 ✅
+
+print(price)  # ❌ ERROR! 'price' is gone, it was local!
+```
+
+---
+
+## **Global Scope: Variables Born Outside Functions**
+
+Variables created OUTSIDE any function exist EVERYWHERE:
+
+```python
+# This is GLOBAL
+greeting = "Hello"
+
+def say_hello():
+    print(greeting)  # ✅ Can READ global variables
+
+def say_goodbye():
+    print(greeting)  # ✅ This function can read it too!
+
+say_hello()    # Hello
+say_goodbye()  # Hello
+print(greeting)  # Hello ✅ Works outside too!
+```
+
+**Global variables are like the family TV—everyone in the house can watch it!** 📺
+
+---
+
+## **Reading vs Modifying (THIS IS IMPORTANT!):**
+
+### **You CAN read global variables inside functions:**
+
+```python
+tax_rate = 18  # Global variable
+
+def calculate_tax(price):
+    tax = price * (tax_rate / 100)  # ✅ READING tax_rate
+    return tax
+
+print(calculate_tax(100))  # 18.0
+```
+
+**This works!** The function can SEE and READ `tax_rate`.
+
+---
+
+### **But you CAN'T easily modify global variables:**
+
+```python
+counter = 0  # Global
+
+def increment():
+    counter = counter + 1  # ❌ ERROR!
+    # Python thinks: "You're trying to CREATE a new LOCAL 'counter'
+    # but also USE 'counter' before creating it?!"
+
+increment()
+```
+
+**This breaks!** Why? Python sees `counter = ...` and thinks you're making a NEW local variable, but then you're trying to use it on the right side before it exists!
+
+---
+
+## **The `global` Keyword (But Don't Use It Much!):**
+
+If you REALLY need to modify a global variable:
+
+```python
+counter = 0  # Global
+
+def increment():
+    global counter  # "I want to use the GLOBAL one!"
+    counter = counter + 1
+
+increment()
+print(counter)  # 1
+
+increment()
+print(counter)  # 2
+```
+
+**BUT HONESTLY?** This is considered bad practice! It makes code confusing because functions are changing things outside themselves.
+
+**Better way:** Use parameters and return values!
+
+```python
+counter = 0
+
+def increment(current_value):
+    return current_value + 1
+
+counter = increment(counter)  # counter = 1
+counter = increment(counter)  # counter = 2
+```
+
+**Much cleaner!** No `global` keyword needed! ✨
+
+---
+
+## **Scope in YOUR Food Order Code:**
+
+Let's analyze YOUR code's scope:
+
+```python
+def get_price(choice):
+    if choice == 1:
+        return 8
+    elif choice == 2:
+        return 10
+    # ...
+
+def main():
+    choice = int(input("\nEnter your choice (1–6): "))  # LOCAL to main()
+    price = get_price(choice)  # LOCAL to main()
+
+    discount = 10  # LOCAL to main()
+    tax = 5        # LOCAL to main()
+
+    final_price = calculate_final_bill(price, discount, tax)
+```
+
+**Scope breakdown:**
+- `choice`, `price`, `discount`, `tax`, `final_price` are ALL local to `main()`
+- They DON'T exist in `get_price()` or `calculate_final_bill()`
+- You PASS them as arguments to share the data!
+
+**This is PERFECT scope usage!** 🎯
+
+---
+
+## **Parameters ARE Local Variables!**
+
+This is a KEY insight:
+
+```python
+def greet(name):  # 'name' is a LOCAL variable!
+    message = f"Hello, {name}!"  # 'message' is also LOCAL!
+    return message
+
+result = greet("Alice")
+print(result)  # Hello, Alice!
+
+print(name)     # ❌ ERROR! 'name' was local to greet()
+print(message)  # ❌ ERROR! 'message' was local too!
+```
+
+**Parameters are just local variables that get filled with the values you pass in!**
+
+---
+
+## **Shadowing: When Names Collide**
+
+What happens if you use the SAME name inside and outside a function?
+
+```python
+name = "Global Alice"  # Global variable
+
+def greet():
+    name = "Local Bob"  # Different variable! Same name!
+    print(f"Inside: {name}")
+
+greet()           # Inside: Local Bob
+print(f"Outside: {name}")  # Outside: Global Alice
+```
+
+**TWO different variables, same name!**
+
+The local one "shadows" (hides) the global one inside the function.
+
+**Visual representation:**
+
+```
+GLOBAL SCOPE:
+  name = "Global Alice"  ← Still exists!
+
+  FUNCTION SCOPE:
+    name = "Local Bob"  ← Different variable!
+```
+
+---
+
+## **Real-World Analogy:**
+
+Think of a **restaurant** 🍽️:
+
+**Global Scope = The main dining area:**
+- Menu boards (everyone can see them)
+- Prices (visible to everyone)
+- Restaurant rules (apply everywhere)
+
+**Local Scope = The kitchen:**
+- Chef's personal tools (only chefs use them)
+- Work in progress dishes (disappear when served)
+- Cooking instructions (only matter while cooking)
+
+**The waiter (return value) brings food OUT from the kitchen (local scope) to the dining area (where you called the function).**
+
+---
+
+## **Practical Example: Shopping Cart**
+
+Let's build something that shows scope clearly:
+
+```python
+# GLOBAL variables (everyone can see)
+store_name = "Bella Shop"
+tax_rate = 18
+
+def greet_customer(customer_name):
+    # LOCAL: customer_name (parameter)
+    # Can READ store_name (global)
+    print(f"Welcome to {store_name}, {customer_name}!")
+
+def calculate_total(price, quantity):
+    # LOCAL: price, quantity, subtotal, tax, total
+    subtotal = price * quantity
+    tax = subtotal * (tax_rate / 100)  # READING global tax_rate
+    total = subtotal + tax
+    return total
+
+def main():
+    # LOCAL: name, item_price, qty, final
+    name = "Liya"
+    greet_customer(name)
+
+    item_price = 100
+    qty = 3
+
+    final = calculate_total(item_price, qty)
+    print(f"Total: ₹{final}")
+
+main()
+```
+
+**Scope map:**
+```
+GLOBAL SCOPE:
+  - store_name
+  - tax_rate
+
+greet_customer() SCOPE:
+  - customer_name (parameter)
+
+calculate_total() SCOPE:
+  - price (parameter)
+  - quantity (parameter)
+  - subtotal
+  - tax
+  - total
+
+main() SCOPE:
+  - name
+  - item_price
+  - qty
+  - final
+```
+
+**Each function has its own bubble!** 🫧
+
+---
+
+## **Common Mistakes with Scope:**
+
+### ❌ **Mistake 1: Assuming variables carry over**
+
+```python
+def function1():
+    x = 10
+
+def function2():
+    print(x)  # ❌ ERROR! 'x' only existed in function1!
+
+function1()
+function2()
+```
+
+**Fix:** Use return and parameters!
+
+```python
+def function1():
+    x = 10
+    return x
+
+def function2(value):
+    print(value)  # ✅ Got the value as parameter!
+
+result = function1()
+function2(result)
+```
+
+---
+
+### ❌ **Mistake 2: Trying to modify global without keyword**
+
+```python
+score = 0
+
+def add_points():
+    score = score + 10  # ❌ ERROR!
+
+add_points()
+```
+
+**Fix:** Use parameters and return!
+
+```python
+score = 0
+
+def add_points(current_score):
+    return current_score + 10
+
+score = add_points(score)  # ✅ Clean!
+```
+
+---
+
+### ❌ **Mistake 3: Confusing local and global with same name**
+
+```python
+price = 100  # Global
+
+def calculate():
+    price = 50  # Local (different variable!)
+    return price * 2
+
+result = calculate()  # 100
+print(price)  # 100 (global unchanged!)
+```
+
+**Not an error, but confusing!** Use different names to be clear!
+
+---
+
+## **Why Scope Matters (The Philosophy):**
+
+### **1. Prevents Conflicts:**
+Functions can use variable names like `total`, `price`, `result` without worrying about other functions using the same names!
+
+### **2. Organization:**
+Each function is responsible for its OWN variables. Clean and isolated!
+
+### **3. Safety:**
+Functions can't accidentally break other parts of your code by changing variables!
+
+### **4. Reusability:**
+Functions work independently, so you can use them anywhere!
+
+---
+
+## **Best Practices for Scope:**
+
+### ✅ **DO: Keep variables local when possible**
+```python
+def calculate_tax(price):
+    tax = price * 0.18  # Local - good!
+    return tax
+```
+
+### ✅ **DO: Use parameters to pass data IN**
+```python
+def process_order(item, quantity):  # Pass as parameters
+    # Use item and quantity here
+```
+
+### ✅ **DO: Use return to pass data OUT**
+```python
+def calculate_total(price, qty):
+    total = price * qty
+    return total  # Send it back!
+```
+
+### ❌ **DON'T: Use global variables for function communication**
+```python
+# BAD:
+result = 0
+
+def calculate():
+    global result
+    result = 100
+```
+
+### ❌ **DON'T: Rely on functions changing globals**
+Leads to confusing, hard-to-debug code!
+
+---
+
+## **Mini Practice: Understanding Scope**
+
+Look at this code and predict what happens:
+
+```python
+x = 10  # Global
+
+def function_a():
+    x = 20  # Local
+    print(f"A: {x}")
+
+def function_b():
+    print(f"B: {x}")  # Which x?
+
+function_a()
+function_b()
+print(f"Global: {x}")
+```
+
+**Think about it...**
+
+...
+
+...
+
+**Answer:**
+```
+A: 20      (local x in function_a)
+B: 10      (reads global x)
+Global: 10 (global x unchanged)
+```
+
+**Why?**
+- `function_a` created its OWN local `x = 20`
+- `function_b` has no local `x`, so it reads the global one
+- Global `x` never changed!
+
+---
+
+## **Your Food Order Code - Perfect Scope Example:**
+
+```python
+def apply_discount(price, discount_percent):
+    # LOCAL scope: price, discount_percent
+    return price * (1 - discount_percent / 100)
+    # These variables DIE here!
+
+def main():
+    # LOCAL scope: price, discount
+    price = 100
+    discount = 10
+
+    # Pass LOCAL variables as arguments
+    final = apply_discount(price, discount)
+    # Get back return value
+
+    print(final)
+
+main()
+```
+
+**Beautiful scope management!**
+- No global variables cluttering things up
+- Each function manages its own data
+- Data flows through parameters and return values
+- Clean, professional, maintainable! 🏆
+
+---
+
+## **Summary (Key Takeaways):**
+
+### **What is Scope?**
+WHERE a variable exists and can be used
+
+### **Two Types:**
+1. **Local (inside functions):** Variables born and die inside the function
+2. **Global (outside functions):** Variables accessible everywhere
+
+### **Important Rules:**
+- ✅ Functions CAN read global variables
+- ⚠️ Functions CAN'T easily modify global variables (need `global` keyword)
+- ✅ Local variables disappear when function ends
+- ✅ Parameters are local variables
+- ✅ Use return to get data OUT of functions
+
+### **Best Practice:**
+**Avoid global variables when possible. Use parameters (data IN) and return (data OUT) instead!**
+
+### **Mental Model:**
+Think of functions as **isolated rooms**—what happens inside stays inside unless you explicitly pass it out through the door (return)!
+
+---
