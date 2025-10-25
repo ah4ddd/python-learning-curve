@@ -1,25 +1,33 @@
-def fight(player1, attack1, defense1, health1,
-          player2, attack2, defense2, health2):
+players = ["Ahad", "Alice"]
+scores = [0, 0]
 
-    print(f"\n⚔️ BATTLE START: {player1} vs {player2} ⚔️")
+def play_round(player_index, points):
+    if points >= 20:
+        bonus = 5
+        points += bonus
+        print(f"🎉 Bonus! +{bonus} points for amazing performance!")
 
-    power1 = attack1 * 2 + defense1 * 1.5 + health1 * 0.8
-    power2 = attack2 * 2 + defense2 * 1.5 + health2 * 0.8
+    scores[player_index] += points
+    print(f"{players[player_index]} scored {points} points this round!")
 
-    print(f"{player1}'s total power: {power1}")
-    print(f"{player2}'s total power: {power2}")
-
-    if power1 > power2:
-        print(f"🔥 {player1} wins the fight!")
-        return player1
-    elif power2 > power1:
-        print(f"🔥 {player2} wins the fight!")
-        return player2
+def get_winner():
+    if scores[0] > scores[1]:
+        return players[0]
+    elif scores[1] > scores[0]:
+        return players[1]
     else:
-        print("🤝 It's a draw!")
-        return "Draw"
+        return "It's a tie!"
 
-winner = fight("Ahad", 80, 60, 100,
-                "Drago", 75, 70, 95)
+def show_leaderboard():
+    print("\n📊 Leaderboard:")
+    for i in range(len(players)):
+        print(f"{players[i]}: {scores[i]} points")
 
-print(f"\n🏆 The winner is: {winner}!")
+    winner = get_winner()
+    print(f"\n🏆 Winner: {winner}")
+
+play_round(0, 10)
+play_round(1, 25)
+play_round(0, 15)
+
+show_leaderboard()
