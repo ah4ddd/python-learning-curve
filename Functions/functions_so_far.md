@@ -3396,3 +3396,1078 @@ WHERE a variable exists and can be used
 Think of functions as **isolated rooms**—what happens inside stays inside unless you explicitly pass it out through the door (return)!
 
 ---
+
+---
+
+## **Topic 7: Deciding with Functions**
+
+---
+
+### **What the Hell Does "Deciding with Functions" Mean?**
+
+**Simple definition:** Using functions to make DECISIONS in your code—combining `if/else` logic INSIDE functions to create smart, reusable decision-making tools!
+
+Think of it like this:
+
+**Without functions:**
+```python
+age = 25
+if age >= 18:
+    print("Adult")
+else:
+    print("Minor")
+
+age2 = 16
+if age2 >= 18:
+    print("Adult")
+else:
+    print("Minor")
+
+# Repeating the same decision logic! 😤
+```
+
+**With functions + decisions:**
+```python
+def check_age(age):
+    if age >= 18:
+        return "Adult"
+    else:
+        return "Minor"
+
+status1 = check_age(25)  # "Adult"
+status2 = check_age(16)  # "Minor"
+```
+
+**ONE function with decision logic = Reusable decision maker!** 🧠
+
+---
+
+## **Why Combine Functions with If/Else?**
+
+**Functions make your decision logic:**
+1. **Reusable** - Write once, decide everywhere!
+2. **Testable** - Easy to check if decisions are correct
+3. **Clear** - Function name explains WHAT it decides
+4. **Maintainable** - Change logic in ONE place
+
+**It's like having a smart assistant who makes decisions FOR you!** 🤖
+
+---
+
+## **Basic Pattern: Functions That Return Different Values Based on Conditions**
+
+```python
+def get_grade(score):
+    if score >= 90:
+        return "A"
+    elif score >= 80:
+        return "B"
+    elif score >= 70:
+        return "C"
+    elif score >= 60:
+        return "D"
+    else:
+        return "F"
+
+# Use it!
+alice_grade = get_grade(95)  # "A"
+bob_grade = get_grade(72)    # "C"
+charlie_grade = get_grade(55) # "F"
+
+print(f"Alice: {alice_grade}")
+print(f"Bob: {bob_grade}")
+print(f"Charlie: {charlie_grade}")
+```
+
+**The function DECIDES which grade to return based on the score!** 🎓
+
+---
+
+## **Real-World Example: Pizza Size Pricer**
+
+```python
+def calculate_pizza_price(size):
+    if size == "small":
+        return 200
+    elif size == "medium":
+        return 350
+    elif size == "large":
+        return 500
+    else:
+        return 0  # Invalid size
+
+# Use it in your order system
+order1 = calculate_pizza_price("medium")  # 350
+order2 = calculate_pizza_price("large")   # 500
+
+total = order1 + order2
+print(f"Total: ₹{total}")  # 850
+```
+
+**The function DECIDES the price based on size!** 🍕
+
+---
+
+## **Pattern 2: Functions That Do Different Actions Based on Conditions**
+
+Not just returning different values—doing different THINGS!
+
+```python
+def greet_by_time(hour):
+    if hour < 12:
+        print("Good morning! ☀️")
+    elif hour < 18:
+        print("Good afternoon! 🌤️")
+    else:
+        print("Good evening! 🌙")
+
+greet_by_time(9)   # Good morning! ☀️
+greet_by_time(14)  # Good afternoon! 🌤️
+greet_by_time(20)  # Good evening! 🌙
+```
+
+**The function DECIDES which greeting to show!** 🕐
+
+---
+
+## **Multiple Parameters + Decisions = POWER!**
+
+```python
+def calculate_shipping(weight, distance):
+    if weight < 1:
+        base_cost = 50
+    elif weight < 5:
+        base_cost = 100
+    else:
+        base_cost = 200
+
+    if distance < 10:
+        distance_cost = 20
+    elif distance < 50:
+        distance_cost = 50
+    else:
+        distance_cost = 100
+
+    total = base_cost + distance_cost
+    return total
+
+# Different combinations!
+cost1 = calculate_shipping(0.5, 5)   # Light + near = cheap
+cost2 = calculate_shipping(3, 30)    # Medium + mid
+cost3 = calculate_shipping(10, 100)  # Heavy + far = expensive
+
+print(f"Cost 1: ₹{cost1}")  # 70
+print(f"Cost 2: ₹{cost2}")  # 150
+print(f"Cost 3: ₹{cost3}")  # 300
+```
+
+**Multiple parameters + multiple decisions = FLEXIBLE function!** 📦
+
+---
+
+## **Boolean Returns: Functions That Answer Yes/No Questions**
+
+Super useful pattern!
+
+```python
+def is_eligible_to_vote(age):
+    if age >= 18:
+        return True
+    else:
+        return False
+
+# Or even simpler:
+def is_eligible_to_vote(age):
+    return age >= 18  # Returns True or False automatically!
+
+# Use it in decisions:
+user_age = 20
+if is_eligible_to_vote(user_age):
+    print("You can vote!")
+else:
+    print("Too young to vote")
+```
+
+**The function DECIDES True/False, then you use that in your if statement!** ✅
+
+---
+
+## **Real Example: Discount Eligibility**
+
+```python
+def is_eligible_for_discount(age, is_student, is_member):
+    if age < 18:
+        return True  # Kids get discount
+    elif age > 60:
+        return True  # Seniors get discount
+    elif is_student:
+        return True  # Students get discount
+    elif is_member:
+        return True  # Members get discount
+    else:
+        return False  # No discount
+
+# Use it:
+person1 = is_eligible_for_discount(25, False, False)  # False
+person2 = is_eligible_for_discount(15, False, False)  # True (kid)
+person3 = is_eligible_for_discount(30, True, False)   # True (student)
+
+if is_eligible_for_discount(25, False, True):
+    print("You get 10% off!")
+else:
+    print("Regular price")
+```
+
+**One function handles ALL discount logic!** 💰
+
+---
+
+## **Early Return Pattern (Pro Technique!)**
+
+Instead of nested if/else, return EARLY when you know the answer:
+
+```python
+# ❌ NESTED (harder to read):
+def check_password(password):
+    if len(password) >= 8:
+        if any(char.isdigit() for char in password):
+            if any(char.isupper() for char in password):
+                return "Strong"
+            else:
+                return "Weak"
+        else:
+            return "Weak"
+    else:
+        return "Weak"
+
+# ✅ EARLY RETURN (cleaner!):
+def check_password(password):
+    if len(password) < 8:
+        return "Too short"
+
+    if not any(char.isdigit() for char in password):
+        return "Needs a number"
+
+    if not any(char.isupper() for char in password):
+        return "Needs uppercase"
+
+    return "Strong"
+```
+
+**As soon as you know the answer, RETURN IT!** No deep nesting! 🎯
+
+---
+
+## **Practical Example: Restaurant Bill with Decisions**
+
+```python
+def calculate_bill(food_cost, day, is_member):
+    # Base cost
+    total = food_cost
+
+    # Weekend surcharge
+    if day == "Saturday" or day == "Sunday":
+        surcharge = food_cost * 0.10
+        total += surcharge
+        print(f"Weekend surcharge: ₹{surcharge:.2f}")
+
+    # Member discount
+    if is_member:
+        discount = total * 0.15
+        total -= discount
+        print(f"Member discount: -₹{discount:.2f}")
+
+    # Delivery fee for small orders
+    if total < 300:
+        delivery = 50
+        total += delivery
+        print(f"Delivery fee: ₹{delivery}")
+    else:
+        print("Free delivery!")
+
+    return total
+
+# Different scenarios:
+bill1 = calculate_bill(250, "Monday", False)
+# Weekend surcharge: 0
+# Member discount: 0
+# Delivery fee: 50
+# Total: 300
+
+bill2 = calculate_bill(500, "Saturday", True)
+# Weekend surcharge: 50
+# Member discount: 82.50
+# Free delivery!
+# Total: 467.50
+```
+
+**Multiple decisions working together!** 🍽️
+
+---
+
+## **Combining Multiple Decision Functions**
+
+Functions can call OTHER functions with decisions!
+
+```python
+def is_weekend(day):
+    if day == "Saturday" or day == "Sunday":
+        return True
+    return False
+
+def is_holiday(date):
+    holidays = ["2025-01-26", "2025-08-15", "2025-10-02"]
+    if date in holidays:
+        return True
+    return False
+
+def calculate_delivery_time(day, date):
+    if is_weekend(day) or is_holiday(date):
+        return "2-3 hours (busy day!)"
+    else:
+        return "45 minutes"
+
+# Use it:
+time1 = calculate_delivery_time("Saturday", "2025-10-26")
+# "2-3 hours (busy day!)"
+
+time2 = calculate_delivery_time("Monday", "2025-01-26")
+# "2-3 hours (busy day!)" (holiday!)
+
+time3 = calculate_delivery_time("Tuesday", "2025-10-27")
+# "45 minutes"
+```
+
+**Functions calling other decision functions = ORGANIZED!** 🏗️
+
+---
+
+## **Validation Functions (Super Useful!)**
+
+Functions that CHECK if something is valid:
+
+```python
+def is_valid_age(age):
+    if age < 0:
+        return False
+    if age > 120:
+        return False
+    return True
+
+def is_valid_email(email):
+    if "@" not in email:
+        return False
+    if "." not in email:
+        return False
+    return True
+
+def is_valid_phone(phone):
+    if len(phone) != 10:
+        return False
+    if not phone.isdigit():
+        return False
+    return True
+
+# Use them to validate input:
+user_age = 25
+if is_valid_age(user_age):
+    print("Age accepted")
+else:
+    print("Invalid age!")
+
+user_email = "liya@example.com"
+if is_valid_email(user_email):
+    print("Email accepted")
+else:
+    print("Invalid email!")
+```
+
+**Validation logic in ONE place, reusable everywhere!** ✅
+
+---
+
+## **Your Game Tracker + Decisions (Upgrade Idea!)**
+
+Let's add decisions to YOUR code:
+
+```python
+players = ["Ahad", "Alice"]
+scores = [0, 0]
+
+def play_round(player_index, points):
+    # DECISION: Bonus for high score!
+    if points >= 20:
+        bonus = 5
+        points += bonus
+        print(f"🎉 Bonus! +{bonus} points for amazing performance!")
+
+    scores[player_index] += points
+    print(f"{players[player_index]} scored {points} points this round!")
+
+def get_winner():
+    # DECISION: Who has higher score?
+    if scores[0] > scores[1]:
+        return players[0]
+    elif scores[1] > scores[0]:
+        return players[1]
+    else:
+        return "It's a tie!"
+
+def show_leaderboard():
+    print("\n📊 Leaderboard:")
+    for i in range(len(players)):
+        print(f"{players[i]}: {scores[i]} points")
+
+    # DECISION: Show winner!
+    winner = get_winner()
+    print(f"\n🏆 Winner: {winner}")
+
+play_round(0, 10)
+play_round(1, 25)  # Gets bonus!
+play_round(0, 15)
+
+show_leaderboard()
+```
+
+**NOW your game has DECISION-MAKING!** 🎮
+
+---
+
+## **Common Patterns (Quick Reference):**
+
+### **Pattern 1: Return different values**
+```python
+def categorize_age(age):
+    if age < 13:
+        return "Child"
+    elif age < 20:
+        return "Teen"
+    else:
+        return "Adult"
+```
+
+### **Pattern 2: Return True/False**
+```python
+def is_valid_score(score):
+    return 0 <= score <= 100
+```
+
+### **Pattern 3: Do different actions**
+```python
+def process_payment(amount, method):
+    if method == "cash":
+        print("Processing cash payment")
+    elif method == "card":
+        print("Processing card payment")
+    else:
+        print("Invalid payment method")
+```
+
+### **Pattern 4: Early returns**
+```python
+def check_eligibility(age, income):
+    if age < 18:
+        return "Too young"
+    if income < 10000:
+        return "Income too low"
+    return "Eligible"
+```
+
+---
+
+## **Real-World Practice: Food Delivery System**
+
+```python
+def calculate_delivery_fee(distance, order_value, is_raining):
+    # DECISION 1: Base fee by distance
+    if distance < 2:
+        base_fee = 0  # Free under 2km
+    elif distance < 5:
+        base_fee = 30
+    elif distance < 10:
+        base_fee = 60
+    else:
+        base_fee = 100
+
+    # DECISION 2: Waive fee for large orders
+    if order_value >= 500:
+        base_fee = 0
+        print("🎁 Free delivery for orders over ₹500!")
+
+    # DECISION 3: Rain surcharge
+    if is_raining:
+        rain_charge = 20
+        base_fee += rain_charge
+        print(f"🌧️ Rain surcharge: ₹{rain_charge}")
+
+    return base_fee
+
+# Different scenarios:
+fee1 = calculate_delivery_fee(3, 200, False)   # 30
+fee2 = calculate_delivery_fee(3, 600, False)   # 0 (free!)
+fee3 = calculate_delivery_fee(3, 200, True)    # 50 (30 + 20)
+```
+
+**Multiple decisions creating smart behavior!** 🚚
+
+---
+
+## **When to Use Decision Functions:**
+
+### ✅ **Use them when:**
+- Same decision logic needed multiple times
+- Decision is complex (multiple conditions)
+- You want clear, readable code
+- Testing decisions separately helps
+
+### ❌ **Don't need them when:**
+- Simple one-time decision
+- Decision is obvious and short
+- Over-engineering simple code
+
+---
+
+## **Mini Practice Challenge:**
+
+Create a function that decides gym membership price:
+
+**Rules:**
+- Base price: ₹1000/month
+- Students get 20% off
+- Seniors (60+) get 30% off
+- Annual payment gets 15% off
+- Can't combine student/senior with annual discount
+
+Try it yourself first!
+
+...
+
+...
+
+**Here's one solution:**
+
+```python
+def calculate_membership(is_student, age, payment_type):
+    base_price = 1000
+
+    # Check for student/senior discount
+    if is_student:
+        discount = 0.20
+        final_price = base_price * (1 - discount)
+        print(f"Student discount applied: 20% off")
+    elif age >= 60:
+        discount = 0.30
+        final_price = base_price * (1 - discount)
+        print(f"Senior discount applied: 30% off")
+    elif payment_type == "annual":
+        discount = 0.15
+        final_price = base_price * (1 - discount)
+        print(f"Annual payment discount: 15% off")
+    else:
+        final_price = base_price
+        print("No discount applied")
+
+    return final_price
+
+# Test it:
+price1 = calculate_membership(True, 20, "monthly")   # 800
+price2 = calculate_membership(False, 65, "monthly")  # 700
+price3 = calculate_membership(False, 30, "annual")   # 850
+```
+
+
+---
+
+## **Common Mistakes with Deciding Functions (And How to Fix Them!):**
+
+### ❌ **Mistake 1: Forgetting to RETURN the result**
+
+```python
+def get_discount(age):
+    if age < 18:
+        discount = 20  # ❌ Calculated but NOT returned!
+    elif age > 60:
+        discount = 30
+    else:
+        discount = 0
+
+result = get_discount(15)
+print(result)  # None! 😱 Where's my discount?!
+```
+
+**Why it's wrong:** You calculated the discount but forgot to RETURN it! The function gives back `None`.
+
+**✅ Fix:**
+```python
+def get_discount(age):
+    if age < 18:
+        discount = 20
+    elif age > 60:
+        discount = 30
+    else:
+        discount = 0
+
+    return discount  # ✅ Send it back!
+
+result = get_discount(15)
+print(result)  # 20 ✅
+```
+
+---
+
+### ❌ **Mistake 2: Not handling ALL possible cases**
+
+```python
+def get_day_type(day):
+    if day == "Saturday":
+        return "Weekend"
+    elif day == "Sunday":
+        return "Weekend"
+    # ❌ What about Monday-Friday?!
+
+result = get_day_type("Monday")
+print(result)  # None! No weekday case!
+```
+
+**Why it's wrong:** You only handled weekends, so weekdays return `None`!
+
+**✅ Fix:**
+```python
+def get_day_type(day):
+    if day == "Saturday" or day == "Sunday":
+        return "Weekend"
+    else:
+        return "Weekday"  # ✅ Handle all other cases!
+
+result = get_day_type("Monday")
+print(result)  # Weekday ✅
+```
+
+---
+
+### ❌ **Mistake 3: Using `print()` instead of `return` for decisions**
+
+```python
+def check_passing_grade(score):
+    if score >= 60:
+        print("Pass")  # ❌ Just printing, not returning!
+    else:
+        print("Fail")
+
+result = check_passing_grade(75)
+# Prints: Pass
+print(result)  # None 😱
+
+if check_passing_grade(75) == "Pass":  # ❌ This won't work!
+    print("Congratulations!")
+```
+
+**Why it's wrong:** You PRINTED "Pass" but didn't RETURN it, so you can't USE the result in other code!
+
+**✅ Fix:**
+```python
+def check_passing_grade(score):
+    if score >= 60:
+        return "Pass"  # ✅ Return it!
+    else:
+        return "Fail"
+
+result = check_passing_grade(75)
+print(result)  # Pass ✅
+
+if check_passing_grade(75) == "Pass":  # ✅ Now it works!
+    print("Congratulations!")
+```
+
+---
+
+### ❌ **Mistake 4: Multiple returns without covering all paths**
+
+```python
+def categorize_temperature(temp):
+    if temp > 30:
+        return "Hot"
+    elif temp > 20:
+        return "Warm"
+    elif temp > 10:
+        return "Cool"
+    # ❌ What if temp is 5? No return statement!
+
+result = categorize_temperature(5)
+print(result)  # None!
+```
+
+**Why it's wrong:** If temperature is 10 or below, no return statement runs!
+
+**✅ Fix:**
+```python
+def categorize_temperature(temp):
+    if temp > 30:
+        return "Hot"
+    elif temp > 20:
+        return "Warm"
+    elif temp > 10:
+        return "Cool"
+    else:
+        return "Cold"  # ✅ Always have a final else/return!
+
+result = categorize_temperature(5)
+print(result)  # Cold ✅
+```
+
+---
+
+### ❌ **Mistake 5: Wrong condition order (broad conditions first)**
+
+```python
+def get_price(age):
+    if age > 0:  # ❌ This catches EVERYONE!
+        return 100  # Regular price
+    elif age < 12:  # This NEVER runs! 😱
+        return 50   # Child price
+    elif age > 60:  # This NEVER runs either!
+        return 70   # Senior price
+
+print(get_price(8))   # 100 (should be 50!)
+print(get_price(65))  # 100 (should be 70!)
+```
+
+**Why it's wrong:** The first condition (`age > 0`) catches ALL positive ages, so the child and senior conditions NEVER execute!
+
+**✅ Fix:**
+```python
+def get_price(age):
+    if age < 12:      # ✅ Specific conditions FIRST!
+        return 50     # Child price
+    elif age > 60:    # ✅ Next specific condition
+        return 70     # Senior price
+    else:             # ✅ General case LAST
+        return 100    # Regular price
+
+print(get_price(8))   # 50 ✅
+print(get_price(65))  # 70 ✅
+print(get_price(30))  # 100 ✅
+```
+
+**Rule:** Put MORE SPECIFIC conditions BEFORE general ones!
+
+---
+
+### ❌ **Mistake 6: Comparing wrong data types**
+
+```python
+def check_age(age):
+    if age == "18":  # ❌ Comparing number to string!
+        return "Exactly 18"
+    elif age >= 18:
+        return "Adult"
+    else:
+        return "Minor"
+
+result = check_age(18)  # age is a NUMBER
+print(result)  # "Adult" (the first condition failed!)
+```
+
+**Why it's wrong:** You're comparing number `18` with string `"18"` - they're NOT equal!
+
+**✅ Fix:**
+```python
+def check_age(age):
+    if age == 18:  # ✅ Compare number to number
+        return "Exactly 18"
+    elif age >= 18:
+        return "Adult"
+    else:
+        return "Minor"
+
+result = check_age(18)
+print(result)  # Exactly 18 ✅
+```
+
+---
+
+### ❌ **Mistake 7: Not validating input**
+
+```python
+def calculate_discount(price):
+    if price > 1000:
+        discount = price * 0.20
+        return discount
+    else:
+        return 0
+
+result = calculate_discount(-500)  # ❌ Negative price?!
+print(result)  # 0 (but should error or warn!)
+```
+
+**Why it's wrong:** Function accepts invalid input (negative price) without checking!
+
+**✅ Fix:**
+```python
+def calculate_discount(price):
+    # ✅ Validate input first!
+    if price < 0:
+        return "Error: Price cannot be negative"
+
+    if price > 1000:
+        discount = price * 0.20
+        return discount
+    else:
+        return 0
+
+result = calculate_discount(-500)
+print(result)  # Error: Price cannot be negative ✅
+```
+
+---
+
+### ❌ **Mistake 8: Overly complex nested conditions**
+
+```python
+def check_eligibility(age, income, has_license):
+    if age >= 18:
+        if income >= 20000:
+            if has_license:
+                return "Eligible"  # ❌ Too much nesting!
+            else:
+                return "Need license"
+        else:
+            return "Income too low"
+    else:
+        return "Too young"
+```
+
+**Why it's wrong:** Deep nesting is hard to read and understand!
+
+**✅ Fix (Early Returns):**
+```python
+def check_eligibility(age, income, has_license):
+    # ✅ Check fail conditions early and return!
+    if age < 18:
+        return "Too young"
+
+    if income < 20000:
+        return "Income too low"
+
+    if not has_license:
+        return "Need license"
+
+    return "Eligible"  # ✅ Flat, easy to read!
+```
+
+**Much cleaner!** No deep nesting!
+
+---
+
+### ❌ **Mistake 9: Using assignment (=) instead of comparison (==)**
+
+```python
+def check_status(status):
+    if status = "active":  # ❌ ASSIGNMENT, not comparison!
+        return "User is active"
+
+# SyntaxError! Can't use = in if statement
+```
+
+**Why it's wrong:** `=` assigns a value, `==` compares values!
+
+**✅ Fix:**
+```python
+def check_status(status):
+    if status == "active":  # ✅ Use == for comparison!
+        return "User is active"
+    else:
+        return "User is inactive"
+```
+
+**Remember:**
+- `=` is ASSIGNMENT: `x = 5` (set x to 5)
+- `==` is COMPARISON: `x == 5` (check if x equals 5)
+
+---
+
+### ❌ **Mistake 10: Not returning anything in some branches**
+
+```python
+def get_shipping_method(speed):
+    if speed == "express":
+        return "Same day delivery"
+    elif speed == "standard":
+        # ❌ Forgot to return here!
+        shipping = "3-5 days"
+    else:
+        return "7-10 days"
+
+result = get_shipping_method("standard")
+print(result)  # None! 😱
+```
+
+**Why it's wrong:** You calculated `shipping` but didn't return it in the `elif` branch!
+
+**✅ Fix:**
+```python
+def get_shipping_method(speed):
+    if speed == "express":
+        return "Same day delivery"
+    elif speed == "standard":
+        return "3-5 days"  # ✅ Return it!
+    else:
+        return "7-10 days"
+
+result = get_shipping_method("standard")
+print(result)  # 3-5 days ✅
+```
+
+---
+
+### ❌ **Mistake 11: Logic errors (wrong operators)**
+
+```python
+def check_range(number):
+    # Want: number between 10 and 20
+    if number > 10 and number < 20:  # ❌ Excludes 10 and 20!
+        return "In range"
+    else:
+        return "Out of range"
+
+print(check_range(10))  # Out of range (but 10 should be in!)
+print(check_range(20))  # Out of range (but 20 should be in!)
+```
+
+**Why it's wrong:** Used `>` and `<` instead of `>=` and `<=`!
+
+**✅ Fix:**
+```python
+def check_range(number):
+    if number >= 10 and number <= 20:  # ✅ Includes 10 and 20!
+        return "In range"
+    else:
+        return "Out of range"
+
+# Or even simpler:
+def check_range(number):
+    if 10 <= number <= 20:  # ✅ Python allows this!
+        return "In range"
+    else:
+        return "Out of range"
+
+print(check_range(10))  # In range ✅
+print(check_range(20))  # In range ✅
+```
+
+---
+
+### ❌ **Mistake 12: Forgetting boolean logic shortcuts**
+
+```python
+def is_teenager(age):
+    if age >= 13 and age <= 19:
+        return True  # ❌ Unnecessarily long!
+    else:
+        return False
+
+# Or even worse:
+def is_adult(age):
+    if age >= 18:
+        return True
+    else:
+        return False
+```
+
+**Why it's not ideal:** Too verbose when you can return the condition directly!
+
+**✅ Fix:**
+```python
+def is_teenager(age):
+    return 13 <= age <= 19  # ✅ Returns True or False directly!
+
+def is_adult(age):
+    return age >= 18  # ✅ Much cleaner!
+
+print(is_teenager(15))  # True ✅
+print(is_adult(20))     # True ✅
+```
+
+**The condition ITSELF evaluates to True/False, so just return it!**
+
+---
+
+## **Quick Debugging Tips:**
+
+### **When your function isn't working:**
+
+1. **Print what you're checking:**
+```python
+def check_price(price):
+    print(f"Checking price: {price}")  # Debug!
+    if price > 100:
+        return "Expensive"
+    return "Affordable"
+```
+
+2. **Check what you're returning:**
+```python
+def calculate(x):
+    result = x * 2
+    print(f"Returning: {result}")  # See what's being returned!
+    return result
+```
+
+3. **Test each condition separately:**
+```python
+def complex_check(a, b, c):
+    print(f"a > 10: {a > 10}")
+    print(f"b < 20: {b < 20}")
+    print(f"c == 5: {c == 5}")
+
+    if a > 10 and b < 20 and c == 5:
+        return "All conditions met"
+```
+
+---
+
+## **Summary of Common Mistakes:**
+
+| Mistake | Fix |
+|---------|-----|
+| Forgot to return | Always return the result! |
+| Missing else case | Handle ALL possible inputs |
+| Print instead of return | Return for reusability |
+| Wrong condition order | Specific conditions first, general last |
+| Wrong data type comparison | Compare same types (number to number) |
+| No input validation | Check for invalid input first |
+| Deep nesting | Use early returns |
+| `=` instead of `==` | Use `==` for comparison |
+| Missing return in branch | Every branch should return something |
+| Wrong operators (`>` vs `>=`) | Think about edge cases (10, 20, etc.) |
+| Verbose boolean returns | Return condition directly |
+
+
+---
+
+## **Summary (Key Takeaways):**
+
+### **What is "Deciding with Functions"?**
+Putting if/else decision logic INSIDE functions to make reusable decision-makers
+
+### **Common Patterns:**
+1. **Return different values** based on conditions
+2. **Return True/False** for yes/no questions
+3. **Do different actions** based on conditions
+4. **Early returns** for cleaner code
+
+### **Why It's Powerful:**
+- ✅ Reusable decision logic
+- ✅ Easier to test and debug
+- ✅ Clearer, more readable code
+- ✅ Change logic in ONE place
+
+### **Best Practices:**
+- Use early returns to avoid deep nesting
+- Name functions to describe what they decide
+- Keep decision logic simple and clear
+- Combine multiple decision functions for complex behavior
+
+---
+
+---

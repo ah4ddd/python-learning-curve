@@ -1,33 +1,37 @@
-players = ["Ahad", "Alice"]
-scores = [0, 0]
+def recommend_art_movie(mood, genre):
 
-def play_round(player_index, points):
-    if points >= 20:
-        bonus = 5
-        points += bonus
-        print(f"🎉 Bonus! +{bonus} points for amazing performance!")
+    if mood == "reflective":
+        if genre == "drama":
+            return "The Seventh Seal (1957)"
+        elif genre == "psychological":
+            return "Persona (1966)"
+        elif genre == "experimental":
+            return "Eraserhead (1977)"
+        else:
+            return "Wings of Desire (1987)"
 
-    scores[player_index] += points
-    print(f"{players[player_index]} scored {points} points this round!")
+    elif mood == "curious":
+        if genre == "documentary":
+            return "Baraka (1992)"
+        elif genre == "surreal":
+            return "Stalker (1979)"
+        elif genre == "drama":
+            return "Tokyo Story (1953)"
+        else:
+            return "Andrei Rublev (1966)"
 
-def get_winner():
-    if scores[0] > scores[1]:
-        return players[0]
-    elif scores[1] > scores[0]:
-        return players[1]
+    elif mood == "dreamy":
+        if genre == "fantasy":
+            return "Pan's Labyrinth (2006)"
+        elif genre == "animation":
+            return "Spirited Away (2013)"
+        else:
+            return "The Holy Mountain (1973)"
     else:
-        return "It's a tie!"
+        return "8½ (1963)"
 
-def show_leaderboard():
-    print("\n📊 Leaderboard:")
-    for i in range(len(players)):
-        print(f"{players[i]}: {scores[i]} points")
+my_mood = input("Your mood (reflective/curious/dreamy/other): ")
+my_genre = input("Preferred genre (drama/psychological/experimental/documentary/surreal/fantasy/animation): ")
 
-    winner = get_winner()
-    print(f"\n🏆 Winner: {winner}")
-
-play_round(0, 10)
-play_round(1, 25)
-play_round(0, 15)
-
-show_leaderboard()
+movie_choice = recommend_art_movie(my_mood, my_genre)
+print("\nArt film recommendation for you:", movie_choice)
