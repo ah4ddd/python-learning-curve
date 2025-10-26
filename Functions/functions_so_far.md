@@ -5234,3 +5234,767 @@ Functions that take lists as input, process them, modify them, or return new lis
 
 ---
 
+## **Topic 9: Functions with Loops**
+
+---
+
+### **What Does "Functions with Loops" Actually Mean?**
+
+Okay, so you already know:
+- **Functions:** Reusable blocks of code
+- **Loops:** Repeating actions (for, while)
+- **Functions with lists:** Processing collections of data
+
+**Functions with Loops = Putting loops INSIDE functions to do repetitive work automatically!**
+
+**Simple definition:** Using loops inside functions so the function can repeat tasks, process multiple items, or keep doing something until a condition is met.
+
+---
+
+## **Why Would You Put Loops Inside Functions?**
+
+**Real-world thinking:**
+
+Imagine you're a chef making pizzas 🍕:
+
+**Without a loop in your function:**
+```python
+def make_one_pizza():
+    print("Making 1 pizza...")
+    # Make pizza
+
+# Want 5 pizzas? Call it 5 times!
+make_one_pizza()
+make_one_pizza()
+make_one_pizza()
+make_one_pizza()
+make_one_pizza()
+```
+
+**ANNOYING!** 😤
+
+**With a loop inside the function:**
+```python
+def make_pizzas(count):
+    for i in range(count):
+        print(f"Making pizza #{i+1}...")
+        # Make pizza
+    print(f"Done! Made {count} pizzas!")
+
+# Want 5 pizzas? Just say so!
+make_pizzas(5)
+```
+
+**WAY BETTER!** The loop does the repetition FOR you! 🎯
+
+---
+
+## **The Core Idea (This is Important!):**
+
+**Loops inside functions let the function:**
+1. Process multiple things automatically
+2. Repeat an action a certain number of times
+3. Keep going until a condition is met
+4. Search through data
+5. Build up results step by step
+
+**It's about AUTOMATION—the function does the repetitive work so YOU don't have to!** 🤖
+
+---
+
+## **Pattern 1: For Loop Inside Function (Fixed Number of Times)**
+
+**Scenario:** You want to repeat something a specific number of times.
+
+Let's say you're greeting multiple people:
+
+**Step-by-step explanation:**
+
+```python
+def greet_multiple_people(count):
+```
+This creates a function that needs ONE piece of information: how many people to greet (`count`).
+
+```python
+    for i in range(count):
+```
+This loop will run `count` times. If `count` is 3, it runs 3 times. If `count` is 100, it runs 100 times.
+
+```python
+        print(f"Hello person #{i+1}!")
+```
+Each time the loop runs, it prints a greeting. The `i+1` makes it start counting from 1 instead of 0 (more natural for humans).
+
+**Complete function:**
+```python
+def greet_multiple_people(count):
+    for i in range(count):
+        print(f"Hello person #{i+1}!")
+
+# Use it:
+greet_multiple_people(3)
+```
+
+**Output:**
+```
+Hello person #1!
+Hello person #2!
+Hello person #3!
+```
+
+**What happened:**
+1. You called the function with `3`
+2. The loop ran 3 times
+3. Each time, it printed a greeting with a different number
+
+**The loop is HIDDEN inside the function—users don't see it, they just get the results!** 📦
+
+---
+
+## **Real Example: Print a Receipt**
+
+Let's say you want to print stars for decoration:
+
+```python
+def print_stars(number_of_stars):
+```
+Function that takes ONE parameter: how many stars to print.
+
+```python
+    for i in range(number_of_stars):
+```
+Loop that will run `number_of_stars` times.
+
+```python
+        print("⭐", end="")
+```
+Each loop prints ONE star. The `end=""` makes them print on the same line instead of new lines.
+
+```python
+    print()  # New line after all stars
+```
+After the loop finishes, print a new line so the next thing doesn't appear on the same line.
+
+**Complete function:**
+```python
+def print_stars(number_of_stars):
+    for i in range(number_of_stars):
+        print("⭐", end="")
+    print()  # New line after
+
+# Use it:
+print("Receipt Border:")
+print_stars(10)
+print("Item: Pizza")
+print_stars(10)
+```
+
+**Output:**
+```
+Receipt Border:
+⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐
+Item: Pizza
+⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐
+```
+
+**The loop inside the function repeated the printing action 10 times!** ✨
+
+---
+
+## **Pattern 2: For Loop with a List Inside Function**
+
+**Scenario:** You have a list, and you want to do something with EACH item.
+
+Let's say you want to print all items in a shopping list:
+
+**Step-by-step:**
+
+```python
+def show_shopping_list(items):
+```
+Function receives a LIST of items.
+
+```python
+    print("🛒 Shopping List:")
+    print("-" * 30)
+```
+Print a header before showing items.
+
+```python
+    for item in items:
+```
+This loop goes through EACH item in the list, ONE BY ONE. First loop: `item` = first thing in list. Second loop: `item` = second thing. And so on.
+
+```python
+        print(f"  • {item}")
+```
+Each loop, print the current item with a bullet point.
+
+**Complete function:**
+```python
+def show_shopping_list(items):
+    print("🛒 Shopping List:")
+    print("-" * 30)
+    for item in items:
+        print(f"  • {item}")
+    print("-" * 30)
+
+# Use it:
+my_list = ["Milk", "Bread", "Eggs", "Butter"]
+show_shopping_list(my_list)
+```
+
+**Output:**
+```
+🛒 Shopping List:
+------------------------------
+  • Milk
+  • Bread
+  • Eggs
+  • Butter
+------------------------------
+```
+
+**What happened:**
+1. Function received the list
+2. Loop went through each item
+3. Printed each one with formatting
+
+**The loop automated processing all items in the list!** 📋
+
+---
+
+## **Pattern 3: Building Up a Result with a Loop**
+
+**Scenario:** You want to CALCULATE something by going through items.
+
+Let's calculate the total cost of items:
+
+**Step-by-step explanation:**
+
+```python
+def calculate_total_cost(prices):
+```
+Function receives a LIST of prices (numbers).
+
+```python
+    total = 0
+```
+Create a variable to STORE the running total. Start at 0 because we haven't added anything yet.
+
+```python
+    for price in prices:
+```
+Loop through EACH price in the list, one at a time.
+
+```python
+        total = total + price
+```
+**THIS IS KEY!** Each loop:
+- Take the current `total`
+- Add the current `price` to it
+- Store the NEW total back in `total`
+
+So if prices are [10, 20, 30]:
+- Loop 1: `total = 0 + 10` → `total` is now 10
+- Loop 2: `total = 10 + 20` → `total` is now 30
+- Loop 3: `total = 30 + 30` → `total` is now 60
+
+```python
+    return total
+```
+After the loop finishes (all prices added), RETURN the final total.
+
+**Complete function:**
+```python
+def calculate_total_cost(prices):
+    total = 0
+    for price in prices:
+        total = total + price
+    return total
+
+# Use it:
+cart_prices = [100, 250, 75, 300]
+total = calculate_total_cost(cart_prices)
+print(f"Total: ₹{total}")  # Total: ₹725
+```
+
+**What happened:**
+1. Started with total = 0
+2. Loop added each price to the total
+3. Returned the final sum
+
+**The loop ACCUMULATED the result step by step!** 💰
+
+---
+
+## **Pattern 4: Searching with a Loop**
+
+**Scenario:** Find if something EXISTS in a list.
+
+Let's check if a movie is in your watchlist:
+
+**Step-by-step:**
+
+```python
+def is_movie_in_watchlist(watchlist, movie_title):
+```
+Function needs TWO things: the list to search, and what to search for.
+
+```python
+    for movie in watchlist:
+```
+Loop through EACH movie in the list.
+
+```python
+        if movie == movie_title:
+```
+Check: Is THIS movie the one we're looking for?
+
+```python
+            return True
+```
+**IMPORTANT!** If we FIND it, immediately return `True` and STOP the function. No need to keep searching!
+
+```python
+    return False
+```
+**This line only runs if the loop finishes WITHOUT finding the movie!** If we get here, it means we checked every movie and didn't find it, so return `False`.
+
+**Complete function:**
+```python
+def is_movie_in_watchlist(watchlist, movie_title):
+    for movie in watchlist:
+        if movie == movie_title:
+            return True  # Found it! Stop immediately!
+    return False  # Checked all, didn't find it
+
+# Use it:
+my_watchlist = ["Stalker", "Persona", "8½", "Eraserhead"]
+
+if is_movie_in_watchlist(my_watchlist, "Persona"):
+    print("Already in your watchlist!")
+else:
+    print("Not in watchlist, adding it!")
+```
+
+**What happened:**
+1. Loop checked each movie
+2. When it found "Persona", immediately returned `True`
+3. Didn't waste time checking the rest
+
+**The loop SEARCHED until it found what it needed!** 🔍
+
+---
+
+## **Pattern 5: Counting with a Loop**
+
+**Scenario:** Count how many items meet a condition.
+
+Let's count how many expensive items are in a list:
+
+**Step-by-step:**
+
+```python
+def count_expensive_items(prices, threshold):
+```
+Function needs: list of prices, and what counts as "expensive" (the threshold).
+
+```python
+    count = 0
+```
+Start a counter at 0.
+
+```python
+    for price in prices:
+```
+Loop through each price.
+
+```python
+        if price > threshold:
+```
+Check: Is THIS price above the threshold?
+
+```python
+            count = count + 1
+```
+If yes, increase the counter by 1. (`count = count + 1` means "take current count, add 1, store back in count")
+
+```python
+    return count
+```
+After checking all prices, return how many were expensive.
+
+**Complete function:**
+```python
+def count_expensive_items(prices, threshold):
+    count = 0
+    for price in prices:
+        if price > threshold:
+            count = count + 1
+    return count
+
+# Use it:
+item_prices = [100, 250, 75, 500, 150, 600]
+expensive = count_expensive_items(item_prices, 200)
+
+print(f"Items over ₹200: {expensive}")  # 3 items
+```
+
+**What happened:**
+1. Counter started at 0
+2. Loop checked each price
+3. Each time price > 200, counter increased
+4. Returned final count
+
+**The loop COUNTED items that matched our criteria!** 🔢
+
+---
+
+## **Pattern 6: While Loop Inside Function (Until Condition)**
+
+**For loops** are for "do this N times" or "do this for each item."
+
+**While loops** are for "keep doing this UNTIL something happens."
+
+Let's create a function that keeps asking until you give a valid answer:
+
+**Step-by-step:**
+
+```python
+def get_valid_age():
+```
+Function that will keep asking for age until it's valid. No parameters needed—it handles input internally.
+
+```python
+    while True:
+```
+**This creates an INFINITE loop!** It will keep running FOREVER... unless we break out of it!
+
+```python
+        age = int(input("Enter your age: "))
+```
+Ask user for age.
+
+```python
+        if age >= 0 and age <= 120:
+```
+Check: Is the age reasonable? (Between 0 and 120)
+
+```python
+            return age
+```
+**If valid, RETURN it immediately!** This BREAKS out of the while loop and ends the function!
+
+```python
+        else:
+            print("Invalid age! Try again.")
+```
+If NOT valid, print error message. The loop continues (goes back to asking again).
+
+**Complete function:**
+```python
+def get_valid_age():
+    while True:
+        age = int(input("Enter your age: "))
+        if age >= 0 and age <= 120:
+            return age  # Valid! Return and exit loop
+        else:
+            print("Invalid age! Try again.")
+
+# Use it:
+user_age = get_valid_age()
+print(f"Thanks! Your age is {user_age}")
+```
+
+**What happens when you run it:**
+```
+Enter your age: 200
+Invalid age! Try again.
+Enter your age: -5
+Invalid age! Try again.
+Enter your age: 25
+Thanks! Your age is 25
+```
+
+**The while loop kept repeating UNTIL the user gave valid input!** 🔁
+
+---
+
+## **Your Art Gallery + Loops (Explained!):**
+
+Let's break down YOUR code to understand the loops:
+
+```python
+def display_artworks(collection):
+```
+Function that shows all artworks.
+
+```python
+    print("\n🖼️ Current Gallery Collection:")
+```
+Print header.
+
+```python
+    for art in collection:
+```
+**LOOP:** Go through EACH artwork in the collection list. Each artwork is itself a list `[title, artist, price]`.
+
+```python
+        print(f" - '{art[0]}' by {art[1]} (${art[2]})")
+```
+**Each loop:** Print the current artwork's details. `art[0]` is title, `art[1]` is artist, `art[2]` is price.
+
+**The loop displays EVERY artwork automatically!** 🎨
+
+---
+
+```python
+def remove_artwork(collection, title):
+```
+Function to remove an artwork by title.
+
+```python
+    for art in collection:
+```
+**LOOP:** Check EACH artwork.
+
+```python
+        if art[0].lower() == title.lower():
+```
+**Check:** Does THIS artwork's title match what we're looking for? (`.lower()` makes it case-insensitive)
+
+```python
+            collection.remove(art)
+            print(f"🗑 Removed '{title}' (sold!)")
+            return
+```
+**If found:** Remove it, print message, and IMMEDIATELY exit function (return stops the loop).
+
+```python
+    print(f"⚠️ Artwork '{title}' not found.")
+```
+**Only runs if loop finishes WITHOUT finding it!** This means we checked all artworks and none matched.
+
+**The loop SEARCHED for the artwork to remove!** 🗑️
+
+---
+
+## **Real-World Example: Restaurant Order System**
+
+Let me show you a complete example with multiple functions using loops:
+
+```python
+def show_menu_items(menu_items):
+    """Display all menu items with numbers"""
+    print("\n🍽️ MENU:")
+    print("-" * 40)
+
+    # Loop through items with index
+    for i in range(len(menu_items)):
+        item_name = menu_items[i][0]
+        item_price = menu_items[i][1]
+        print(f"  {i+1}. {item_name} - ₹{item_price}")
+
+    print("-" * 40)
+
+def calculate_order_total(order_items):
+    """Add up all prices in order"""
+    total = 0
+
+    # Loop to add each price
+    for item in order_items:
+        price = item[1]  # Price is second element
+        total = total + price
+
+    return total
+
+def print_receipt(order_items):
+    """Show detailed receipt"""
+    print("\n📄 YOUR RECEIPT:")
+    print("=" * 40)
+
+    # Loop to show each item
+    for item in order_items:
+        name = item[0]
+        price = item[1]
+        print(f"  {name:<25} ₹{price:>10}")
+
+    print("-" * 40)
+
+    # Calculate and show total
+    total = calculate_order_total(order_items)
+    print(f"  {'TOTAL':<25} ₹{total:>10}")
+    print("=" * 40)
+
+# Menu (list of lists: [name, price])
+menu = [
+    ["Margherita Pizza", 299],
+    ["Pasta Carbonara", 249],
+    ["Caesar Salad", 199],
+    ["Garlic Bread", 99]
+]
+
+# Customer's order
+customer_order = [
+    ["Margherita Pizza", 299],
+    ["Garlic Bread", 99],
+    ["Pasta Carbonara", 249]
+]
+
+# Use the functions:
+show_menu_items(menu)
+print_receipt(customer_order)
+```
+
+**Each function uses loops to handle MULTIPLE items automatically!** 🍕
+
+---
+
+## **Common Mistakes with Functions and Loops:**
+
+### ❌ **Mistake 1: Infinite loop (forgetting to break/return)**
+
+```python
+def keep_asking():
+    while True:
+        answer = input("Say 'stop': ")
+        # ❌ Forgot to check and break!
+        # This runs FOREVER!
+
+# This function NEVER ends!
+```
+
+**✅ Fix:**
+```python
+def keep_asking():
+    while True:
+        answer = input("Say 'stop': ")
+        if answer == "stop":
+            break  # Exit the loop!
+    print("Thanks!")
+```
+
+---
+
+### ❌ **Mistake 2: Not initializing accumulator before loop**
+
+```python
+def sum_numbers(numbers):
+    # ❌ Forgot to create 'total' variable!
+    for num in numbers:
+        total = total + num  # Error! 'total' doesn't exist!
+    return total
+```
+
+**✅ Fix:**
+```python
+def sum_numbers(numbers):
+    total = 0  # ✅ Initialize BEFORE loop!
+    for num in numbers:
+        total = total + num
+    return total
+```
+
+---
+
+### ❌ **Mistake 3: Wrong indentation (return inside loop)**
+
+```python
+def find_first_positive(numbers):
+    for num in numbers:
+        if num > 0:
+            return num  # ✅ This is correct!
+    return None  # ✅ This is OUTSIDE loop
+
+# vs.
+
+def find_all_positives(numbers):
+    positives = []
+    for num in numbers:
+        if num > 0:
+            positives.append(num)
+        return positives  # ❌ WRONG! Returns after FIRST iteration!
+
+# Should be:
+def find_all_positives(numbers):
+    positives = []
+    for num in numbers:
+        if num > 0:
+            positives.append(num)
+    return positives  # ✅ OUTSIDE loop, after all checked
+```
+
+**Where you put `return` matters!**
+
+---
+
+### ❌ **Mistake 4: Modifying list while looping (we covered this but it's important!)**
+
+```python
+def remove_negatives(numbers):
+    for num in numbers:
+        if num < 0:
+            numbers.remove(num)  # ❌ BAD! Causes skips!
+```
+
+**✅ Fix:**
+```python
+def remove_negatives(numbers):
+    cleaned = []
+    for num in numbers:
+        if num >= 0:  # Keep only positives
+            cleaned.append(num)
+    return cleaned
+```
+
+---
+
+### ❌ **Mistake 5: Loop counter starting wrong**
+
+```python
+def show_numbered_list(items):
+    for i in range(len(items)):
+        print(f"{i}. {items[i]}")  # ❌ Starts at 0
+
+# Output: 0. First, 1. Second, 2. Third
+```
+
+**✅ Fix:**
+```python
+def show_numbered_list(items):
+    for i in range(len(items)):
+        print(f"{i+1}. {items[i]}")  # ✅ Add 1 to start from 1
+
+# Output: 1. First, 2. Second, 3. Third
+```
+
+---
+
+## **Summary (Key Takeaways):**
+
+### **What Are Functions with Loops?**
+Putting loops INSIDE functions to automate repetitive tasks
+
+### **Why Use Them?**
+- Process multiple items automatically
+- Repeat actions a specific number of times
+- Search through data
+- Build up results step by step
+- Keep trying until condition is met
+
+### **Common Patterns:**
+1. **For loop with range:** Repeat N times
+2. **For loop with list:** Process each item
+3. **Accumulator loop:** Build up a result (sum, count, etc.)
+4. **Search loop:** Find something and return early
+5. **While loop:** Keep going until condition met
+
+### **Key Rules:**
+- ✅ Initialize variables BEFORE loops (like `total = 0`)
+- ✅ Return INSIDE loop only when found what you need
+- ✅ Return OUTSIDE loop for final results
+- ✅ Be careful with while loops (make sure they can exit!)
+- ✅ Don't modify lists while looping through them
+
+---
