@@ -1,60 +1,27 @@
-def show_menu_items(menu_items):
-    """Display all menu items with numbers"""
-    print("\n🍽️ MENU:")
-    print("-" * 40)
+habits = ["Exercise", "Read", "Meditate", "Study Python"]
+days = 7
 
-    # Loop through items with index
-    for i in range(len(menu_items)):
-        item_name = menu_items[i][0]
-        item_price = menu_items[i][1]
-        print(f"  {i+1}. {item_name} - ₹{item_price}")
+def track_habit(habit, days):
+    completion = []
+    for day in range(1, days+1):
+        done = input(f"Did you do {habit} on day {day}? (y/n): ").lower()
+        if done == "y":
+            completion.append(1)
+        else:
+            completion.append(0)
+    return completion
 
-    print("-" * 40)
+all_habits_completion = []
 
-def calculate_order_total(order_items):
-    """Add up all prices in order"""
-    total = 0
+for habit in habits:
+    result = track_habit(habit, days)
+    all_habits_completion.append(result)
 
-    # Loop to add each price
-    for item in order_items:
-        price = item[1]  # Price is second element
-        total = total + price
+def analyze_habits(habits, completion_lists):
+    for i, habit in enumerate(habits):
+        total_done = sum(completion_lists[i])
+        percentage = (total_done / len(completion_lists[i])) * 100
+        print(f"{habit}: Done {total_done}/{len(completion_lists[i])} days ({percentage:.2f}%)")
 
-    return total
-
-def print_receipt(order_items):
-    """Show detailed receipt"""
-    print("\n📄 YOUR RECEIPT:")
-    print("=" * 40)
-
-    # Loop to show each item
-    for item in order_items:
-        name = item[0]
-        price = item[1]
-        print(f"  {name:<25} ₹{price:>10}")
-
-    print("-" * 40)
-
-    # Calculate and show total
-    total = calculate_order_total(order_items)
-    print(f"  {'TOTAL':<25} ₹{total:>10}")
-    print("=" * 40)
-
-# Menu (list of lists: [name, price])
-menu = [
-    ["Margherita Pizza", 299],
-    ["Pasta Carbonara", 249],
-    ["Caesar Salad", 199],
-    ["Garlic Bread", 99]
-]
-
-# Customer's order
-customer_order = [
-    ["Margherita Pizza", 299],
-    ["Garlic Bread", 99],
-    ["Pasta Carbonara", 249]
-]
-
-# Use the functions:
-show_menu_items(menu)
-print_receipt(customer_order)
+print("\n--- Weekly Habit Summary ---")
+analyze_habits(habits, all_habits_completion)
