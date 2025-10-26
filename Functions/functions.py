@@ -1,32 +1,36 @@
-def check_temperature(temp):
-    if temp > 30:
-        print("It's hot outside! 🥵")
-    elif temp >= 20:
-        print("Nice and warm ☀️")
-    else:
-        print("It's cold! 🥶")
+def add_item(cart, item, price):
+    cart.append({"item": item, "price": price})
+    print(f"✅ Added {item} for ₹{price}")
 
-check_temperature(3)
+def calculate_cart_total(cart):
+    total = 0
+    for item in cart:
+        total += item["price"]
+    return total
 
-def grade_student(score):
-    if score >= 90:
-        return "A"
-    elif score >= 75:
-        return "B"
-    elif score >= 50:
-        return "C"
-    else:
-        return "F"
+def apply_cart_discount(cart, discount_percent):
+    for item in cart:
+        original = item["price"]
+        item["price"] = original * (1 - discount_percent/100)
+    print(f"💰 {discount_percent}% discount applied!")
 
-result = grade_student(35)
-print(f"your result is {result} dogshit")
+def show_cart(cart):
+    print("\n🛒 Your Cart:")
+    print("-" * 40)
+    for item in cart:
+        print(f"  {item['item']:<20} ₹{item['price']:.2f}")
+    print("-" * 40)
+    total = calculate_cart_total(cart)
+    print(f"  Total: ₹{total:.2f}\n")
 
-def can_vote(age, citizen):
-    if age >= 18 and citizen == True:
-        print("You can vote! 🗳️")
-    elif age < 18:
-        print("Too young to vote.")
-    else:
-        print("You’re not a citizen, sorry!")
+my_cart = []
 
-can_vote(20,False)
+add_item(my_cart, "Laptop", 50000)
+add_item(my_cart, "Mouse", 500)
+add_item(my_cart, "Keyboard", 1500)
+
+show_cart(my_cart)
+
+apply_cart_discount(my_cart, 10)
+
+show_cart(my_cart)
