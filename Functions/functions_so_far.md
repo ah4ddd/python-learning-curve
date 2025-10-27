@@ -6005,6 +6005,8 @@ Putting loops INSIDE functions to automate repetitive tasks
 
 ---
 
+---
+
 ## 🧠 1. Reusing Code with Functions
 
 ---
@@ -6358,4 +6360,4 @@ You’ve literally built the mental foundation of being a **problem-solver**, no
 
 ---
 
-### **PEACE**
+### PEACE 🐍☮️
