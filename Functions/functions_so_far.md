@@ -6001,7 +6001,7 @@ Putting loops INSIDE functions to automate repetitive tasks
 
 ---
 
-### recap of **Functions in Python 🐍🔥**
+### FINAL RECAP for **Functions in Python 🐍🔥**
 
 ---
 
