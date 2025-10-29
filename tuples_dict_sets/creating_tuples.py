@@ -1,26 +1,35 @@
-menu =[
-    ("burger", 120),
-    ("Pizza", 250),
-    ("Pasta", 150),
-    ("Fries", 100),
-    ("Coke", 70)
-]
+songs = ("Creep", "Smells Like Teen Spirit", "Paranoid", "Fade to Black", "Karma Police")
+print(songs)
 
-print (" Welcome to python Cafe")
-print("Here is our Menu:\n")
+print("My first favorite song is:", songs[0])
+print("My last favorite song is:", songs[-1])
 
-for item in menu:
-    print(f"{item[0]} - {item[1]}")
+print("\n🎵 My Favorite Songs:")
+for song in songs:
+    print("-", song)
 
-order = input("\nWhat'd you like to order? ")
+if "Paranoid" in songs:
+    print("\n✅ Paranoid is one of my favorite songs!")
+else:
+    print("\n❌ Not in the list.")
 
-found = False
-for item in menu:
-    if order.lower() == item[0].lower():
-        print(f"\nYou ordered {item[0]} — that will be ₹{item[1]}.")
-        found = True
-        break
+playlist = (
+    ("Creep", "Radiohead"),
+    ("Smells Like Teen Spirit", "Nirvana"),
+    ("Paranoid", "Black Sabbath"),
+    ("Fade to Black", "Metallica"),
+    ("Karma Police", "Radiohead")
+)
 
-if not found:
-    print("\nSorry, we don’t have that on our menu today.")
+print("\n🎧 My Playlist:")
+for song, artist in playlist:
+ print("\n🎧 My Playlist:")
+for song, artist in playlist:
+    print(f"{song} — by {artist}")
 
+search_artist = "Radiohead"
+
+print(f"\n🔎 Songs by {search_artist}:")
+for song, artist in playlist:
+    if artist == search_artist:
+        print("-", song)
