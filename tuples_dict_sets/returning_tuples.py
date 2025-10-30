@@ -1,26 +1,22 @@
-import random
+def analyze_text(text):
+    """
+    Analyzes text, returns various stats
+    Returns (word_count, char_count, is_long, first_word)
+    """
+    words = text.split()
+    word_count = len(words)
+    char_count = len(text)
+    is_long = word_count > 50
+    first_word = words[0] if words else ""
 
-def roll_dice(num_rolls):
+    return word_count, char_count, is_long, first_word
+    # Returns: int, int, bool, str — all different types!
 
-    rolls = []
+# Use it:
+text = "Python is amazing and I'm learning it in 20 days!"
+w_count, c_count, is_long, first = analyze_text(text)
 
-    for _ in range(num_rolls):
-        roll = random.randint(1, 6)
-        rolls.append(roll)
-    roll = rolls
-    total = sum(rolls)
-    average = total / num_rolls
-    highest = max(rolls)
-    lowest = min(rolls)
-
-    return roll, total, average, highest, lowest
-
-num = 10
-roll, total, avg, high, low = roll_dice(num)
-
-print(f"All dices : {roll}")
-print(f"🎲 Rolled {num} times:")
-print(f"Total: {total}")
-print(f"Average: {avg:.2f}")
-print(f"Highest: {high}")
-print(f"Lowest: {low}")
+print(f"Words: {w_count}")        # 10
+print(f"Characters: {c_count}")   # 50
+print(f"Long text?: {is_long}")   # False
+print(f"First word: {first}")     # Python
