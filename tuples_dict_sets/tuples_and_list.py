@@ -5,31 +5,75 @@ products = [
     ("Keyboard", 1500, 7)
 ]
 
-print("🛍️ Available Products:\n")
-for name, price, qty in products:
-    print(f"{name} - ₹{price} ({qty} left)")
+def show_products():
+    print("\nAvailable producsts:")
+    for name, price, qty in products:
+        print(f"* {name} - ${price} {qty} in stocks")
 
-new_product = ("Mouse", 800, 20)
-products.append(new_product)
+def add_product(name,price,qty):
+    new_product = (name,price,qty)
+    products.append(new_product)
+    print(f"\n Added: {name} - ${price}, ({qty} units)")
 
-print("\n✨ Added New Product:\n")
-for name, price, qty in products:
-    print(f"{name} - ₹{price} ({qty} left)")
+def remove_product(name):
+    for product in products:
+        if product[0].lower() == name.lower():
+            products.remove(product)
+            print(f"\nRemoved product: {name}")
+            return
+    print(f"\nProduct '{name} not found")
 
-total_value = 0
-for name, price, qty in products:
-    total_value += price * qty
+def search_product(keyword):
+    found = False
+    for name, price, qty in products:
+        if keyword.lower() in name.lower():
+            print(f"* {name} - ${price} ({qty} in stocks)")
+            found = True
+    if not found:
+        print("No products matched your search")
 
-print(f"\n💸 Total Stock Value: ₹{total_value}")
+def total_value():
+    total = sum(price * qty for _, price, qty in products)
+    print(f"\nTotal Store Value: ${total}")
 
-for p in products:
-    if p[0] == "Keyboard":
-        products.remove(p)
-        break
+def main():
+    while True:
+        print("\n" + "="*40)
+        print("🏪 SMART STORE SYSTEM")
+        print("="*40)
+        print("1️⃣ View Products")
+        print("2️⃣ Add Product")
+        print("3️⃣ Remove Product")
+        print("4️⃣ Search Product")
+        print("5️⃣ Check Total Value")
+        print("6️⃣ Exit")
 
-print("\n🗑️ Updated Product List (after removing Keyboard):")
-for name, price, qty in products:
-    print(f"{name} - ₹{price} ({qty} left)")
+        choice = input("\n👉 Enter your choice: ")
 
-most_expensive = max(products, key=lambda item: item[1])
-print(f"\n👑 Most Expensive Product: {most_expensive[0]} — ₹{most_expensive[1]}")
+        if choice == "1":
+            show_products()
+
+        elif choice == "2":
+            name = input("Product Name: ")
+            price = int(input("Price: ₹"))
+            qty = int(input("Quantity: "))
+            add_product(name, price, qty)
+
+        elif choice == "3":
+            name = input("Enter product name to remove: ")
+            remove_product(name)
+
+        elif choice == "4":
+            keyword = input("Enter search keyword: ")
+            search_product(keyword)
+
+        elif choice == "5":
+            total_value()
+
+        elif choice == "6":
+            print("\n👋 Exiting... Goodbye!")
+            break
+        else:
+            print("\n⚠️ Invalid choice. Try again!")
+
+main()
