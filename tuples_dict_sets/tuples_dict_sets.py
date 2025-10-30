@@ -9,7 +9,7 @@ def analyze_scores(scores):
     else:
         grade = "C"
 
-    return (total, average, grade)
+    return total, average, grade
 
 total, avg, grade = analyze_scores([90, 80, 70, 100])
 print(f"Total: {total}, Average: {avg}, Grade: {grade}")
