@@ -1,22 +1,35 @@
-def analyze_text(text):
-    """
-    Analyzes text, returns various stats
-    Returns (word_count, char_count, is_long, first_word)
-    """
-    words = text.split()
-    word_count = len(words)
-    char_count = len(text)
-    is_long = word_count > 50
-    first_word = words[0] if words else ""
+def calculate_payment(hours,rate):
+    subtotal = hours * rate
+    tax = subtotal * 0.10
+    total = subtotal + tax
+    return (subtotal, tax, total)
 
-    return word_count, char_count, is_long, first_word
-    # Returns: int, int, bool, str — all different types!
+def generate_invoice(name,projects):
+    print(f"Invoice for {name}\n" + "-"* 100)
+    grand_total = 0
+    for project_name, hours, rate in projects:
+        subtotal, tax, total = calculate_payment(hours,rate)
+        grand_total += total
 
-# Use it:
-text = "Python is amazing and I'm learning it in 20 days!"
-w_count, c_count, is_long, first = analyze_text(text)
+        print(f"{project_name}")
+        print(f"Hours Worked: {hours}")
+        print(f"Hourly Rate:${subtotal:.2f}")
+        print(f"Tax:(10%): ${tax:.2f}")
+        print(f"Total: ${total:2f}\n")
 
-print(f"Words: {w_count}")        # 10
-print(f"Characters: {c_count}")   # 50
-print(f"Long text?: {is_long}")   # False
-print(f"First word: {first}")     # Python
+    return name, len(projects), grand_total
+
+projects = (
+    ("website Design", 20, 120),
+    ("Ui mockup", 15, 150),
+    ("Brand Logo", 10, 75)
+)
+
+summary = generate_invoice("Ahad", projects)
+
+name, total_projects, grand_total = summary
+
+print("summary".center(41,"-"))
+print(f"Freelancer{name}")
+print(f"Projects Completed: {total_projects}")
+print(f"Grand Total: ${grand_total:.2f}")
