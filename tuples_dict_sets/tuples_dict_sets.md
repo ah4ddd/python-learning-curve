@@ -2782,3 +2782,854 @@ my_dict["key"] = "value"
 
 ---
 
+---
+
+## **Topic 5: Using Dictionaries**
+
+---
+
+### **What The Hell Is This Topic About?**
+
+**Simple answer:** Now that you can CREATE dictionaries, you need to learn how to:
+- **Access** values (get data out)
+- **Add** new key-value pairs
+- **Update** existing values
+- **Delete** key-value pairs
+- **Check** if keys exist
+- **Loop** through dictionaries
+
+Basically, all the **operations** you can do with dictionaries! This is the PRACTICAL stuff! 🎯
+
+---
+
+## **Accessing Values (Getting Data Out):**
+
+You already saw this, but let's break it down properly!
+
+### **Method 1: Square Brackets `[]` (Direct Access)**
+
+```python
+student = {
+    "name": "Ahad",
+    "age": 20,
+    "city": "Lucknow",
+    "course": "Python"
+}
+
+# Get a value using its key:
+print(student["name"])    # "Ahad"
+print(student["age"])     # 20
+print(student["city"])    # "Lucknow"
+```
+
+**How it works:** You put the KEY inside `[]` and Python gives you the VALUE!
+
+**Think of it like:**
+- You go to a locker room
+- Each locker has a NUMBER (key)
+- You use the number to open the locker and get your stuff (value)! 🔑
+
+---
+
+### **The Problem With Square Brackets:**
+
+What if the key DOESN'T EXIST?
+
+```python
+student = {
+    "name": "Ahad",
+    "age": 20
+}
+
+print(student["phone"])  # ❌ ERROR! KeyError: 'phone'
+```
+
+**Python crashes!** It's like asking for a locker number that doesn't exist—it panics! 😱
+
+---
+
+### **Method 2: `.get()` Method (Safer Way)**
+
+```python
+student = {
+    "name": "Ahad",
+    "age": 20
+}
+
+# Using .get():
+print(student.get("name"))   # "Ahad" ✅
+print(student.get("phone"))  # None (no error!) ✅
+```
+
+**What's happening?**
+- If the key EXISTS, `.get()` returns the value
+- If the key DOESN'T exist, `.get()` returns `None` instead of crashing!
+
+**Much safer!** 💪
+
+---
+
+### **`.get()` With Default Value:**
+
+You can tell `.get()` what to return if the key doesn't exist!
+
+```python
+student = {
+    "name": "Ahad",
+    "age": 20
+}
+
+# Get phone, or return "Not provided" if it doesn't exist:
+phone = student.get("phone", "Not provided")
+print(phone)  # "Not provided"
+
+# Get name, or return "Unknown" if it doesn't exist:
+name = student.get("name", "Unknown")
+print(name)  # "Ahad" (it exists!)
+```
+
+**Format:** `dictionary.get(key, default_value)`
+
+**Why this rocks:** You decide what happens when the key is missing! 🔥
+
+---
+
+### **Real Example: User Profile**
+
+```python
+user = {
+    "username": "ahad_python",
+    "email": "ahad@example.com",
+    "age": 20
+}
+
+# Safely get values:
+username = user.get("username", "Guest")
+bio = user.get("bio", "No bio yet")
+followers = user.get("followers", 0)
+
+print(f"Username: {username}")    # "ahad_python"
+print(f"Bio: {bio}")              # "No bio yet"
+print(f"Followers: {followers}")  # 0
+```
+
+**See?** Even though "bio" and "followers" don't exist, the code doesn't crash! It uses the defaults! ✅
+
+---
+
+## **Adding New Key-Value Pairs:**
+
+You can add new stuff to a dictionary ANYTIME!
+
+```python
+student = {
+    "name": "Ahad",
+    "age": 20
+}
+
+print(student)  # {'name': 'Ahad', 'age': 20}
+
+# Add new key-value pair:
+student["city"] = "Lucknow"
+
+print(student)  # {'name': 'Ahad', 'age': 20, 'city': 'Lucknow'}
+
+# Add another:
+student["course"] = "Python"
+
+print(student)
+# {'name': 'Ahad', 'age': 20, 'city': 'Lucknow', 'course': 'Python'}
+```
+
+**How it works:** If the key doesn't exist, Python creates it! Simple! 💪
+
+---
+
+### **Real Example: Building Shopping Cart**
+
+```python
+cart = {}  # Empty cart
+
+# Add items:
+cart["Laptop"] = 45000
+print(cart)  # {'Laptop': 45000}
+
+cart["Mouse"] = 500
+print(cart)  # {'Laptop': 45000, 'Mouse': 500}
+
+cart["Keyboard"] = 1500
+print(cart)  # {'Laptop': 45000, 'Mouse': 500, 'Keyboard': 1500}
+
+# Calculate total:
+total = 0
+for item in cart:
+    total = total + cart[item]
+
+print(f"Total: ₹{total}")  # Total: ₹47000
+```
+
+**Built the cart piece by piece!** 🛒
+
+---
+
+## **Updating Existing Values:**
+
+If the key ALREADY EXISTS, you can change its value!
+
+```python
+student = {
+    "name": "Ahad",
+    "age": 20,
+    "city": "Lucknow"
+}
+
+print(student["age"])  # 20
+
+# Update age:
+student["age"] = 21
+
+print(student["age"])  # 21
+
+print(student)
+# {'name': 'Ahad', 'age': 21, 'city': 'Lucknow'}
+```
+
+**Same syntax as adding!** If key exists, it UPDATES. If it doesn't, it ADDS! 🔥
+
+---
+
+### **Real Example: Game Health System**
+
+```python
+player = {
+    "health": 100,
+    "mana": 50,
+    "level": 1
+}
+
+print(f"Health: {player['health']}")  # Health: 100
+
+# Player takes damage:
+damage = 25
+player["health"] = player["health"] - damage
+
+print(f"Health: {player['health']}")  # Health: 75
+
+# Player uses mana:
+spell_cost = 10
+player["mana"] = player["mana"] - spell_cost
+
+print(f"Mana: {player['mana']}")  # Mana: 40
+
+# Player levels up:
+player["level"] = player["level"] + 1
+
+print(f"Level: {player['level']}")  # Level: 2
+```
+
+**Constantly updating values as the game runs!** 🎮
+
+---
+
+## **Deleting Key-Value Pairs:**
+
+### **Method 1: `del` Keyword**
+
+```python
+student = {
+    "name": "Ahad",
+    "age": 20,
+    "city": "Lucknow",
+    "temp_data": "delete this"
+}
+
+print(student)
+# {'name': 'Ahad', 'age': 20, 'city': 'Lucknow', 'temp_data': 'delete this'}
+
+# Delete a key-value pair:
+del student["temp_data"]
+
+print(student)
+# {'name': 'Ahad', 'age': 20, 'city': 'Lucknow'}
+```
+
+**Gone forever!** 💀
+
+**What if key doesn't exist?**
+```python
+del student["phone"]  # ❌ ERROR! KeyError: 'phone'
+```
+
+**It crashes!** So make sure the key exists first! ⚠️
+
+---
+
+### **Method 2: `.pop()` Method (Safer + Returns Value)**
+
+```python
+student = {
+    "name": "Ahad",
+    "age": 20,
+    "city": "Lucknow"
+}
+
+# Remove city and GET its value:
+removed_city = student.pop("city")
+
+print(removed_city)  # "Lucknow"
+print(student)       # {'name': 'Ahad', 'age': 20}
+```
+
+**Why `.pop()` is better:**
+- It RETURNS the value before deleting it
+- You can provide a default if key doesn't exist!
+
+```python
+student = {
+    "name": "Ahad",
+    "age": 20
+}
+
+# Try to remove phone (doesn't exist):
+phone = student.pop("phone", "No phone found")
+
+print(phone)    # "No phone found"
+print(student)  # {'name': 'Ahad', 'age': 20} (unchanged)
+```
+
+**No crash!** Much safer! 💪
+
+---
+
+### **Real Example: Remove Item From Cart**
+
+```python
+cart = {
+    "Laptop": 45000,
+    "Mouse": 500,
+    "Keyboard": 1500
+}
+
+print(cart)
+# {'Laptop': 45000, 'Mouse': 500, 'Keyboard': 1500}
+
+# Customer changes mind about keyboard:
+removed_item = cart.pop("Keyboard")
+
+print(f"Removed {removed_item} from cart")
+print(cart)
+# {'Laptop': 45000, 'Mouse': 500}
+```
+
+---
+
+## **Checking If Key Exists:**
+
+Before accessing a key, you might want to CHECK if it exists!
+
+### **Using `in` Keyword:**
+
+```python
+student = {
+    "name": "Ahad",
+    "age": 20,
+    "city": "Lucknow"
+}
+
+# Check if key exists:
+if "age" in student:
+    print("Age is recorded!")
+    print(student["age"])  # Safe to access!
+
+if "phone" in student:
+    print("Phone is recorded!")
+else:
+    print("No phone number on file")
+    # Output: "No phone number on file"
+```
+
+**Super useful!** Prevents crashes! ✅
+
+---
+
+### **Real Example: Login System**
+
+```python
+users = {
+    "ahad": "python123",
+    "raj": "secure456",
+    "priya": "pass789"
+}
+
+username = input("Username: ")
+
+# Check if username exists FIRST:
+if username in users:
+    password = input("Password: ")
+
+    if users[username] == password:
+        print("✅ Login successful!")
+    else:
+        print("❌ Wrong password!")
+else:
+    print("❌ Username not found!")
+```
+
+**Prevents trying to access a key that doesn't exist!** 🔐
+
+---
+
+### **Check If Key DOESN'T Exist:**
+
+```python
+student = {
+    "name": "Ahad",
+    "age": 20
+}
+
+# Check if key is MISSING:
+if "phone" not in student:
+    print("Phone number not provided")
+    # Ask for it:
+    student["phone"] = input("Enter phone: ")
+```
+
+**`not in` checks if something is MISSING!** 💡
+
+---
+
+## **Looping Through Dictionaries:**
+
+You can loop through dictionaries in different ways!
+
+### **Loop 1: Loop Through KEYS (Default)**
+
+```python
+student = {
+    "name": "Ahad",
+    "age": 20,
+    "city": "Lucknow"
+}
+
+# Loop through keys:
+for key in student:
+    print(key)
+
+# Output:
+# name
+# age
+# city
+```
+
+**By default, looping through a dictionary gives you the KEYS!**
+
+---
+
+### **Loop 2: Loop Through KEYS (Explicit)**
+
+```python
+student = {
+    "name": "Ahad",
+    "age": 20,
+    "city": "Lucknow"
+}
+
+# Using .keys() method (more explicit):
+for key in student.keys():
+    print(key)
+
+# Output:
+# name
+# age
+# city
+```
+
+**Same result, but more clear about what you're doing!**
+
+---
+
+### **Loop 3: Loop Through VALUES**
+
+```python
+student = {
+    "name": "Ahad",
+    "age": 20,
+    "city": "Lucknow"
+}
+
+# Loop through values only:
+for value in student.values():
+    print(value)
+
+# Output:
+# Ahad
+# 20
+# Lucknow
+```
+
+**Gets you just the VALUES, not the keys!**
+
+---
+
+### **Loop 4: Loop Through BOTH Keys AND Values**
+
+```python
+student = {
+    "name": "Ahad",
+    "age": 20,
+    "city": "Lucknow"
+}
+
+# Loop through both:
+for key, value in student.items():
+    print(f"{key}: {value}")
+
+# Output:
+# name: Ahad
+# age: 20
+# city: Lucknow
+```
+
+**This is the MOST USEFUL loop!** You get both key AND value! 🔥
+
+**How `.items()` works:** It gives you each key-value pair as a tuple `(key, value)`, and you unpack it in the loop!
+
+---
+
+### **Real Example: Display Menu**
+
+```python
+menu = {
+    "Burger": 120,
+    "Pizza": 250,
+    "Pasta": 150,
+    "Fries": 100,
+    "Coke": 70
+}
+
+print("🍔 MENU:")
+print("-" * 20)
+
+for item, price in menu.items():
+    print(f"{item}: ₹{price}")
+
+# Output:
+# 🍔 MENU:
+# --------------------
+# Burger: ₹120
+# Pizza: ₹250
+# Pasta: ₹150
+# Fries: ₹100
+# Coke: ₹70
+```
+
+**Clean and professional!** 💪
+
+---
+
+### **Real Example: Calculate Total**
+
+```python
+cart = {
+    "Laptop": 45000,
+    "Mouse": 500,
+    "Keyboard": 1500
+}
+
+total = 0
+
+for item, price in cart.items():
+    print(f"{item}: ₹{price}")
+    total = total + price
+
+print("-" * 30)
+print(f"Total: ₹{total}")
+
+# Output:
+# Laptop: ₹45000
+# Mouse: ₹500
+# Keyboard: ₹1500
+# ------------------------------
+# Total: ₹47000
+```
+
+**Loop through, display items, calculate total!** 🛒
+
+---
+
+## **Counting Things With Dictionaries:**
+
+Dictionaries are PERFECT for counting!
+
+### **Example: Count Word Frequency**
+
+```python
+text = "python is fun python is powerful python is amazing"
+words = text.split()  # ["python", "is", "fun", "python", ...]
+
+# Count each word:
+word_count = {}
+
+for word in words:
+    if word in word_count:
+        # Word already exists, increase count:
+        word_count[word] = word_count[word] + 1
+    else:
+        # First time seeing this word:
+        word_count[word] = 1
+
+print(word_count)
+# {'python': 3, 'is': 3, 'fun': 1, 'powerful': 1, 'amazing': 1}
+```
+
+**Breaking it down:**
+1. Start with empty dictionary
+2. For each word:
+   - If we've seen it before, add 1 to its count
+   - If it's new, set count to 1
+3. End up with count of each word!
+
+---
+
+### **Cleaner Version Using `.get()`:**
+
+```python
+text = "python is fun python is powerful python is amazing"
+words = text.split()
+
+word_count = {}
+
+for word in words:
+    # Get current count (0 if new), then add 1:
+    word_count[word] = word_count.get(word, 0) + 1
+
+print(word_count)
+# {'python': 3, 'is': 3, 'fun': 1, 'powerful': 1, 'amazing': 1}
+```
+
+**One line instead of if-else!** Much cleaner! 💪
+
+**How it works:**
+- `word_count.get(word, 0)` returns current count, or 0 if word is new
+- Add 1 to it
+- Store back in dictionary
+
+---
+
+### **Real Example: Vote Counter**
+
+```python
+votes = ["Raj", "Priya", "Raj", "Arjun", "Priya", "Raj", "Neha", "Priya"]
+
+vote_count = {}
+
+for candidate in votes:
+    vote_count[candidate] = vote_count.get(candidate, 0) + 1
+
+print("🗳️ VOTE RESULTS:")
+for candidate, votes in vote_count.items():
+    print(f"{candidate}: {votes} votes")
+
+# Output:
+# 🗳️ VOTE RESULTS:
+# Raj: 3 votes
+# Priya: 3 votes
+# Arjun: 1 votes
+# Neha: 1 votes
+```
+
+**Perfect for tallying!** 📊
+
+---
+
+## **Nested Access (Dictionaries In Dictionaries):**
+
+Remember how values can be ANYTHING? That includes other dictionaries!
+
+```python
+students = {
+    "student1": {
+        "name": "Ahad",
+        "age": 20,
+        "grade": "A"
+    },
+    "student2": {
+        "name": "Raj",
+        "age": 21,
+        "grade": "B"
+    }
+}
+
+# Access nested data:
+print(students["student1"])          # Whole dict
+print(students["student1"]["name"])  # "Ahad"
+print(students["student1"]["age"])   # 20
+print(students["student2"]["grade"]) # "B"
+```
+
+**Breaking it down:**
+- `students["student1"]` gets the first student's dictionary
+- `students["student1"]["name"]` goes INTO that dictionary and gets "name"
+
+**It's like:** Go to locker 1, open it, inside there's another box, open that box and get the name! 📦
+
+---
+
+### **Real Example: Company Directory**
+
+```python
+company = {
+    "IT": {
+        "manager": "Raj",
+        "employees": 15,
+        "budget": 5000000
+    },
+    "Sales": {
+        "manager": "Priya",
+        "employees": 25,
+        "budget": 3000000
+    },
+    "HR": {
+        "manager": "Arjun",
+        "employees": 8,
+        "budget": 1000000
+    }
+}
+
+# Access specific info:
+print(f"IT Manager: {company['IT']['manager']}")
+print(f"Sales Employees: {company['Sales']['employees']}")
+print(f"HR Budget: ₹{company['HR']['budget']}")
+
+# Output:
+# IT Manager: Raj
+# Sales Employees: 25
+# HR Budget: ₹1000000
+```
+
+---
+
+## **Practical Mini-Project: Contact Manager**
+
+Let's combine everything you learned!
+
+```python
+contacts = {}
+
+print("📱 CONTACT MANAGER")
+print("-" * 30)
+
+while True:
+    print("\n1. Add Contact")
+    print("2. View Contact")
+    print("3. Update Contact")
+    print("4. Delete Contact")
+    print("5. View All Contacts")
+    print("6. Exit")
+
+    choice = input("\nChoose option: ")
+
+    if choice == "1":
+        # Add contact:
+        name = input("Name: ")
+        phone = input("Phone: ")
+        contacts[name] = phone
+        print(f"✅ Added {name}!")
+
+    elif choice == "2":
+        # View contact:
+        name = input("Name: ")
+        if name in contacts:
+            print(f"📞 {name}: {contacts[name]}")
+        else:
+            print("❌ Contact not found!")
+
+    elif choice == "3":
+        # Update contact:
+        name = input("Name: ")
+        if name in contacts:
+            new_phone = input("New phone: ")
+            contacts[name] = new_phone
+            print(f"✅ Updated {name}!")
+        else:
+            print("❌ Contact not found!")
+
+    elif choice == "4":
+        # Delete contact:
+        name = input("Name: ")
+        if name in contacts:
+            contacts.pop(name)
+            print(f"✅ Deleted {name}!")
+        else:
+            print("❌ Contact not found!")
+
+    elif choice == "5":
+        # View all:
+        if contacts:
+            print("\n📇 ALL CONTACTS:")
+            for name, phone in contacts.items():
+                print(f"  {name}: {phone}")
+        else:
+            print("📭 No contacts yet!")
+
+    elif choice == "6":
+        print("👋 Goodbye!")
+        break
+
+    else:
+        print("❌ Invalid choice!")
+```
+
+**This uses EVERYTHING:**
+- Adding keys
+- Checking if keys exist
+- Updating values
+- Deleting keys
+- Looping through items
+- Using `.pop()` safely
+
+**Feel free to run this and play with it!** 📱
+
+---
+
+## **Summary (What You Learned):**
+
+### **1. Accessing values:**
+```python
+value = dict["key"]           # Direct (crashes if missing)
+value = dict.get("key")       # Safe (returns None if missing)
+value = dict.get("key", default)  # Safe with default
+```
+
+### **2. Adding/Updating:**
+```python
+dict["new_key"] = "value"     # Adds if new, updates if exists
+```
+
+### **3. Deleting:**
+```python
+del dict["key"]               # Delete (crashes if missing)
+value = dict.pop("key")       # Delete + return value
+value = dict.pop("key", default)  # Safe with default
+```
+
+### **4. Checking existence:**
+```python
+if "key" in dict:             # Check if exists
+if "key" not in dict:         # Check if doesn't exist
+```
+
+### **5. Looping:**
+```python
+for key in dict:              # Loop keys
+for value in dict.values():   # Loop values
+for key, value in dict.items():  # Loop both (most useful!)
+```
+
+### **6. Counting pattern:**
+```python
+dict[item] = dict.get(item, 0) + 1
+```
+
+---
+
