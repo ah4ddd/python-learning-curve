@@ -3997,3 +3997,1008 @@ dict[item] = dict.get(item, 0) + 1
 
 ---
 
+---
+
+
+## **Topic 7: Using Sets**
+
+---
+
+### **What The Hell Is This Topic About?**
+
+Now that you can CREATE sets, you need to learn how to:
+- **Add items** to sets
+- **Remove items** from sets
+- **Combine sets** (union, intersection, difference)
+- **Compare sets** (subset, superset)
+- **Loop through sets**
+- Use **set methods**
+
+This is the PRACTICAL stuff—how to actually WORK with sets in real code! 🎯
+
+---
+
+## **Adding Items to Sets:**
+
+Unlike lists (which use `.append()`), sets use `.add()` to add ONE item.
+
+### **Method 1: `.add()` - Add One Item**
+
+```python
+colors = {"red", "blue", "green"}
+
+print(colors)  # {'red', 'blue', 'green'}
+
+# Add a new color:
+colors.add("yellow")
+
+print(colors)  # {'red', 'blue', 'green', 'yellow'}
+```
+
+**Simple!** `.add()` puts one item into the set! 💪
+
+---
+
+#### **What Happens If You Add a Duplicate?**
+
+**NOTHING!** Sets ignore duplicates!
+
+```python
+colors = {"red", "blue", "green"}
+
+print(colors)  # {'red', 'blue', 'green'}
+
+# Try to add "red" again:
+colors.add("red")
+
+print(colors)  # {'red', 'blue', 'green'} - UNCHANGED!
+```
+
+**Why?** Sets automatically prevent duplicates! You won't get an error, it just... doesn't add it!
+
+**Think of it like:** Trying to add someone to a "unique members only" club when they're ALREADY a member. Nothing happens! 🔐
+
+---
+
+#### **Real Example: Track Unique Visitors**
+
+```python
+visitors = set()  # Empty set
+
+# Visitors come to website:
+visitors.add("user_101")
+visitors.add("user_102")
+visitors.add("user_103")
+visitors.add("user_101")  # Same user visits again!
+
+print(visitors)  # {'user_101', 'user_102', 'user_103'}
+print(f"Unique visitors: {len(visitors)}")  # 3
+```
+
+**Perfect for tracking UNIQUE events!** 📊
+
+---
+
+### **Method 2: `.update()` - Add Multiple Items**
+
+**What if you want to add MULTIPLE items at once?**
+
+`.update()` takes an **iterable** (like a list, tuple, or another set) and adds ALL items from it!
+
+```python
+colors = {"red", "blue"}
+
+print(colors)  # {'red', 'blue'}
+
+# Add multiple colors:
+colors.update(["green", "yellow", "purple"])
+
+print(colors)  # {'red', 'blue', 'green', 'yellow', 'purple'}
+```
+
+**What happened:**
+- `.update()` took the list `["green", "yellow", "purple"]`
+- Added each item to the set
+- Result: all items are now in the set!
+
+---
+
+#### **`.update()` Also Ignores Duplicates:**
+
+```python
+colors = {"red", "blue"}
+
+# Add items (some duplicates):
+colors.update(["red", "green", "blue", "yellow"])
+
+print(colors)  # {'red', 'blue', 'green', 'yellow'}
+# "red" and "blue" weren't added again!
+```
+
+**Duplicates automatically ignored!** ✅
+
+---
+
+#### **You Can Update With Different Iterables:**
+
+```python
+numbers = {1, 2, 3}
+
+# Update with a list:
+numbers.update([4, 5, 6])
+print(numbers)  # {1, 2, 3, 4, 5, 6}
+
+# Update with a tuple:
+numbers.update((7, 8))
+print(numbers)  # {1, 2, 3, 4, 5, 6, 7, 8}
+
+# Update with another set:
+numbers.update({9, 10})
+print(numbers)  # {1, 2, 3, 4, 5, 6, 7, 8, 9, 10}
+```
+
+**Flexible!** Works with lists, tuples, sets, anything you can loop through! 💪
+
+---
+
+#### **Real Example: Merge Tag Lists**
+
+```python
+# User 1's interests:
+user1_tags = {"python", "coding", "music"}
+
+# User 2's interests:
+user2_tags = {"music", "art", "gaming"}
+
+# Merge interests into user1:
+user1_tags.update(user2_tags)
+
+print(user1_tags)
+# {'python', 'coding', 'music', 'art', 'gaming'}
+# Notice: "music" wasn't duplicated!
+```
+
+---
+
+## **Removing Items from Sets:**
+
+There are THREE main ways to remove items:
+
+### **Method 1: `.remove()` - Remove Specific Item (Crashes If Not Found)**
+
+```python
+colors = {"red", "blue", "green", "yellow"}
+
+# Remove "blue":
+colors.remove("blue")
+
+print(colors)  # {'red', 'green', 'yellow'}
+```
+
+**Simple!** `.remove()` deletes that item from the set!
+
+---
+
+#### **What If Item Doesn't Exist?**
+
+**It CRASHES!** ⚠️
+
+```python
+colors = {"red", "green", "yellow"}
+
+# Try to remove "blue" (doesn't exist):
+colors.remove("blue")  # ❌ ERROR! KeyError: 'blue'
+```
+
+**This is the DANGER of `.remove()`—if the item isn't there, your program crashes!**
+
+**When to use `.remove()`:** When you're CERTAIN the item exists!
+
+---
+
+### **Method 2: `.discard()` - Remove Specific Item (Safe, No Crash)**
+
+`.discard()` is the SAFER version of `.remove()`!
+
+```python
+colors = {"red", "blue", "green", "yellow"}
+
+# Remove "blue":
+colors.discard("blue")
+
+print(colors)  # {'red', 'green', 'yellow'}
+```
+
+**Same result as `.remove()`! But what if item doesn't exist?**
+
+```python
+colors = {"red", "green", "yellow"}
+
+# Try to remove "blue" (doesn't exist):
+colors.discard("blue")  # ✅ NO ERROR! Just does nothing!
+
+print(colors)  # {'red', 'green', 'yellow'} - Unchanged
+```
+
+**NO CRASH!** It just... does nothing! Much safer! 💪
+
+---
+
+#### **Comparison: `.remove()` vs `.discard()`**
+
+```python
+colors = {"red", "green"}
+
+# .remove() - crashes if item missing:
+colors.remove("blue")  # ❌ ERROR!
+
+# .discard() - safe if item missing:
+colors.discard("blue")  # ✅ No error, just does nothing
+```
+
+**Best practice:** Use `.discard()` unless you WANT the program to crash if item is missing!
+
+---
+
+#### **Real Example: Remove Banned User**
+
+```python
+active_users = {"alex", "morgan", "jordan", "casey"}
+
+# Ban a user:
+banned_user = "morgan"
+active_users.discard(banned_user)
+
+print(active_users)  # {'alex', 'jordan', 'casey'}
+
+# Try to ban someone who's not there:
+active_users.discard("taylor")  # No error!
+print(active_users)  # {'alex', 'jordan', 'casey'} - Unchanged
+```
+
+**Safe and clean!** 🔐
+
+---
+
+### **Method 3: `.pop()` - Remove Random Item**
+
+`.pop()` removes and RETURNS a random item from the set!
+
+```python
+colors = {"red", "blue", "green", "yellow"}
+
+# Remove and get a random item:
+removed = colors.pop()
+
+print(f"Removed: {removed}")  # Might be "blue" or "red" or any item
+print(colors)  # Remaining items
+```
+
+**Important:** You DON'T control which item gets removed! It's random because sets have no order!
+
+---
+
+#### **Why Would You Use `.pop()`?**
+
+**Use case:** When you need to take items from a set one by one, and you don't care about order!
+
+```python
+tasks = {"task1", "task2", "task3", "task4"}
+
+# Process tasks one by one:
+while tasks:  # While set is not empty
+    current_task = tasks.pop()
+    print(f"Processing: {current_task}")
+    # Do something with the task...
+
+print("All tasks completed!")
+
+# Output (order varies):
+# Processing: task3
+# Processing: task1
+# Processing: task4
+# Processing: task2
+# All tasks completed!
+```
+
+---
+
+#### **What If Set Is Empty?**
+
+**It crashes!** ⚠️
+
+```python
+empty_set = set()
+
+item = empty_set.pop()  # ❌ ERROR! KeyError: 'pop from an empty set'
+```
+
+**Always check if set is empty first:**
+
+```python
+my_set = {1, 2, 3}
+
+if my_set:  # If set has items
+    item = my_set.pop()
+    print(f"Removed: {item}")
+else:
+    print("Set is empty!")
+```
+
+---
+
+### **Method 4: `.clear()` - Remove ALL Items**
+
+`.clear()` empties the ENTIRE set!
+
+```python
+colors = {"red", "blue", "green", "yellow"}
+
+print(colors)  # {'red', 'blue', 'green', 'yellow'}
+
+# Clear everything:
+colors.clear()
+
+print(colors)  # set() - Empty!
+print(len(colors))  # 0
+```
+
+**Everything gone!** Set still exists, but it's empty! 💀
+
+---
+
+#### **Real Example: Clear Shopping Cart**
+
+```python
+cart = {"laptop", "mouse", "keyboard"}
+
+print(f"Cart: {cart}")  # {'laptop', 'mouse', 'keyboard'}
+
+# User clicks "Clear Cart":
+cart.clear()
+
+print(f"Cart: {cart}")  # set()
+print("Cart cleared!")
+```
+
+---
+
+## **Checking Membership:**
+
+You already know `in`, but let's go deeper!
+
+### **Check If Item EXISTS:**
+
+```python
+fruits = {"apple", "banana", "cherry"}
+
+# Check if "apple" is in set:
+if "apple" in fruits:
+    print("Apple is available!")  # This runs!
+
+# Check if "mango" is in set:
+if "mango" in fruits:
+    print("Mango is available!")
+else:
+    print("Mango not available!")  # This runs!
+```
+
+**Simple:** `in` returns `True` if item exists, `False` if not!
+
+---
+
+### **Check If Item DOESN'T Exist:**
+
+```python
+fruits = {"apple", "banana", "cherry"}
+
+# Check if "mango" is NOT in set:
+if "mango" not in fruits:
+    print("Mango not available!")  # This runs!
+```
+
+**Use `not in` to check if something is MISSING!**
+
+---
+
+#### **Why Sets Are FAST for Membership Testing:**
+
+**Technical detail:** Sets use **hash tables** internally, which makes membership testing **O(1)** (constant time).
+
+**What does that mean?**
+- List: If you have 1,000,000 items, checking if something is in the list might check ALL 1,000,000 items (slow!)
+- Set: Checks instantly, no matter how big the set is (fast!)
+
+```python
+# List (slower for large data):
+big_list = list(range(1000000))
+print(999999 in big_list)  # Has to search through list
+
+# Set (much faster):
+big_set = set(range(1000000))
+print(999999 in big_set)  # Instant lookup!
+```
+
+**For interviews:** Knowing sets are O(1) for lookups is important! 💡
+
+---
+
+## **Looping Through Sets:**
+
+Just like other collections, you can loop through sets!
+
+```python
+colors = {"red", "blue", "green", "yellow"}
+
+for color in colors:
+    print(color)
+
+# Output (order may vary):
+# red
+# blue
+# green
+# yellow
+```
+
+**Remember:** Order is UNPREDICTABLE! Don't rely on it!
+
+---
+
+#### **Real Example: Process All Items**
+
+```python
+pending_tasks = {"write_code", "test_code", "deploy_code", "document_code"}
+
+print("Processing tasks...")
+
+for task in pending_tasks:
+    print(f"- {task}")
+
+print("All tasks processed!")
+
+# Output (order varies):
+# Processing tasks...
+# - write_code
+# - test_code
+# - deploy_code
+# - document_code
+# All tasks processed!
+```
+
+---
+
+## **Set Operations (The POWERFUL Stuff!):**
+
+This is where sets SHINE! Sets support mathematical operations like **union**, **intersection**, and **difference**!
+
+### **Operation 1: Union (Combine Sets)**
+
+**Union** means "combine all items from both sets, no duplicates".
+
+**Symbol:** `|` (pipe)
+**Method:** `.union()`
+
+```python
+set1 = {1, 2, 3}
+set2 = {3, 4, 5}
+
+# Union - combine both:
+result = set1 | set2
+
+print(result)  # {1, 2, 3, 4, 5}
+# Notice: 3 appears in both, but only once in result!
+```
+
+**What happened:**
+- Take all items from set1: `{1, 2, 3}`
+- Take all items from set2: `{3, 4, 5}`
+- Combine them: `{1, 2, 3, 4, 5}`
+- Duplicates removed automatically!
+
+---
+
+#### **Using `.union()` Method:**
+
+```python
+set1 = {1, 2, 3}
+set2 = {3, 4, 5}
+
+# Same as using |:
+result = set1.union(set2)
+
+print(result)  # {1, 2, 3, 4, 5}
+```
+
+**Both ways work!** `|` is shorter, `.union()` is more readable!
+
+---
+
+#### **Union With Multiple Sets:**
+
+```python
+set1 = {1, 2}
+set2 = {2, 3}
+set3 = {3, 4}
+
+# Combine all three:
+result = set1 | set2 | set3
+
+print(result)  # {1, 2, 3, 4}
+```
+
+---
+
+#### **Real Example: Combine User Skills**
+
+```python
+developer_skills = {"python", "javascript", "sql"}
+designer_skills = {"photoshop", "illustrator", "figma"}
+
+# All skills in the team:
+team_skills = developer_skills | designer_skills
+
+print(team_skills)
+# {'python', 'javascript', 'sql', 'photoshop', 'illustrator', 'figma'}
+```
+
+---
+
+### **Operation 2: Intersection (Common Items)**
+
+**Intersection** means "items that appear in BOTH sets".
+
+**Symbol:** `&` (ampersand)
+**Method:** `.intersection()`
+
+```python
+set1 = {1, 2, 3, 4}
+set2 = {3, 4, 5, 6}
+
+# Intersection - items in both:
+result = set1 & set2
+
+print(result)  # {3, 4}
+# Only 3 and 4 appear in BOTH sets!
+```
+
+**What happened:**
+- Set1 has: `{1, 2, 3, 4}`
+- Set2 has: `{3, 4, 5, 6}`
+- Items in BOTH: `{3, 4}`
+
+---
+
+#### **Using `.intersection()` Method:**
+
+```python
+set1 = {1, 2, 3, 4}
+set2 = {3, 4, 5, 6}
+
+result = set1.intersection(set2)
+
+print(result)  # {3, 4}
+```
+
+---
+
+#### **Real Example: Find Common Interests**
+
+```python
+user1_interests = {"music", "coding", "gaming", "art"}
+user2_interests = {"music", "sports", "gaming", "cooking"}
+
+# What interests do they share?
+common = user1_interests & user2_interests
+
+print(common)  # {'music', 'gaming'}
+print(f"You both like: {', '.join(common)}")
+# "You both like: music, gaming"
+```
+
+**Perfect for finding matches!** 🎯
+
+---
+
+### **Operation 3: Difference (Items in First, Not in Second)**
+
+**Difference** means "items in set1 that are NOT in set2".
+
+**Symbol:** `-` (minus)
+**Method:** `.difference()`
+
+```python
+set1 = {1, 2, 3, 4}
+set2 = {3, 4, 5, 6}
+
+# Difference - items in set1 but NOT in set2:
+result = set1 - set2
+
+print(result)  # {1, 2}
+# 1 and 2 are in set1 but NOT in set2!
+```
+
+**What happened:**
+- Set1 has: `{1, 2, 3, 4}`
+- Set2 has: `{3, 4, 5, 6}`
+- Items in set1 but NOT set2: `{1, 2}`
+
+---
+
+#### **Important: Order Matters!**
+
+```python
+set1 = {1, 2, 3, 4}
+set2 = {3, 4, 5, 6}
+
+print(set1 - set2)  # {1, 2} - items in set1 not in set2
+print(set2 - set1)  # {5, 6} - items in set2 not in set1
+```
+
+**Different results!** Direction matters! ⚠️
+
+---
+
+#### **Real Example: Find Unique Skills**
+
+```python
+team1_skills = {"python", "java", "sql", "docker"}
+team2_skills = {"python", "javascript", "sql", "react"}
+
+# Skills team1 has that team2 doesn't:
+team1_unique = team1_skills - team2_skills
+print(f"Team 1 unique skills: {team1_unique}")
+# {'java', 'docker'}
+
+# Skills team2 has that team1 doesn't:
+team2_unique = team2_skills - team1_skills
+print(f"Team 2 unique skills: {team2_unique}")
+# {'javascript', 'react'}
+```
+
+---
+
+### **Operation 4: Symmetric Difference (Items in Either, But Not Both)**
+
+**Symmetric difference** means "items in set1 OR set2, but NOT in both".
+
+**Symbol:** `^` (caret)
+**Method:** `.symmetric_difference()`
+
+```python
+set1 = {1, 2, 3, 4}
+set2 = {3, 4, 5, 6}
+
+# Symmetric difference:
+result = set1 ^ set2
+
+print(result)  # {1, 2, 5, 6}
+# Items that are in ONE set but not BOTH!
+```
+
+**What happened:**
+- Set1 has: `{1, 2, 3, 4}`
+- Set2 has: `{3, 4, 5, 6}`
+- Items in ONLY ONE: `{1, 2}` from set1 + `{5, 6}` from set2 = `{1, 2, 5, 6}`
+- Items in BOTH (`{3, 4}`) are EXCLUDED!
+
+---
+
+#### **Think of It As:**
+
+"Give me everything EXCEPT what they have in common!"
+
+```python
+set1 = {1, 2, 3, 4}
+set2 = {3, 4, 5, 6}
+
+# Another way to think about it:
+all_items = set1 | set2  # {1, 2, 3, 4, 5, 6}
+common = set1 & set2      # {3, 4}
+result = all_items - common  # {1, 2, 5, 6}
+
+# Same as:
+result = set1 ^ set2  # {1, 2, 5, 6}
+```
+
+---
+
+#### **Real Example: Items One Person Has But Other Doesn't**
+
+```python
+user1_favorites = {"movie1", "movie2", "movie3", "movie4"}
+user2_favorites = {"movie3", "movie4", "movie5", "movie6"}
+
+# Movies one likes but not both:
+unique_to_each = user1_favorites ^ user2_favorites
+
+print(unique_to_each)
+# {'movie1', 'movie2', 'movie5', 'movie6'}
+# Movies they BOTH like (movie3, movie4) are excluded!
+```
+
+---
+
+## **Comparing Sets:**
+
+### **Check If Sets Are Equal:**
+
+```python
+set1 = {1, 2, 3}
+set2 = {3, 2, 1}  # Same items, different order
+
+print(set1 == set2)  # True
+# Order doesn't matter! Same items = equal!
+```
+
+```python
+set1 = {1, 2, 3}
+set2 = {1, 2, 3, 4}
+
+print(set1 == set2)  # False - different items!
+```
+
+---
+
+### **Check If Set Is Subset:**
+
+**Subset** means "all items in set1 are also in set2".
+
+**Symbol:** `<=`
+**Method:** `.issubset()`
+
+```python
+set1 = {1, 2}
+set2 = {1, 2, 3, 4}
+
+# Is set1 a subset of set2?
+print(set1 <= set2)  # True
+# All items in set1 (1, 2) are in set2!
+```
+
+```python
+set1 = {1, 2, 5}
+set2 = {1, 2, 3, 4}
+
+print(set1 <= set2)  # False
+# 5 is in set1 but NOT in set2!
+```
+
+---
+
+#### **Real Example: Check Permissions**
+
+```python
+required_permissions = {"read", "write"}
+user_permissions = {"read", "write", "delete", "admin"}
+
+# Does user have all required permissions?
+if required_permissions <= user_permissions:
+    print("✅ User has required permissions!")  # This runs!
+else:
+    print("❌ User missing permissions!")
+```
+
+---
+
+### **Check If Set Is Superset:**
+
+**Superset** is the OPPOSITE of subset. "set1 contains ALL items from set2".
+
+**Symbol:** `>=`
+**Method:** `.issuperset()`
+
+```python
+set1 = {1, 2, 3, 4}
+set2 = {1, 2}
+
+# Is set1 a superset of set2?
+print(set1 >= set2)  # True
+# set1 contains all items from set2!
+```
+
+**Same as checking if set2 is subset of set1:**
+```python
+print(set1 >= set2)  # True (set1 is superset)
+print(set2 <= set1)  # True (set2 is subset)
+# Same thing, different perspective!
+```
+
+---
+
+### **Check If Sets Are Disjoint:**
+
+**Disjoint** means "sets have NO items in common".
+
+**Method:** `.isdisjoint()`
+
+```python
+set1 = {1, 2, 3}
+set2 = {4, 5, 6}
+
+# Do they have NO items in common?
+print(set1.isdisjoint(set2))  # True - no overlap!
+```
+
+```python
+set1 = {1, 2, 3}
+set2 = {3, 4, 5}
+
+print(set1.isdisjoint(set2))  # False - they share 3!
+```
+
+---
+
+#### **Real Example: Check Schedule Conflicts**
+
+```python
+meeting1_attendees = {"alex", "morgan", "jordan"}
+meeting2_attendees = {"casey", "taylor", "riley"}
+
+# Can both meetings happen at the same time?
+if meeting1_attendees.isdisjoint(meeting2_attendees):
+    print("✅ No conflicts! Both meetings can happen!")
+else:
+    print("❌ Conflict! Some people are in both meetings!")
+```
+
+---
+
+## **Common Mistakes:**
+
+### ❌ **Mistake 1: Using `.append()` Instead of `.add()`**
+
+```python
+my_set = {1, 2, 3}
+
+# WRONG:
+my_set.append(4)  # ❌ ERROR! Sets don't have .append()!
+
+# RIGHT:
+my_set.add(4)  # ✅ Works!
+```
+
+**Remember:** Lists use `.append()`, sets use `.add()`!
+
+---
+
+### ❌ **Mistake 2: Using `.remove()` Without Checking**
+
+```python
+colors = {"red", "blue"}
+
+# WRONG (risky):
+colors.remove("green")  # ❌ ERROR! "green" doesn't exist!
+
+# RIGHT (safe):
+colors.discard("green")  # ✅ No error!
+
+# OR check first:
+if "green" in colors:
+    colors.remove("green")
+```
+
+**Use `.discard()` for safety!**
+
+---
+
+### ❌ **Mistake 3: Expecting Order to Be Maintained**
+
+```python
+my_set = {5, 1, 3, 2}
+
+# WRONG assumption:
+print(my_set)  # Might print: {1, 2, 3, 5} or {5, 1, 3, 2}
+# Order is UNPREDICTABLE!
+
+# If you need order:
+my_list = sorted(my_set)  # Convert to sorted list
+print(my_list)  # [1, 2, 3, 5] - guaranteed order!
+```
+
+---
+
+### ❌ **Mistake 4: Confusing `-` and `^`**
+
+```python
+set1 = {1, 2, 3}
+set2 = {3, 4, 5}
+
+# DIFFERENCE: items in set1 not in set2
+print(set1 - set2)  # {1, 2}
+
+# SYMMETRIC DIFFERENCE: items in either but not both
+print(set1 ^ set2)  # {1, 2, 4, 5}
+
+# These are DIFFERENT!
+```
+
+---
+
+### ❌ **Mistake 5: Modifying Set While Looping**
+
+```python
+numbers = {1, 2, 3, 4, 5}
+
+# WRONG:
+for num in numbers:
+    if num % 2 == 0:
+        numbers.remove(num)  # ❌ ERROR! Can't modify while looping!
+
+# RIGHT:
+to_remove = {num for num in numbers if num % 2 == 0}
+numbers = numbers - to_remove
+```
+
+**Never modify a collection while looping through it!**
+
+---
+
+### ❌ **Mistake 6: Forgetting `.pop()` Is Random**
+
+```python
+tasks = {"task1", "task2", "task3"}
+
+# WRONG assumption:
+first_task = tasks.pop()  # NOT necessarily "task1"!
+# Could be task2, task3, or task1!
+
+# If you need specific order:
+tasks = ["task1", "task2", "task3"]  # Use list instead!
+first_task = tasks.pop(0)  # Removes first item
+```
+
+**`.pop()` on sets is RANDOM!** If order matters, use a list!
+
+---
+
+### ❌ **Mistake 7: Using Wrong Operator**
+
+```python
+set1 = {1, 2, 3}
+set2 = {3, 4, 5}
+
+# WRONG (doesn't work):
+result = set1 + set2  # ❌ ERROR! Sets don't support +
+
+# RIGHT:
+result = set1 | set2  # ✅ Union: {1, 2, 3, 4, 5}
+```
+
+**Sets use `|` for union, NOT `+`!**
+
+---
+
+## **Summary:**
+
+### **Adding items:**
+```python
+my_set.add(item)           # Add one item
+my_set.update(iterable)    # Add multiple items
+```
+
+### **Removing items:**
+```python
+my_set.remove(item)        # Remove (crashes if missing)
+my_set.discard(item)       # Remove (safe, no crash)
+my_set.pop()               # Remove random item
+my_set.clear()             # Remove all items
+```
+
+### **Set operations:**
+```python
+set1 | set2                # Union (combine)
+set1 & set2                # Intersection (common items)
+set1 - set2                # Difference (in set1, not set2)
+set1 ^ set2                # Symmetric difference (in either, not both)
+```
+
+### **Comparisons:**
+```python
+set1 == set2               # Equal
+set1 <= set2               # set1 is subset of set2
+set1 >= set2               # set1 is superset of set2
+set1.isdisjoint(set2)      # No common items
+```
+
+---
+
