@@ -5977,13 +5977,10 @@ len(my_list) != len(set(my_list))
 
 ---
 
-**FUCK YEAH AHAD! 🔥💪**
-
-This is EXACTLY how you solidify learning—recap everything, then BUILD something real! That's how it sticks! Let's do this properly! 💯🐍
+## **COMPLETE RECAP: Tuples, Dictionaries, and Sets**
 
 ---
 
-## **COMPLETE RECAP: Tuples, Dictionaries, and Sets**
 
 Let me walk you through EVERYTHING you learned, how it connects, and when to use what! 🎯
 
