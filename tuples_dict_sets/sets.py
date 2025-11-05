@@ -1,6 +1,7 @@
 contacts = {
     "ahad": {"phone": "9999999999", "email": "ahad@example.com"},
-    "sara": {"phone": "8888888888", "email": "sara@example.com"}
+    "sara": {"phone": "8888888888", "email": "sara@example.com"},
+    "zexo": {"phone": "7777777777", "email": "zex@example.com"},
 }
 
 def view_contacts(inv):
@@ -9,7 +10,7 @@ def view_contacts(inv):
         print("No contacts found.")
     else:
         for name, info in inv.items():
-            print(f"{name.title()} → Phone: {info['phone']} | Email: {info['email']}")
+            print(f" 🌐 {name.title()} 📞 → Phone: {info['phone']} | ✉️ Email: {info['email']}")
 
 def add_contact(inv):
     name = input("Enter contact name: ").lower()
@@ -45,7 +46,7 @@ def detect_duplicates(inv):
     if len(names) == len(name_set):
         print("✅ No duplicates found.")
     else:
-        print("⚠️ Duplicate entries detected!")
+        print(f"⚠️ Duplicate entries detected : {inv.title}!")
 
 def compare_contacts(inv):
     friend_contacts = input("Enter your friend's contact names (comma separated): ").lower().split(",")
@@ -67,6 +68,15 @@ def export_contacts(inv):
     for n in unique_names:
         print(n.title())
 
+def search_contact(inv):
+    contact = input("search contacts by name :").lower()
+    if contact not in inv:
+        print(f"❌{contact} does not exist")
+        return
+    for name, info in inv.items():
+        if contact == name:
+             print(f" 🌐 {name.title()} 📞 → Phone: {info['phone']} | ✉️ Email: {info['email']}")
+
 def main():
     while True:
         print("\n===== SMART CONTACT MANAGER =====")
@@ -77,7 +87,8 @@ def main():
         print("5. Detect Duplicates")
         print("6. Compare Contacts")
         print("7. Export Unique Names")
-        print("8. Exit")
+        print("8. Search Contacts By Name")
+        print("9. Exit")
 
         choice = input("Enter your choice: ")
 
@@ -96,6 +107,8 @@ def main():
         elif choice == "7":
             export_contacts(contacts)
         elif choice == "8":
+            search_contact(contacts)
+        elif choice == "9":
             print("👋 Exiting Contact Manager...")
             break
         else:
