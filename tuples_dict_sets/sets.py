@@ -77,6 +77,9 @@ def search_contact(inv):
         if contact == name:
              print(f" 🌐 {name.title()} 📞 → Phone: {info['phone']} | ✉️ Email: {info['email']}")
 
+def count_contacts(inv):
+    print(f"total contacts : {(len(inv))}")
+
 def main():
     while True:
         print("\n===== SMART CONTACT MANAGER =====")
@@ -88,7 +91,8 @@ def main():
         print("6. Compare Contacts")
         print("7. Export Unique Names")
         print("8. Search Contacts By Name")
-        print("9. Exit")
+        print("9. Count Contacts")
+        print("10. Exit")
 
         choice = input("Enter your choice: ")
 
@@ -109,6 +113,8 @@ def main():
         elif choice == "8":
             search_contact(contacts)
         elif choice == "9":
+            count_contacts(contacts)
+        elif choice == "10":
             print("👋 Exiting Contact Manager...")
             break
         else:
