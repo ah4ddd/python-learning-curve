@@ -35,10 +35,17 @@ def update_contact(inv):
 def delete_contact(inv):
     name = input("Enter name to delete: ").lower()
     if name in inv:
-        del inv[name]
-        print(f"🗑️ {name.title()} deleted successfully!")
+        ask = input("are you sure ? (y/n)").lower()
+        if ask == "n":
+            print (f"{name} is still your contacts 📖")
+            return
+        elif ask == "y":
+            del inv[name]
+            print(f"🗑️ {name.title()} Deleted Successfully!")
+        else:
+            print("⚠️ Invalid choice. Deletion cancelled.")
     else:
-        print("Contact not found.")
+        print(f"❌ Contact '{name.title()}' not found.")
 
 def detect_duplicates(inv):
     names = list(inv.keys())
@@ -86,6 +93,8 @@ def sort_contacts(inv):
         print("No contacts found.")
     else:
         print (f"Alphabetically sorted : {sorted(inv)}".title())
+
+
 
 def main():
     while True:
