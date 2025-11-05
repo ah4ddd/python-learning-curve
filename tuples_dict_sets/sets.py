@@ -4,6 +4,13 @@ contacts = {
     "zexo": {"phone": "7777777777", "email": "zex@example.com"},
 }
 
+def get_required_input(prompt):
+    while True:
+        user_input = input(prompt).strip()
+        if user_input:
+            return user_input.lower()
+        print("⚠️ Input cannot be blank. Please enter a value.")
+
 def view_contacts(inv):
     print("\n📖 Contact List:")
     if not inv:
@@ -13,12 +20,30 @@ def view_contacts(inv):
             print(f" 🌐 {name.title()} 📞 → Phone: {info['phone']} | ✉️ Email: {info['email']}")
 
 def add_contact(inv):
-    name = input("Enter contact name: ").lower()
+    valid_contact = False
+    while not valid_contact:
+        name = input("Enter contact name: ").lower()
+        if not name:
+            print("Name cannot be blank. Put value")
+        else:
+            valid_contact = True
     if name in inv:
         print("Contact already exists.")
         return
-    phone = input("Enter phone number: ")
-    email = input("Enter email: ")
+    valid_phone = False
+    while not valid_phone:
+        phone = input("Enter phone number: ")
+        if not phone:
+            print("Phone number cannot be blank. Re-enter Phone")
+        else:
+            valid_phone = True
+    valid_email = False
+    while not valid_email:
+        email = input("Enter email: ")
+        if not email:
+            print("Email cannot be empty. Enter actual Email")
+        else:
+            valid_email = True
     inv[name] = {"phone": phone, "email": email}
     print(f"✅ {name.title()} added successfully!")
 
@@ -93,8 +118,6 @@ def sort_contacts(inv):
         print("No contacts found.")
     else:
         print (f"Alphabetically sorted : {sorted(inv)}".title())
-
-
 
 def main():
     while True:
