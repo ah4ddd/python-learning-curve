@@ -78,7 +78,14 @@ def search_contact(inv):
              print(f" 🌐 {name.title()} 📞 → Phone: {info['phone']} | ✉️ Email: {info['email']}")
 
 def count_contacts(inv):
-    print(f"total contacts : {(len(inv))}")
+    print(f"total contacts : 📞 {(len(inv))}")
+
+def sort_contacts(inv):
+    print("\n📖 Contact List:")
+    if not inv:
+        print("No contacts found.")
+    else:
+        print (f"Alphabetically sorted : {sorted(inv)}".title())
 
 def main():
     while True:
@@ -92,7 +99,8 @@ def main():
         print("7. Export Unique Names")
         print("8. Search Contacts By Name")
         print("9. Count Contacts")
-        print("10. Exit")
+        print("10. Sort Contacts Alphabetically:")
+        print("11. Exit")
 
         choice = input("Enter your choice: ")
 
@@ -115,6 +123,8 @@ def main():
         elif choice == "9":
             count_contacts(contacts)
         elif choice == "10":
+            sort_contacts(contacts)
+        elif choice == "11":
             print("👋 Exiting Contact Manager...")
             break
         else:
