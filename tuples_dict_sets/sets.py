@@ -22,47 +22,47 @@ def view_contacts(inv):
 def add_contact(inv):
     valid_contact = False
     while not valid_contact:
-        name = input("Enter contact name: ").lower()
+        name = input("Enter contact name: ").strip().lower()
         if not name:
-            print("Name cannot be blank. Put value")
+            print("⚠️ Name cannot be blank. Put value")
         else:
             valid_contact = True
     if name in inv:
-        print("Contact already exists.")
+        print(f"{name.title()} already exists.")
         return
     valid_phone = False
     while not valid_phone:
         phone = input("Enter phone number: ")
         if not phone:
-            print("Phone number cannot be blank. Re-enter Phone")
+            print("⚠️ Phone number cannot be blank. Re-enter Phone")
         else:
             valid_phone = True
     valid_email = False
     while not valid_email:
         email = input("Enter email: ")
         if not email:
-            print("Email cannot be empty. Enter actual Email")
+            print("⚠️ Email cannot be empty. Enter actual Email")
         else:
             valid_email = True
     inv[name] = {"phone": phone, "email": email}
     print(f"✅ {name.title()} added successfully!")
 
 def update_contact(inv):
-    name = input("Enter name to update: ").lower()
+    name = get_required_input("Enter name to update: ")
     if name not in inv:
         print("Contact not found.")
         return
-    phone = input("Enter new phone: ")
-    email = input("Enter new email: ")
+    phone = get_required_input("Enter new phone: ")
+    email = get_required_input("Enter new email: ")
     inv[name] = {"phone": phone, "email": email}
     print(f"✏️ {name.title()} updated successfully!")
 
 def delete_contact(inv):
-    name = input("Enter name to delete: ").lower()
+    name = get_required_input("Enter name to delete: ")
     if name in inv:
-        ask = input("are you sure ? (y/n)").lower()
+        ask = get_required_input("are you sure ? (y/n)")
         if ask == "n":
-            print (f"{name} is still your contacts 📖")
+            print (f"{name.title()} is still your contacts 📖")
             return
         elif ask == "y":
             del inv[name]
@@ -81,9 +81,9 @@ def detect_duplicates(inv):
         print(f"⚠️ Duplicate entries detected : {inv.title}!")
 
 def compare_contacts(inv):
-    friend_contacts = input("Enter your friend's contact names (comma separated): ").lower().split(",")
+    friend_contacts = get_required_input("Enter your friend's contact names (comma separated): ")
     your_set = set(inv.keys())
-    friend_set = set([x.strip() for x in friend_contacts])
+    friend_set = set([x.strip() for x in friend_contacts.split(",")])
 
     common = your_set & friend_set
     unique_to_you = your_set - friend_set
@@ -101,7 +101,7 @@ def export_contacts(inv):
         print(n.title())
 
 def search_contact(inv):
-    contact = input("search contacts by name :").lower()
+    contact = get_required_input("search contacts by name :")
     if contact not in inv:
         print(f"❌{contact} does not exist")
         return
@@ -121,7 +121,7 @@ def sort_contacts(inv):
 
 def main():
     while True:
-        print("\n===== SMART CONTACT MANAGER =====")
+        print("\n===== CONTACT MANAGER =====")
         print("1. View Contacts")
         print("2. Add Contact")
         print("3. Update Contact")
@@ -134,7 +134,7 @@ def main():
         print("10. Sort Contacts Alphabetically:")
         print("11. Exit")
 
-        choice = input("Enter your choice: ")
+        choice = get_required_input("Enter your choice: ")
 
         if choice == "1":
             view_contacts(contacts)
