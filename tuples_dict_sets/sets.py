@@ -125,18 +125,17 @@ def sort_contacts(inv):
 def main():
     while True:
         print("\n===== CONTACT MANAGER =====")
-        print("1. View Contacts")
-        print("2. Add Contact")
-        print("3. Update Contact")
-        print("4. Delete Contact")
-        print("5. Detect Duplicates")
-        print("6. Compare Contacts")
-        print("7. Export Unique Names")
-        print("8. Search Contacts By Name")
-        print("9. Count Contacts")
-        print("10. Sort Contacts Alphabetically:")
-        print("11. Exit")
-
+        print("📇  1. View Contacts")
+        print("➕  2. Add Contact")
+        print("✏️  3. Update Contact")
+        print("🗑️  4. Delete Contact")
+        print("🔄  5. Detect Duplicates")
+        print("⚖️  6. Compare Contacts")
+        print("📤  7. Export Unique Names")
+        print("🔍  8. Search Contacts By Name")
+        print("📊  9. Count Contacts")
+        print("🔠  10. Sort Contacts Alphabetically")
+        print("❌  11. Exit")
         choice = get_required_input("Enter your choice: ")
 
         if choice == "1":
