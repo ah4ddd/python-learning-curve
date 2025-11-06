@@ -78,7 +78,11 @@ def detect_duplicates(inv):
     if len(names) == len(name_set):
         print("✅ No duplicates found.")
     else:
-        print(f"⚠️ Duplicate entries detected : {inv.title}!")
+        duplicates = []
+        for name in name_set:
+            if names.count(name) > 1:
+                duplicates.append(name)
+        print(f"⚠️ Duplicate entries detected: {', '.join(duplicates)}")
 
 def compare_contacts(inv):
     friend_contacts = get_required_input("Enter your friend's contact names (comma separated): ")
@@ -113,11 +117,10 @@ def count_contacts(inv):
     print(f"total contacts : 📞 {(len(inv))}")
 
 def sort_contacts(inv):
-    print("\n📖 Contact List:")
-    if not inv:
-        print("No contacts found.")
-    else:
-        print (f"Alphabetically sorted : {sorted(inv)}".title())
+    print("\n📖 Alphabetically Sorted Contacts:")
+    for name in sorted(inv.keys()):
+        info = inv[name]
+        print(f" 🌐 {name.title()} 📞 → Phone: {info['phone']} | ✉️ Email: {info['email']}")
 
 def main():
     while True:
