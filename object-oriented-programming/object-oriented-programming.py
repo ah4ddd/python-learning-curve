@@ -1,27 +1,48 @@
-class Dog:
-    def __init__(self,name,age):
+class Restaurant:
+    def __init__(self,name,cuisines):
         self.name = name
-        self.age = age
+        self.cuisines = cuisines
 
-    def sit(self):
-        print(f"{self.name} is now sitting")
+    def describe_restaurant(self):
+        print(f"{self.name} serves {self.cuisines} cuisine.")
 
-    def roll_over(self):
-        print(f"{self.name} rolled over!")
-    def hbd(self):
-        print(f"yay! {self.name} has turned {self.age+1} years old.")
+    def open_restaurant(self):
+        print(f"{self.name} is open 7 days a week, from 10 AM to 9 PM.")
 
-my_dog = Dog("Roby", 6)
-your_dog = Dog("Nina", 4)
+restaurant = Restaurant("Quarto","Italian")
+restaurant_2 = Restaurant("Dragon Palace","Chinese")
+restaurant_3 = Restaurant("Ramen Bar","Japanese")
 
-print(f"My dog's name is {my_dog.name}.")
-print(f"My {my_dog.name} is {my_dog.age} years old.")
-print(f"My {my_dog.name}'s birthday is coming soon..")
-my_dog.sit()
+print(f"{restaurant.name} serves pretty good {restaurant.cuisines} food.\n")
 
-print(f"\nYour dog's name is {your_dog.name}.")
-print(f"Your {your_dog.name} is {your_dog.age} years old.\n")
-your_dog.sit()
+restaurant.describe_restaurant()
+restaurant_2.describe_restaurant()
+restaurant_3.describe_restaurant()
 
-my_dog.roll_over()
-my_dog.hbd()
+restaurant.open_restaurant()
+
+class User:
+    def __init__(self,first_name,last_name):
+        self.first_name = first_name
+        self.last_name = last_name
+
+    def greet_user(self):
+        print(f"Welcome {self.first_name.title()} {self.last_name.title()}")
+
+    def describe_user(self):
+        print(f"The full name of user is {self.first_name.title()} {self.last_name.title()}")
+        print(f"The first name of user is {self.first_name.title()}")
+        print(f"The last name of user is {self.last_name.title()}")
+
+user = User("Ahad","Umayyad")
+user2 = User("Siya", "Lily")
+user3 = User("Xi", "wei")
+
+
+user.greet_user()
+user2.greet_user()
+user3.greet_user()
+
+user.describe_user()
+user2.describe_user()
+user3.describe_user()
