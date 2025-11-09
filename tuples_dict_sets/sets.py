@@ -1,7 +1,8 @@
 contacts = {
-    "ahad": {"phone": "9999999999", "email": "ahad@example.com"},
-    "sara": {"phone": "8888888888", "email": "sara@example.com"},
-    "zexo": {"phone": "7777777777", "email": "zex@example.com"},
+    "ahad": {"phone": "9999999999", "email": "ahad@dontknow.com"},
+    "sara": {"phone": "8888888888", "email": "sara@google.com"},
+    "zexo": {"phone": "7777777777", "email": "zex@hotmail.com"},
+    "rust": {"phone": "6060606060", "email": "rus@yahoo.com"}
 }
 
 def get_required_input(prompt):
