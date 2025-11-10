@@ -9,15 +9,25 @@ class Restaurant:
     def open_restaurant(self):
         print(f"{self.name} is open 7 days a week, from 10 AM to 9 PM.")
 
+    def take_reservation(self, name, people):
+        print(f"✅ Reservation for {people} people under {name} at {self.name}")
+
+    def rate_restaurant(self, rating):
+        print(f"⭐ {self.name} rated {rating}/5 stars!")
+
 restaurant = Restaurant("Quarto","Italian")
 restaurant_2 = Restaurant("Dragon Palace","Chinese")
 restaurant_3 = Restaurant("Ramen Bar","Japanese")
+
 
 print(f"{restaurant.name} serves pretty good {restaurant.cuisines} food.\n")
 
 restaurant.describe_restaurant()
 restaurant_2.describe_restaurant()
 restaurant_3.describe_restaurant()
+
+restaurant.take_reservation("Ahad",2)
+restaurant_3.rate_restaurant(4.9)
 
 restaurant.open_restaurant()
 
