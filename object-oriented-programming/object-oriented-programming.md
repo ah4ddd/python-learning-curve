@@ -827,7 +827,7 @@ If ANYTHING is unclear, call me out! I'm here to make this CLEAR!
 ---
 
 
-## Part 1: Your First Class (The Absolute Basics)
+## Topic 1: Your First Class (The Absolute Basics)
 
 ---
 
@@ -1678,6 +1678,8 @@ obj.method2()
 ```
 
 **Memorize this pattern! It's the foundation!** 💪
+
+---
 
 ---
 

@@ -1,35 +1,35 @@
-class BankAccount:
-    def __init__(self, owner, balance=0):
-        self.owner = owner
-        self.balance = balance
+class Player:
+    def __init__(self, name):
+        self.name = name
+        self.level = 1
+        self.exp = 0
 
-    def deposit(self, amount):
-        if amount > 0:
-            self.balance = self.balance + amount
-            print(f"✅ Deposited ₹{amount}. New balance: ₹{self.balance}")
-        else:
-            print("❌ Deposit amount must be positive!")
+    def gain_exp(self, amount):
+        self.exp = self.exp + amount
+        print(f"{self.name} gained {amount} EXP! Total: {self.exp}")
 
-    def withdraw(self, amount):
-        if amount <= 0:
-            print("❌ Withdrawal amount must be positive!")
-        elif amount > self.balance:
-            print(f"❌ Insufficient funds! Balance: ₹{self.balance}")
-        else:
-            self.balance = self.balance - amount
-            print(f"✅ Withdrew ₹{amount}. New balance: ₹{self.balance}")
+        if self.exp >= 100:
+            self.level_up()
+
+    def level_up(self):
+        self.level = self.level + 1
+        self.exp = 0
+        print(f"🎉 {self.name} leveled up to Level {self.level}!")
 
     def display(self):
-        print(f"{self.owner}'s balance: ₹{self.balance}")
+        print(f"{self.name} - Level {self.level} - EXP: {self.exp}/100")
 
-account = BankAccount("Ahad", 5000)
+player = Player("Ahad")
 
-account.deposit(1)
+player.display()
 
-account.withdraw(2000)
+player.gain_exp(30)
 
-account.withdraw(10000)
+player.gain_exp(40)
 
-account.deposit(-500)
+player.gain_exp(50)
 
-account.display()
+player.display()
+
+
+
