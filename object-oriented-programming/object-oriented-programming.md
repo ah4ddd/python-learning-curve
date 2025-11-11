@@ -1683,3 +1683,812 @@ obj.method2()
 
 ---
 
+## Topic 2: Working with Classes and Instances
+
+---
+
+### **What The Hell Are We Learning?**
+
+**Simple answer:** How to work with object data in MORE ways—setting defaults, changing values safely, validating data, and understanding different TYPES of attributes!
+
+Let's GO! 🔥
+
+---
+
+## **Part 1: Default Values for Attributes**
+
+**The Problem:** Not all data needs to be passed in when creating an object. Some data has a LOGICAL default!
+
+### **Example: Car With Default Mileage**
+
+```python
+class Car:
+    def __init__(self, make, model, year):
+        self.make = make
+        self.model = model
+        self.year = year
+        self.mileage = 0  # Default value!
+
+    def display(self):
+        print(f"{self.year} {self.make} {self.model} - {self.mileage} km")
+
+# Create car:
+my_car = Car("Toyota", "Camry", 2020)
+
+# Mileage is already set to 0:
+my_car.display()
+# Output: 2020 Toyota Camry - 0 km
+```
+
+**RUN THIS!**
+
+---
+
+### **Explanation:**
+
+**Look at `__init__`:**
+```python
+def __init__(self, make, model, year):
+    self.make = make
+    self.model = model
+    self.year = year
+    self.mileage = 0  # NOT a parameter!
+```
+
+**What's different?**
+- `make`, `model`, `year` are PARAMETERS (you pass them in)
+- `mileage` is NOT a parameter—it's set DIRECTLY to 0
+
+**Why?**
+- New cars have 0 km mileage—that's LOGICAL!
+- No need to ask the user to pass it in
+- Cleaner code: `Car("Toyota", "Camry", 2020)` instead of `Car("Toyota", "Camry", 2020, 0)`
+
+**When to use defaults:**
+- When there's a logical starting value
+- When most objects will have the same initial value
+- When you want simpler object creation
+
+---
+
+### **Example: Bank Account With Starting Balance**
+
+```python
+class BankAccount:
+    def __init__(self, owner, initial_balance=0):
+        self.owner = owner
+        self.balance = initial_balance  # Default is 0
+
+    def display(self):
+        print(f"{self.owner}: ₹{self.balance}")
+
+# Create with default balance (0):
+account1 = BankAccount("Ahad")
+account1.display()
+# Output: Ahad: ₹0
+
+# Create with custom balance:
+account2 = BankAccount("Sara", 5000)
+account2.display()
+# Output: Sara: ₹5000
+```
+
+**RUN THIS!**
+
+---
+
+### **Explanation:**
+
+**Look at the parameter:**
+```python
+def __init__(self, owner, initial_balance=0):
+```
+
+**`initial_balance=0` is a DEFAULT PARAMETER!**
+
+**This means:**
+- If you pass a value: `BankAccount("Sara", 5000)` → uses 5000
+- If you DON'T pass a value: `BankAccount("Ahad")` → uses 0 (the default)
+
+**This is Python's default parameter feature!** You learned this with functions! Same concept! 💡
+
+---
+
+### **Your Restaurant Example, Enhanced:**
+
+```python
+class Restaurant:
+    def __init__(self, name, cuisines, rating=0):
+        self.name = name
+        self.cuisines = cuisines
+        self.rating = rating  # Default is 0 (not rated yet)
+
+    def describe_restaurant(self):
+        print(f"{self.name} serves {self.cuisines} cuisine.")
+        if self.rating > 0:
+            print(f"Rating: {self.rating} ⭐")
+        else:
+            print("Not rated yet")
+
+# Without rating:
+restaurant1 = Restaurant("Quarto", "Italian")
+restaurant1.describe_restaurant()
+# Output:
+# Quarto serves Italian cuisine.
+# Not rated yet
+
+# With rating:
+restaurant2 = Restaurant("Dragon Palace", "Chinese", 4.5)
+restaurant2.describe_restaurant()
+# Output:
+# Dragon Palace serves Chinese cuisine.
+# Rating: 4.5 ⭐
+```
+
+**See how flexible this is?** 💪
+
+---
+
+## **Part 2: Modifying Attributes (Three Ways)**
+
+You can change an object's attributes in THREE different ways!
+
+### **Way 1: Directly Change the Attribute**
+
+```python
+class Car:
+    def __init__(self, make, model, year):
+        self.make = make
+        self.model = model
+        self.year = year
+        self.mileage = 0
+
+    def display(self):
+        print(f"{self.year} {self.make} {self.model} - {self.mileage} km")
+
+my_car = Car("Toyota", "Camry", 2020)
+my_car.display()
+# Output: 2020 Toyota Camry - 0 km
+
+# Directly change mileage:
+my_car.mileage = 5000
+
+my_car.display()
+# Output: 2020 Toyota Camry - 5000 km
+```
+
+**RUN THIS!**
+
+---
+
+**Explanation:**
+
+```python
+my_car.mileage = 5000
+```
+
+**This is DIRECT MODIFICATION:**
+- Access the attribute with dot notation
+- Assign a new value
+- Simple and straightforward
+
+**When to use this:**
+- Simple cases
+- Internal code (not user-facing)
+- When validation isn't needed
+
+---
+
+### **Way 2: Through a Method (Better!)**
+
+```python
+class Car:
+    def __init__(self, make, model, year):
+        self.make = make
+        self.model = model
+        self.year = year
+        self.mileage = 0
+
+    def display(self):
+        print(f"{self.year} {self.make} {self.model} - {self.mileage} km")
+
+    def update_mileage(self, new_mileage):
+        self.mileage = new_mileage
+        print(f"Mileage updated to {self.mileage} km")
+
+my_car = Car("Toyota", "Camry", 2020)
+
+# Use method to update:
+my_car.update_mileage(5000)
+# Output: Mileage updated to 5000 km
+
+my_car.display()
+# Output: 2020 Toyota Camry - 5000 km
+```
+
+**RUN THIS!**
+
+---
+
+**Explanation:**
+
+```python
+def update_mileage(self, new_mileage):
+    self.mileage = new_mileage
+```
+
+**This is a METHOD to update the attribute!**
+
+**Why this is BETTER than direct modification:**
+- You can add LOGIC (validation, checks)
+- You can give FEEDBACK (print confirmation)
+- Cleaner interface for users of your class
+- More control over how data changes
+
+**Example with user:**
+```python
+my_car.update_mileage(5000)  # Clear what you're doing!
+```
+
+vs
+
+```python
+my_car.mileage = 5000  # Less clear
+```
+
+---
+
+### **Way 3: Through a Method With Logic (Best!)**
+
+```python
+class Car:
+    def __init__(self, make, model, year):
+        self.make = make
+        self.model = model
+        self.year = year
+        self.mileage = 0
+
+    def display(self):
+        print(f"{self.year} {self.make} {self.model} - {self.mileage} km")
+
+    def update_mileage(self, new_mileage):
+        if new_mileage < self.mileage:
+            print("❌ Error: Can't decrease mileage!")
+        else:
+            self.mileage = new_mileage
+            print(f"✅ Mileage updated to {self.mileage} km")
+
+    def drive(self, distance):
+        self.mileage = self.mileage + distance
+        print(f"Drove {distance} km. Total mileage: {self.mileage} km")
+
+my_car = Car("Toyota", "Camry", 2020)
+
+# Drive the car:
+my_car.drive(100)
+# Output: Drove 100 km. Total mileage: 100 km
+
+my_car.drive(50)
+# Output: Drove 50 km. Total mileage: 150 km
+
+# Try to decrease mileage (not allowed!):
+my_car.update_mileage(50)
+# Output: ❌ Error: Can't decrease mileage!
+
+# Increase mileage (allowed):
+my_car.update_mileage(200)
+# Output: ✅ Mileage updated to 200 km
+```
+
+**RUN THIS!**
+
+---
+
+**Explanation:**
+
+**Look at the logic:**
+```python
+def update_mileage(self, new_mileage):
+    if new_mileage < self.mileage:
+        print("❌ Error: Can't decrease mileage!")
+    else:
+        self.mileage = new_mileage
+        print(f"✅ Mileage updated to {self.mileage} km")
+```
+
+**This method VALIDATES the data!**
+- Checks if new mileage is less than current (impossible in real life!)
+- If invalid, shows error and DOESN'T change the value
+- If valid, updates the value
+
+**This is PROFESSIONAL code!** Data integrity matters! 💪
+
+**The `drive()` method:**
+```python
+def drive(self, distance):
+    self.mileage = self.mileage + distance
+```
+
+**Instead of SETTING mileage, it INCREASES it!**
+- More natural: "I drove 50 km" vs "my total mileage is now X"
+- Automatically calculates the new total
+- Cleaner user experience
+
+---
+
+### **Real Example: Bank Account With Validation**
+
+```python
+class BankAccount:
+    def __init__(self, owner, balance=0):
+        self.owner = owner
+        self.balance = balance
+
+    def deposit(self, amount):
+        if amount <= 0:
+            print("❌ Deposit amount must be positive!")
+        else:
+            self.balance = self.balance + amount
+            print(f"✅ Deposited ₹{amount}. New balance: ₹{self.balance}")
+
+    def withdraw(self, amount):
+        if amount <= 0:
+            print("❌ Withdrawal amount must be positive!")
+        elif amount > self.balance:
+            print(f"❌ Insufficient funds! Balance: ₹{self.balance}")
+        else:
+            self.balance = self.balance - amount
+            print(f"✅ Withdrew ₹{amount}. New balance: ₹{self.balance}")
+
+    def display(self):
+        print(f"{self.owner}'s balance: ₹{self.balance}")
+
+account = BankAccount("Ahad", 5000)
+
+account.deposit(1000)
+# Output: ✅ Deposited ₹1000. New balance: ₹6000
+
+account.withdraw(2000)
+# Output: ✅ Withdrew ₹2000. New balance: ₹4000
+
+account.withdraw(10000)
+# Output: ❌ Insufficient funds! Balance: ₹4000
+
+account.deposit(-500)
+# Output: ❌ Deposit amount must be positive!
+```
+
+**RUN THIS!** This is BULLETPROOF code! 🛡️
+
+---
+
+**Why this is professional:**
+- Can't deposit negative amounts
+- Can't withdraw more than you have
+- Clear error messages
+- Data stays valid NO MATTER WHAT
+
+**Compare to direct modification:**
+```python
+account.balance = -1000  # ❌ Nothing stops this!
+```
+
+**With methods, you CONTROL how data changes!** 🔐
+
+---
+
+## **Part 3: Incrementing Attributes (Special Case)**
+
+Sometimes you don't want to SET a value, you want to CHANGE it by a certain amount!
+
+### **Example: Adding Experience Points**
+
+```python
+class Player:
+    def __init__(self, name):
+        self.name = name
+        self.level = 1
+        self.exp = 0
+
+    def gain_exp(self, amount):
+        self.exp = self.exp + amount
+        print(f"{self.name} gained {amount} EXP! Total: {self.exp}")
+
+        # Check for level up:
+        if self.exp >= 100:
+            self.level_up()
+
+    def level_up(self):
+        self.level = self.level + 1
+        self.exp = 0
+        print(f"🎉 {self.name} leveled up to Level {self.level}!")
+
+    def display(self):
+        print(f"{self.name} - Level {self.level} - EXP: {self.exp}/100")
+
+player = Player("Ahad")
+
+player.display()
+# Output: Ahad - Level 1 - EXP: 0/100
+
+player.gain_exp(30)
+# Output: Ahad gained 30 EXP! Total: 30
+
+player.gain_exp(40)
+# Output: Ahad gained 40 EXP! Total: 70
+
+player.gain_exp(50)
+# Output: Ahad gained 50 EXP! Total: 120
+#         🎉 Ahad leveled up to Level 2!
+
+player.display()
+# Output: Ahad - Level 2 - EXP: 0/100
+```
+
+**RUN THIS!** This is like a real game! 🎮
+
+---
+
+**Explanation:**
+
+**The `gain_exp()` method:**
+```python
+def gain_exp(self, amount):
+    self.exp = self.exp + amount  # INCREMENT, not set!
+```
+
+**Key point:** `self.exp + amount` means ADD to current value!
+
+**This is different from:**
+```python
+self.exp = amount  # This would SET it to the amount (wrong!)
+```
+
+**Then it checks for level up:**
+```python
+if self.exp >= 100:
+    self.level_up()
+```
+
+**Calling ANOTHER method from within a method!** Methods can call other methods! 🔥
+
+**The `level_up()` method:**
+```python
+def level_up(self):
+    self.level = self.level + 1  # Increase level
+    self.exp = 0  # Reset EXP
+```
+
+**Complex behavior, but clean code!** This is how games work! 💪
+
+---
+
+### **Your Restaurant, Enhanced:**
+
+```python
+class Restaurant:
+    def __init__(self, name, cuisines):
+        self.name = name
+        self.cuisines = cuisines
+        self.customers_served = 0  # Default
+
+    def describe_restaurant(self):
+        print(f"{self.name} serves {self.cuisines} cuisine.")
+        print(f"Customers served: {self.customers_served}")
+
+    def serve_customer(self):
+        self.customers_served = self.customers_served + 1
+        print(f"Served a customer! Total: {self.customers_served}")
+
+    def serve_customers(self, number):
+        self.customers_served = self.customers_served + number
+        print(f"Served {number} customers! Total: {self.customers_served}")
+
+restaurant = Restaurant("Quarto", "Italian")
+
+restaurant.describe_restaurant()
+# Output:
+# Quarto serves Italian cuisine.
+# Customers served: 0
+
+restaurant.serve_customer()
+# Output: Served a customer! Total: 1
+
+restaurant.serve_customer()
+# Output: Served a customer! Total: 2
+
+restaurant.serve_customers(10)
+# Output: Served 10 customers! Total: 12
+
+restaurant.describe_restaurant()
+# Output:
+# Quarto serves Italian cuisine.
+# Customers served: 12
+```
+
+**See how you're TRACKING data over time?** That's powerful! 📊
+
+---
+
+## **Part 4: Class Attributes vs Instance Attributes**
+
+**This is IMPORTANT!** There are TWO types of attributes!
+
+### **Instance Attributes (What You've Been Using)**
+
+**What they are:** Data that belongs to a SPECIFIC object. Each object has its OWN copy!
+
+```python
+class Dog:
+    def __init__(self, name, age):
+        self.name = name  # Instance attribute
+        self.age = age    # Instance attribute
+
+dog1 = Dog("Buddy", 3)
+dog2 = Dog("Max", 5)
+
+print(dog1.name)  # Buddy
+print(dog2.name)  # Max
+
+# Each dog has its OWN name!
+```
+
+**Each object is independent!**
+
+---
+
+### **Class Attributes (Shared by ALL Objects)**
+
+**What they are:** Data that's SHARED by ALL objects of the class!
+
+```python
+class Dog:
+    species = "Canis familiaris"  # Class attribute (shared)
+
+    def __init__(self, name, age):
+        self.name = name  # Instance attribute (unique)
+        self.age = age    # Instance attribute (unique)
+
+dog1 = Dog("Buddy", 3)
+dog2 = Dog("Max", 5)
+
+# Instance attributes (different):
+print(dog1.name)  # Buddy
+print(dog2.name)  # Max
+
+# Class attribute (SAME for both!):
+print(dog1.species)  # Canis familiaris
+print(dog2.species)  # Canis familiaris
+
+# Can also access from the class itself:
+print(Dog.species)  # Canis familiaris
+```
+
+**RUN THIS!**
+
+---
+
+**Explanation:**
+
+**Look at where `species` is defined:**
+```python
+class Dog:
+    species = "Canis familiaris"  # OUTSIDE __init__!
+```
+
+**This is a CLASS ATTRIBUTE because:**
+- It's defined at the class level (not in `__init__`)
+- It's NOT prefixed with `self.`
+- ALL dogs share this same value
+
+**When to use class attributes:**
+- Data that's the SAME for ALL objects
+- Constants that don't change per object
+- Counters shared across all objects
+
+---
+
+### **Real Example: Counting Total Objects**
+
+```python
+class BankAccount:
+    total_accounts = 0  # Class attribute (shared counter)
+
+    def __init__(self, owner, balance=0):
+        self.owner = owner  # Instance attribute
+        self.balance = balance  # Instance attribute
+
+        # Increment the total counter:
+        BankAccount.total_accounts = BankAccount.total_accounts + 1
+
+    def display(self):
+        print(f"{self.owner}: ₹{self.balance}")
+
+# Create accounts:
+account1 = BankAccount("Ahad", 5000)
+account2 = BankAccount("Sara", 3000)
+account3 = BankAccount("Zexo", 7000)
+
+# Check total:
+print(f"Total accounts created: {BankAccount.total_accounts}")
+# Output: Total accounts created: 3
+
+# Each object can also access it:
+print(f"Total accounts: {account1.total_accounts}")
+# Output: Total accounts: 3
+```
+
+**RUN THIS!**
+
+---
+
+**Explanation:**
+
+**The class attribute:**
+```python
+total_accounts = 0  # Shared by ALL accounts
+```
+
+**In `__init__`, we increment it:**
+```python
+BankAccount.total_accounts = BankAccount.total_accounts + 1
+```
+
+**Notice:** We use `BankAccount.total_accounts`, NOT `self.total_accounts`!
+
+**Why?**
+- `BankAccount.total_accounts` = the SHARED class attribute
+- `self.total_accounts` would create an INSTANCE attribute (different!)
+
+**Every time a new account is created, the counter goes up!** All accounts share this counter! 🔢
+
+---
+
+### **Comparison Table:**
+
+| **Instance Attribute** | **Class Attribute** |
+|------------------------|---------------------|
+| Defined in `__init__` | Defined at class level |
+| Uses `self.attribute` | No `self` prefix |
+| Unique to each object | Shared by all objects |
+| Can be different for each object | Same value for all objects |
+| Example: `self.name` | Example: `species = "Dog"` |
+
+---
+
+### **Example Showing Both:**
+
+```python
+class Car:
+    wheels = 4  # Class attribute (all cars have 4 wheels)
+
+    def __init__(self, make, model):
+        self.make = make  # Instance attribute (different for each car)
+        self.model = model  # Instance attribute
+
+    def display(self):
+        print(f"{self.make} {self.model} has {self.wheels} wheels")
+
+car1 = Car("Toyota", "Camry")
+car2 = Car("Honda", "Civic")
+
+car1.display()
+# Output: Toyota Camry has 4 wheels
+
+car2.display()
+# Output: Honda Civic has 4 wheels
+
+# Both share the same wheels value:
+print(Car.wheels)  # 4
+```
+
+---
+
+## **Common Mistakes:**
+
+### ❌ **Mistake 1: Modifying Without Validation**
+
+```python
+class BankAccount:
+    def __init__(self, owner, balance):
+        self.owner = owner
+        self.balance = balance
+
+account = BankAccount("Ahad", 5000)
+
+# Nothing stops this:
+account.balance = -1000000  # ❌ Negative balance!
+```
+
+**Fix:** Use methods with validation!
+
+```python
+def withdraw(self, amount):
+    if amount > self.balance:
+        print("Insufficient funds!")
+    else:
+        self.balance = self.balance - amount
+```
+
+---
+
+### ❌ **Mistake 2: Confusing Class and Instance Attributes**
+
+```python
+class Dog:
+    name = "Generic Dog"  # ❌ This is a CLASS attribute!
+
+    def __init__(self, name):
+        name = name  # ❌ This doesn't create an attribute!
+
+dog = Dog("Buddy")
+print(dog.name)  # "Generic Dog" (the class attribute!)
+```
+
+**Fix:**
+```python
+class Dog:
+    def __init__(self, name):
+        self.name = name  # ✅ Instance attribute!
+```
+
+---
+
+### ❌ **Mistake 3: Forgetting to Increment Properly**
+
+```python
+def add_exp(self, amount):
+    self.exp = amount  # ❌ SETS to amount, doesn't ADD!
+```
+
+**Fix:**
+```python
+def add_exp(self, amount):
+    self.exp = self.exp + amount  # ✅ ADDS to current value!
+```
+
+---
+
+### ❌ **Mistake 4: Not Using `self` for Class Attributes**
+
+```python
+class Car:
+    total_cars = 0
+
+    def __init__(self, make):
+        self.make = make
+        total_cars = total_cars + 1  # ❌ Doesn't access class attribute!
+```
+
+**Fix:**
+```python
+Car.total_cars = Car.total_cars + 1  # ✅ Access via class name!
+```
+
+---
+
+## **Summary:**
+
+### **What You Learned:**
+
+**1. Default Values:**
+```python
+def __init__(self, name, age=0):
+    self.age = age  # Default is 0
+```
+
+**2. Three Ways to Modify Attributes:**
+- Direct: `object.attribute = value`
+- Through method: `object.update_attribute(value)`
+- With validation: Check before changing
+
+**3. Incrementing:**
+```python
+self.count = self.count + 1  # Add to current value
+```
+
+**4. Class vs Instance Attributes:**
+- Instance: `self.attribute` (unique to each object)
+- Class: `ClassName.attribute` (shared by all objects)
+
+---

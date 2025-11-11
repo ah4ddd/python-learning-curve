@@ -1,35 +1,25 @@
-class Player:
-    def __init__(self, name):
-        self.name = name
-        self.level = 1
-        self.exp = 0
+class BankAccount:
+    total_accounts = 0  # Class attribute (shared counter)
 
-    def gain_exp(self, amount):
-        self.exp = self.exp + amount
-        print(f"{self.name} gained {amount} EXP! Total: {self.exp}")
+    def __init__(self, owner, balance=0):
+        self.owner = owner  # Instance attribute
+        self.balance = balance  # Instance attribute
 
-        if self.exp >= 100:
-            self.level_up()
-
-    def level_up(self):
-        self.level = self.level + 1
-        self.exp = 0
-        print(f"🎉 {self.name} leveled up to Level {self.level}!")
+        # Increment the total counter:
+        BankAccount.total_accounts = BankAccount.total_accounts + 1
 
     def display(self):
-        print(f"{self.name} - Level {self.level} - EXP: {self.exp}/100")
+        print(f"{self.owner}: ₹{self.balance}")
 
-player = Player("Ahad")
+# Create accounts:
+account1 = BankAccount("Ahad", 5000)
+account2 = BankAccount("Sara", 3000)
+account3 = BankAccount("Zexo", 7000)
 
-player.display()
+# Check total:
+print(f"Total accounts created: {BankAccount.total_accounts}")
+# Output: Total accounts created: 3
 
-player.gain_exp(30)
-
-player.gain_exp(40)
-
-player.gain_exp(50)
-
-player.display()
-
-
-
+# Each object can also access it:
+print(f"Total accounts: {account1.total_accounts}")
+# Output: Total accounts: 3x

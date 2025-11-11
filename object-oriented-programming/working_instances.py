@@ -1,9 +1,12 @@
 class Car:
+    owner = "Ahad"
+    cars = 0
     def __init__(self, maker, model, year):
         self.maker = maker
         self.model = model
         self.year = year
         self.odometer_reading = 0
+        Car.cars += 1
 
     def get_descriptive_name(self):
         long_name = f"{self.year} {self.maker} {self.model}"
@@ -64,3 +67,5 @@ my_used_car.refuel(16)
 my_used_car.get_mileage_status()
 my_used_car.get_price(25000)
 
+print(f"Owner : {Car.owner}")
+print(f"{Car.owner} owns {Car.cars} cars, {my_new_car.get_descriptive_name()} & {my_used_car.get_descriptive_name()}")
