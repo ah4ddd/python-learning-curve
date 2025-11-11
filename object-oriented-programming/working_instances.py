@@ -32,10 +32,13 @@ class Car:
         else:
             print(f"{self.get_descriptive_name()} is a veteran on the road.")
 
+    def drive(self, distance):
+        self.odometer_reading = self.odometer_reading + distance
+        print(f"Drove {distance} miles. Total mileage: {self.odometer_reading} miles")
+
     def get_price(self, price):
         self.price = price
         print(f"Your {self.get_descriptive_name()} cost at {self.price}$")
-
 
 my_new_car = Car("Ferrari","sp3", 2021)
 print(my_new_car.get_descriptive_name())
@@ -48,6 +51,8 @@ my_new_car.update_odometer(30)
 my_new_car.read_odometer()
 my_new_car.refuel(10)
 my_new_car.get_price(2000000)
+my_new_car.drive(250)
+my_new_car.read_odometer()
 
 my_used_car = Car('subaru', 'outback', 2015)
 print(my_used_car.get_descriptive_name())
@@ -58,3 +63,4 @@ my_used_car.read_odometer()
 my_used_car.refuel(16)
 my_used_car.get_mileage_status()
 my_used_car.get_price(25000)
+
