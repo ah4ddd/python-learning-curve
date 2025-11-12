@@ -43,7 +43,23 @@ class Car:
         self.price = price
         print(f"Your {self.get_descriptive_name()} cost at {self.price}$")
 
-my_new_car = Car("Ferrari","sp3", 2021)
+class Ferrari(Car):
+    def __init__(self, maker, model, year, color):
+        super().__init__(maker, model, year,)
+        self.color = color
+
+    def rari_color (self):
+        print(f"{Car.owner}'s {self.get_descriptive_name()} color is {self.color.title()}")
+
+    def get_rari(self):
+        print(f"{self.maker} {self.model} {self.year} owned by {Car.owner}")
+
+class Subaru(Car):
+    def get_subaru(self):
+        print(f"{self.maker} {self.model} {self.year} also owned by {Car.owner}")
+
+
+my_new_car = Ferrari("Ferrari","sp3", 2021, "red")
 print(my_new_car.get_descriptive_name())
 my_new_car.read_odometer()
 my_new_car.odometer_reading = 23
@@ -56,8 +72,10 @@ my_new_car.refuel(10)
 my_new_car.get_price(2000000)
 my_new_car.drive(250)
 my_new_car.read_odometer()
+my_new_car.get_rari()
+my_new_car.rari_color()
 
-my_used_car = Car('subaru', 'outback', 2015)
+my_used_car = Subaru('subaru', 'outback', 2015)
 print(my_used_car.get_descriptive_name())
 my_used_car.update_odometer(23500)
 my_used_car.read_odometer()
@@ -66,6 +84,7 @@ my_used_car.read_odometer()
 my_used_car.refuel(16)
 my_used_car.get_mileage_status()
 my_used_car.get_price(25000)
+my_used_car.get_subaru()
 
 print(f"Owner : {Car.owner}")
 print(f"{Car.owner} owns {Car.cars} cars, {my_new_car.get_descriptive_name()} & {my_used_car.get_descriptive_name()}")
