@@ -55,9 +55,37 @@ class Ferrari(Car):
         print(f"{self.maker} {self.model} {self.year} owned by {Car.owner}")
 
 class Subaru(Car):
-    def get_subaru(self):
-        print(f"{self.maker} {self.model} {self.year} also owned by {Car.owner}")
+     def __init__(self,make, model, year):
+         super().__init__(make, model, year)
 
+     def get_subaru(self):
+         print(f"{self.maker} {self.model} {self.year} also owned by {Car.owner}")
+
+class Battery:
+    def __init__(self, battery_size=75):
+        self.battery_size = battery_size
+    def describe_battery(self):
+        print(f"This car has a {self.battery_size}-kWh battery.")
+
+    def get_range(self):
+        if self.battery_size == 75:
+            range = 260
+        elif self.battery_size == 100:
+            range = 315
+
+        print(f"This car can go about {range} miles on a full charge")
+
+class ElectricCar(Car):
+    def __init__(self,make, model, year):
+        super().__init__(make, model, year)
+        self.battery = Battery(100)
+        self.battery_percentage = 65
+
+    def describe_battery(self):
+        print(f"{self.get_descriptive_name()} has a {self.battery}-kwh battery")
+
+    def refuel(self,):
+        print(f"! Your {self.maker.title()} {self.model.title()} doesn't have gas tank, you have {self.battery_percentage}% battery left.")
 
 my_new_car = Ferrari("Ferrari","sp3", 2021, "red")
 print(my_new_car.get_descriptive_name())
@@ -86,5 +114,13 @@ my_used_car.get_mileage_status()
 my_used_car.get_price(25000)
 my_used_car.get_subaru()
 
+my_tesla = ElectricCar('tesla', 'model s', 2019)
+print(my_tesla.get_descriptive_name())
+my_tesla.battery.describe_battery()
+my_tesla.refuel()
+my_tesla.get_price(80000)
+my_tesla.battery.get_range()
+
 print(f"Owner : {Car.owner}")
-print(f"{Car.owner} owns {Car.cars} cars, {my_new_car.get_descriptive_name()} & {my_used_car.get_descriptive_name()}")
+print(f"{Car.owner} owns {Car.cars} cars, {my_new_car.get_descriptive_name()}, {my_used_car.get_descriptive_name()} & {my_tesla.get_descriptive_name()}")
+
