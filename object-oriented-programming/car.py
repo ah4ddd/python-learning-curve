@@ -62,7 +62,7 @@ class Subaru(Car):
          print(f"{self.maker} {self.model} {self.year} also owned by {Car.owner}")
 
 class Battery:
-    def __init__(self, battery_size=75):
+    def __init__(self, battery_size=100):
         self.battery_size = battery_size
     def describe_battery(self):
         print(f"This car has a {self.battery_size}-kWh battery.")
