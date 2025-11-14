@@ -78,7 +78,7 @@ class Battery:
 class ElectricCar(Car):
     def __init__(self,make, model, year):
         super().__init__(make, model, year)
-        self.battery = Battery(100)
+        self.battery = Battery()
         self.battery_percentage = 65
 
     def describe_battery(self):
