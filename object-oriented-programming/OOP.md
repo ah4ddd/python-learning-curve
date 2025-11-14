@@ -3243,4 +3243,675 @@ super().__init__(params)  # Call parent's __init__
 
 ---
 
+## **Topic 4: Importing Classes**
+
+---
+
+### **What The Hell Is This About?**
+
+**Simple answer:** Instead of putting ALL your classes in ONE file, you can split them into MULTIPLE files and IMPORT them when needed!
+
+**Why this matters:**
+- Keeps code organized
+- Makes files shorter and cleaner
+- Lets you reuse classes across projects
+- Professional standard
+
+**Real-world scenario:** Your car simulator has 500 lines of code. Instead of one giant file, you can split it:
+- `car.py` - Car class
+- `electric_car.py` - ElectricCar class
+- `battery.py` - Battery class
+- `main.py` - Your actual program
+
+**Much cleaner!** 📁
+
+---
+
+## **Part 1: Importing a Single Class**
+
+### **Setup: Two Files**
+
+Let's create TWO files in the same folder!
+
+**File 1: `car.py`** (Contains the Car class)
+```python
+class Car:
+    def __init__(self, maker, model, year):
+        self.maker = maker
+        self.model = model
+        self.year = year
+        self.odometer_reading = 0
+
+    def get_descriptive_name(self):
+        return f"{self.year} {self.maker} {self.model}".title()
+
+    def read_odometer(self):
+        print(f"This car has {self.odometer_reading} miles on it")
+
+    def drive(self, distance):
+        self.odometer_reading += distance
+        print(f"Drove {distance} miles. Total: {self.odometer_reading}")
+```
+
+**File 2: `main.py`** (Uses the Car class)
+```python
+from car import Car  # Import Car class from car.py
+
+# Now we can use Car:
+my_car = Car("Toyota", "Camry", 2020)
+print(my_car.get_descriptive_name())
+# Output: 2020 Toyota Camry
+
+my_car.drive(50)
+# Output: Drove 50 miles. Total: 50
+```
+
+**CREATE BOTH FILES AND RUN `main.py`!**
+
+---
+
+### **Explanation:**
+
+#### **The Import Statement:**
+```python
+from car import Car
+```
+
+**Breaking it down word by word:**
+
+**`from car`:**
+- `from` = keyword meaning "get from a file"
+- `car` = the FILENAME (without `.py`)
+- Python looks for a file called `car.py`
+
+**`import Car`:**
+- `import` = keyword meaning "bring in"
+- `Car` = the CLASS NAME inside that file
+
+**Translation:** "From the file `car.py`, import the class `Car`"
+
+**Now you can use `Car` just like it was defined in this file!**
+
+---
+
+#### **File Names and Class Names:**
+
+**Important conventions:**
+- **File name:** lowercase with underscores (`car.py`, `electric_car.py`)
+- **Class name:** CamelCase (`Car`, `ElectricCar`)
+- **They don't have to match!** But it's common to name the file after the class
+
+**Example:**
+- File: `car.py`
+- Class inside: `Car`
+
+---
+
+## **Part 2: Storing Multiple Classes in One Module**
+
+You can put MULTIPLE classes in ONE file!
+
+**File: `vehicles.py`**
+```python
+class Car:
+    def __init__(self, maker, model, year):
+        self.maker = maker
+        self.model = model
+        self.year = year
+
+    def get_descriptive_name(self):
+        return f"{self.year} {self.maker} {self.model}".title()
+
+class Motorcycle:
+    def __init__(self, maker, model, year):
+        self.maker = maker
+        self.model = model
+        self.year = year
+
+    def get_descriptive_name(self):
+        return f"{self.year} {self.maker} {self.model}".title()
+
+class Truck:
+    def __init__(self, maker, model, year):
+        self.maker = maker
+        self.model = model
+        self.year = year
+        self.capacity = 1000  # kg
+
+    def get_descriptive_name(self):
+        return f"{self.year} {self.maker} {self.model}".title()
+```
+
+**File: `main.py`**
+```python
+from vehicles import Car, Motorcycle, Truck  # Import multiple classes!
+
+my_car = Car("Honda", "Civic", 2020)
+my_bike = Motorcycle("Harley", "Sportster", 2019)
+my_truck = Truck("Ford", "F-150", 2021)
+
+print(my_car.get_descriptive_name())    # 2020 Honda Civic
+print(my_bike.get_descriptive_name())   # 2019 Harley Sportster
+print(my_truck.get_descriptive_name())  # 2021 Ford F-150
+```
+
+**RUN THIS!**
+
+---
+
+### **Explanation:**
+
+**Importing multiple classes:**
+```python
+from vehicles import Car, Motorcycle, Truck
+```
+
+**Syntax:** `from filename import Class1, Class2, Class3`
+
+**Separate class names with COMMAS!**
+
+**You can import as many as you need from one file!**
+
+---
+
+## **Part 3: Importing an Entire Module**
+
+Instead of importing specific classes, import the WHOLE file!
+
+**File: `vehicles.py`** (same as before)
+```python
+class Car:
+    # ... (same as before)
+
+class Motorcycle:
+    # ... (same as before)
+```
+
+**File: `main.py`**
+```python
+import vehicles  # Import the whole module!
+
+# Access classes with module name:
+my_car = vehicles.Car("Honda", "Civic", 2020)
+my_bike = vehicles.Motorcycle("Harley", "Sportster", 2019)
+
+print(my_car.get_descriptive_name())
+print(my_bike.get_descriptive_name())
+```
+
+**RUN THIS!**
+
+---
+
+### **Explanation:**
+
+**The import:**
+```python
+import vehicles
+```
+
+**This imports the ENTIRE file!**
+
+**To use classes, you need the module name:**
+```python
+vehicles.Car("Honda", "Civic", 2020)
+```
+
+**Breaking it down:**
+- `vehicles` = the module (file)
+- `.` = access something inside
+- `Car` = the class
+
+**Syntax:** `module_name.ClassName()`
+
+---
+
+### **When to Use Each Style:**
+
+**`from module import Class`:**
+```python
+from vehicles import Car
+my_car = Car("Honda", "Civic", 2020)  # Clean!
+```
+
+**Pros:** Cleaner code, less typing
+**Cons:** Not clear where `Car` comes from
+
+---
+
+**`import module`:**
+```python
+import vehicles
+my_car = vehicles.Car("Honda", "Civic", 2020)  # More explicit
+```
+
+**Pros:** Clear where `Car` comes from
+**Cons:** More typing
+
+**Both are valid!** Use what feels clearer! 💪
+
+---
+
+## **Part 4: Importing All Classes from a Module**
+
+You can import EVERYTHING with `*`!
+
+```python
+from vehicles import *  # Import ALL classes
+
+my_car = Car("Honda", "Civic", 2020)
+my_bike = Motorcycle("Harley", "Sportster", 2019)
+my_truck = Truck("Ford", "F-150", 2021)
+```
+
+**This works, but professionals DON'T recommend it!**
+
+---
+
+### **Why NOT to use `import *`:**
+
+**Problems:**
+1. **Not clear what's imported:** You don't know what classes exist
+2. **Name conflicts:** If two files have same class name, confusion!
+3. **Harder to debug:** Where did this class come from?
+
+**Professional standard:** Import SPECIFIC classes or the whole module!
+
+**Use this:**
+```python
+from vehicles import Car, Motorcycle  # Clear and explicit!
+```
+
+**NOT this:**
+```python
+from vehicles import *  # Vague and problematic!
+```
+
+---
+
+## **Part 5: Importing a Module into a Module**
+
+Classes in one file can import classes from ANOTHER file!
+
+**File: `car.py`**
+```python
+class Car:
+    def __init__(self, maker, model, year):
+        self.maker = maker
+        self.model = model
+        self.year = year
+        self.odometer_reading = 0
+
+    def get_descriptive_name(self):
+        return f"{self.year} {self.maker} {self.model}".title()
+```
+
+**File: `battery.py`**
+```python
+class Battery:
+    def __init__(self, battery_size=75):
+        self.battery_size = battery_size
+
+    def describe_battery(self):
+        print(f"This battery is {self.battery_size}-kWh")
+
+    def get_range(self):
+        if self.battery_size == 75:
+            range_miles = 260
+        else:
+            range_miles = 315
+        print(f"This car can go about {range_miles} miles on a full charge")
+```
+
+**File: `electric_car.py`**
+```python
+from car import Car        # Import Car from car.py
+from battery import Battery  # Import Battery from battery.py
+
+class ElectricCar(Car):
+    def __init__(self, maker, model, year):
+        super().__init__(maker, model, year)
+        self.battery = Battery()
+
+    def charge(self):
+        print(f"Charging the {self.maker} {self.model}...")
+```
+
+**File: `main.py`**
+```python
+from electric_car import ElectricCar
+
+my_tesla = ElectricCar("Tesla", "Model 3", 2023)
+print(my_tesla.get_descriptive_name())
+my_tesla.battery.describe_battery()
+my_tesla.battery.get_range()
+my_tesla.charge()
+```
+
+**RUN THIS!**
+
+---
+
+### **Explanation:**
+
+**Look at `electric_car.py`:**
+```python
+from car import Car
+from battery import Battery
+
+class ElectricCar(Car):
+    # Uses Car and Battery!
+```
+
+**`electric_car.py` IMPORTS from OTHER files!**
+
+**Then `main.py` only needs to import `ElectricCar`:**
+```python
+from electric_car import ElectricCar
+```
+
+**The chain:**
+1. `main.py` imports `ElectricCar` from `electric_car.py`
+2. `electric_car.py` imports `Car` from `car.py` and `Battery` from `battery.py`
+3. Everything works together!
+
+**This is how big projects are organized!** Files importing from other files! 📁
+
+---
+
+## **Part 6: Using Aliases**
+
+You can give imported classes SHORTER names!
+
+```python
+from electric_car import ElectricCar as EC  # Alias!
+
+my_tesla = EC("Tesla", "Model 3", 2023)  # Use the alias!
+print(my_tesla.get_descriptive_name())
+```
+
+**RUN THIS!**
+
+---
+
+### **Explanation:**
+
+**The alias syntax:**
+```python
+from module import ClassName as Alias
+```
+
+**`as Alias`** gives it a shorter name!
+
+**When to use:**
+- Long class names
+- Avoiding name conflicts
+- Personal preference
+
+**Examples:**
+```python
+from electric_car import ElectricCar as EC
+from bank_account import BankAccount as BA
+from user_profile import UserProfile as UP
+```
+
+---
+
+**You can also alias modules:**
+```python
+import electric_car as ec
+
+my_tesla = ec.ElectricCar("Tesla", "Model 3", 2023)
+```
+
+**Both work!** 💪
+
+---
+
+## **Part 7: Real-World Project Structure**
+
+Here's how a REAL project might look:
+
+**Folder structure:**
+```
+my_car_project/
+├── car.py
+├── electric_car.py
+├── battery.py
+├── garage.py
+└── main.py
+```
+
+**File: `car.py`**
+```python
+class Car:
+    def __init__(self, maker, model, year):
+        self.maker = maker
+        self.model = model
+        self.year = year
+        self.odometer_reading = 0
+
+    def get_descriptive_name(self):
+        return f"{self.year} {self.maker} {self.model}".title()
+
+    def drive(self, distance):
+        self.odometer_reading += distance
+        print(f"Drove {distance} miles. Total: {self.odometer_reading}")
+```
+
+**File: `battery.py`**
+```python
+class Battery:
+    def __init__(self, battery_size=75):
+        self.battery_size = battery_size
+
+    def describe_battery(self):
+        print(f"This battery is {self.battery_size}-kWh")
+```
+
+**File: `electric_car.py`**
+```python
+from car import Car
+from battery import Battery
+
+class ElectricCar(Car):
+    def __init__(self, maker, model, year):
+        super().__init__(maker, model, year)
+        self.battery = Battery()
+
+    def charge(self):
+        print(f"Charging the {self.maker} {self.model}...")
+```
+
+**File: `garage.py`**
+```python
+class Garage:
+    def __init__(self, name):
+        self.name = name
+        self.vehicles = []
+
+    def add_vehicle(self, vehicle):
+        self.vehicles.append(vehicle)
+        print(f"Added {vehicle.get_descriptive_name()} to {self.name}")
+
+    def list_vehicles(self):
+        print(f"\n{self.name} contains:")
+        for vehicle in self.vehicles:
+            print(f"  - {vehicle.get_descriptive_name()}")
+```
+
+**File: `main.py`**
+```python
+from car import Car
+from electric_car import ElectricCar
+from garage import Garage
+
+# Create garage:
+my_garage = Garage("Ahad's Garage")
+
+# Create vehicles:
+car1 = Car("Honda", "Civic", 2020)
+car2 = ElectricCar("Tesla", "Model 3", 2023)
+
+# Add to garage:
+my_garage.add_vehicle(car1)
+my_garage.add_vehicle(car2)
+
+# List vehicles:
+my_garage.list_vehicles()
+
+# Use vehicles:
+car1.drive(100)
+car2.charge()
+
+# Output:
+# Added 2020 Honda Civic to Ahad's Garage
+# Added 2023 Tesla Model 3 to Ahad's Garage
+#
+# Ahad's Garage contains:
+#   - 2020 Honda Civic
+#   - 2023 Tesla Model 3
+#
+# Drove 100 miles. Total: 100
+# Charging the Tesla Model 3...
+```
+
+**CREATE ALL THESE FILES AND RUN!**
+
+---
+
+**This is PROFESSIONAL code organization!** 📁🔥
+
+**Each file has ONE job:**
+- `car.py` → Car class
+- `electric_car.py` → ElectricCar class
+- `battery.py` → Battery class
+- `garage.py` → Garage class
+- `main.py` → Brings it all together
+
+**Clean, organized, scalable!** 💪
+
+---
+
+## **Common Mistakes:**
+
+### ❌ **Mistake 1: Wrong Import Syntax**
+
+```python
+import Car from car  # ❌ Wrong order!
+```
+
+**Fix:**
+```python
+from car import Car  # ✅ from...import
+```
+
+---
+
+### ❌ **Mistake 2: Including `.py` in Import**
+
+```python
+from car.py import Car  # ❌ Don't include .py!
+```
+
+**Fix:**
+```python
+from car import Car  # ✅ No .py extension!
+```
+
+---
+
+### ❌ **Mistake 3: Files Not in Same Folder**
+
+**If your files are in DIFFERENT folders, the import won't work!**
+
+**All files must be:**
+- In the same folder
+- OR use advanced importing (packages - later topic!)
+
+**For now, keep all files in the same folder!** 📁
+
+---
+
+### ❌ **Mistake 4: Circular Imports**
+
+**Don't do this:**
+
+`file1.py` imports from `file2.py`
+`file2.py` imports from `file1.py`
+
+**This creates a LOOP and causes errors!**
+
+**Fix:** Reorganize so imports go ONE WAY! 🔄
+
+---
+
+### ❌ **Mistake 5: Typo in Module Name**
+
+```python
+from carr import Car  # ❌ Typo! File is car.py, not carr.py!
+```
+
+**Python error:** `ModuleNotFoundError: No module named 'carr'`
+
+**Fix:** Check spelling! Module name = file name (without `.py`)!
+
+---
+
+## **Summary:**
+
+### **Import Styles:**
+
+**1. Import specific class:**
+```python
+from module import ClassName
+obj = ClassName()
+```
+
+**2. Import multiple classes:**
+```python
+from module import Class1, Class2, Class3
+```
+
+**3. Import entire module:**
+```python
+import module
+obj = module.ClassName()
+```
+
+**4. Import with alias:**
+```python
+from module import ClassName as Alias
+obj = Alias()
+```
+
+**5. Import everything (NOT recommended!):**
+```python
+from module import *
+```
+
+---
+
+### **When to Split Into Files:**
+
+**Keep in one file when:**
+- Small project (< 200 lines)
+- Closely related classes
+- Quick prototype
+
+**Split into files when:**
+- Project getting large (> 200 lines)
+- Classes are independent
+- Want to reuse classes in other projects
+- Working in a team
+
+---
+
+### **File Naming:**
+
+- **File names:** lowercase_with_underscores.py
+- **Class names:** CamelCase
+- **Common pattern:** File named after main class (car.py contains Car)
+
+---
 
