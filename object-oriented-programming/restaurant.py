@@ -9,7 +9,7 @@ class Restaurant:
         Restaurant.total_restaurant += 1
 
     def describe_restaurant(self):
-        print(f"{self.name.title()} serves {self.cuisines.title()} cuisine.")
+        print(f"{self.name.title()} serves {self.cuisines.title()}.")
 
     def open_restaurant(self):
         print(f"{self.name.title()} is open 7 days a week, from 10 AM to 9 PM.")
@@ -28,9 +28,20 @@ class Restaurant:
         self.served_in_a_day += served
         print(f"{self.name.title()} has served {self.served_in_a_day} customers on a {day.title()}")
 
+class IceCreamStand(Restaurant):
+    def __init__(self, name, cuisines):
+        super().__init__(name, cuisines)
+        self.flavors = ['vanilla', 'chocolate', 'strawberry', 'mint', 'cookie dough']
+
+    def display_flavors(self):
+        print(f"{self.name.title()} offers the following ice cream flavors:")
+        for flavor in self.flavors:
+            print(f"- {flavor.title()}")
+
 restaurant = Restaurant("Quarto","Italian")
 restaurant_2 = Restaurant("Dragon Palace","Chinese")
 restaurant_3 = Restaurant("Ramen Bar","Japanese")
+icecream_stand = IceCreamStand("Sweet Treats","Desserts")
 
 print(f"Total {Restaurant.total_restaurant} choices  : {restaurant.name} | {restaurant.cuisines} | {restaurant_2.name} {restaurant_2.cuisines} | {restaurant_3.name} {restaurant_3.cuisines}")
 
@@ -45,46 +56,6 @@ restaurant_3.rate_restaurant(4.9)
 restaurant.customer_served(32)
 restaurant_2.increment_customer_served(55,"friday")
 restaurant.open_restaurant()
+icecream_stand.display_flavors()
+icecream_stand.describe_restaurant()
 
-class User:
-    def __init__(self,first_name,last_name):
-        self.first_name = first_name
-        self.last_name = last_name
-        self.login_attempts = 0
-
-    def greet_user(self):
-        print(f"Welcome {self.first_name.title()} {self.last_name.title()}")
-
-    def describe_user(self):
-        print(f"The full name of user is {self.first_name.title()} {self.last_name.title()}")
-        print(f"The first name of user is {self.first_name.title()}")
-        print(f"The last name of user is {self.last_name.title()}")
-
-    def increment_login_attempts(self):
-        self.login_attempts += 1
-        print(f"Current {self.first_name} login attempts : {self.login_attempts}")
-
-    def reset_login_attempts(self):
-        self.login_attempts = 0
-        print(f"Login attempts reset for {self.first_name} to {self.login_attempts}")
-
-user = User("Ahad","Umayyad")
-user2 = User("Siya", "Lily")
-user3 = User("Xi", "wei")
-
-user.greet_user()
-user2.greet_user()
-user3.greet_user()
-
-user.describe_user()
-user2.describe_user()
-user3.describe_user()
-
-user.increment_login_attempts()
-user.increment_login_attempts()
-user.increment_login_attempts()
-user.increment_login_attempts()
-
-user.reset_login_attempts()
-
-user.increment_login_attempts()
