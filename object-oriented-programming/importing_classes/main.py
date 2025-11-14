@@ -1,11 +1,11 @@
-from car import Car
-import vehicle
-from electric_car import ElectricCar
+from car import Car as Cat
+import vehicle as vcat
+from electric_car import ElectricCar as Ecat
 
-my_car = Car("Honda", "Civic", 2020)
-my_bike = vehicle.Motorcycle("Harley", "Sportster", 2019)
-my_truck = vehicle.Truck("Ford", "F-150", 2021)
-my_tesla = ElectricCar("Tesla", "Model 3", 2023)
+my_car = Cat("Honda", "Civic", 2020)
+my_bike = vcat.Motorcycle("Harley", "Sportster", 2019)
+my_truck = vcat.Truck("Ford", "F-150", 2021)
+my_tesla = Ecat("Tesla", "Model 3", 2023)
 
 print(my_car.get_descriptive_name())
 my_car.read_odometer(50)
