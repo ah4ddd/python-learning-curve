@@ -3913,5 +3913,6 @@ from module import *
 - **Class names:** CamelCase
 - **Common pattern:** File named after main class (car.py contains Car)
 
+###  THAT'S IMPORTING CLASSES! 🎓📁
 ---
 
