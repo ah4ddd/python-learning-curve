@@ -3,7 +3,6 @@ from ferrari import Ferrari
 from subaru import Subaru
 from electric_car import ElectricCar
 
-
 my_new_car = Ferrari("Ferrari","sp3", 2021, "red")
 print(my_new_car.get_descriptive_name())
 my_new_car.read_odometer()
@@ -39,4 +38,4 @@ my_tesla.get_price(80000)
 my_tesla.battery.get_range()
 
 print(f"Owner : {Car.owner}")
-print(f"{Car.owner} owns {Car.cars} cars, {my_new_car.get_descriptive_name()}, {my_used_car.get_descriptive_name()} & {my_tesla.get_descriptive_name()}")
+print(f"{Car.owner} owns {Car.cars} cars: {my_new_car.get_descriptive_name()}, {my_used_car.get_descriptive_name()} & {my_tesla.get_descriptive_name()}")
