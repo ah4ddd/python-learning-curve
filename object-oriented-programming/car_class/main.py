@@ -1,7 +1,7 @@
 from car import Car
 from ferrari import Ferrari
 from subaru import Subaru
-from electric_car import ElectricCar
+from electric_car import ElectricCar as EC
 
 my_new_car = Ferrari("Ferrari","sp3", 2021, "red")
 print(my_new_car.get_descriptive_name())
@@ -30,7 +30,7 @@ my_used_car.get_mileage_status()
 my_used_car.get_price(25000)
 my_used_car.get_subaru()
 
-my_tesla = ElectricCar('tesla', 'model s', 2019)
+my_tesla = EC('tesla', 'model s', 2019)
 print(my_tesla.get_descriptive_name())
 my_tesla.battery.describe_battery()
 my_tesla.refuel()
