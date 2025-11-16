@@ -12,7 +12,7 @@ class Car:
             print(f"fuel cant be {litres}")
         else :
             self._fuel += litres
-            print(f"your current fuel is{litres} litres")
+            print(f"added {litres} to your current fuel. total fuel : {self._fuel} litres")
 
     @fuel.deleter
     def fuel(self):
