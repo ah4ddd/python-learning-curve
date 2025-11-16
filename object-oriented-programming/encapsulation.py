@@ -37,3 +37,4 @@ f2 = Film("Memories of Murder", "Bong Joon-ho", 2003, 9.5)
 log.add(f1)
 log.add(f2)
 print([(f.title, f.rating) for f in log.films])
+
