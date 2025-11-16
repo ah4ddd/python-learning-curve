@@ -11,13 +11,13 @@ class Car:
         if litres < 0:
             print(f"fuel cant be {litres}")
         else :
-            self._fuel =+ litres
+            self._fuel += litres
             print(f"your current fuel is{litres} litres")
 
     @fuel.deleter
     def fuel(self):
         self._fuel = 0
-        print(f"your fuel is set back to {self._fuel}")
+        print(f"your fuel is set back to {self._fuel} litres")
 
 car = Car(5)
 
