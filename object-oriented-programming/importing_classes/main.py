@@ -26,5 +26,6 @@ my_tesla.charge()
 
 my_garage.list_vehicles()
 
+print(my_car.__dict__)
 
 

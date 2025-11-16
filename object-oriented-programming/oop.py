@@ -1,30 +1,39 @@
-class Car:
-    def __init__(self,fuel):
-        self.fuuel = fuel
+class Film:
+    def __init__(self, title, director, year, rating):
+        self.title = title
+        self.director = director
+        self._year = year
+        self.__rating = rating
 
     @property
-    def fuel(self):
-        return self.fuuel
+    def rating(self):
+        return self.__rating
 
-    @fuel.setter
-    def fuel(self, litres):
-        if litres < 0:
-            print(f"fuel cant be {litres}")
-        else :
-            self.fuuel += litres
-            print(f"added {litres} to your current fuel. total fuel : {self.fuuel} litres")
+    @rating.setter
+    def rating(self, value):
+        if 0 <= value <= 10:
+            self.__rating = value
+        else:
+            raise ValueError("Invalid rating.")
 
-    @fuel.deleter
-    def fuel(self):
-        self.fuuel = 0
-        print(f"your fuel is set back to {self.fuuel} litres")
+    @rating.deleter
+    def rating(self):
+        self.__rating = 0
 
-car = Car(5)
+class FilmLog:
+    def __init__(self):
+        self.__films = []
 
-print(car.fuel)
-car.fuel = 15
-print(car.fuel)
+    def add(self, film):
+        self.__films.append(film)
 
-del car.fuel
+    @property
+    def films(self):
+        return tuple(self.__films)
 
-
+log = FilmLog()
+f1 = Film("Stalker", "Tarkovsky", 1979, 10)
+f2 = Film("Memories of Murder", "Bong Joon-ho", 2003, 9)
+log.add(f1)
+log.add(f2)
+print([(f.title, f.rating) for f in log.films])
