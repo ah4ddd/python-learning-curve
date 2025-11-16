@@ -32,3 +32,5 @@ def countdown(n):
         return
     print(n)
     countdown(n - 1)
+
+countdown(2)
