@@ -1,25 +1,28 @@
-class Circle:
-    def __init__(self, radius):
-        self._radius = radius
+class Car:
+    def __init__(self,fuel):
+        self._fuel = fuel
 
     @property
-    def radius(self):
-        return self._radius
+    def fuel(self):
+        return self._fuel
 
-    @radius.setter
-    def radius(self, value):
-        if value < 0:
-            raise ValueError("Radius cannot be negative")
-        self._radius = value
+    @fuel.setter
+    def fuel(self, litres):
+        if litres < 0:
+            print(f"fuel cant be {litres}")
+        else :
+            self._fuel =+ litres
+            print(f"your current fuel is{litres} litres")
 
-    @radius.deleter
-    def radius(self):
-        """This method is called when someone does: del circle.radius"""
-        print("Deleter called - resetting radius")
-        self._radius = 0
+    @fuel.deleter
+    def fuel(self):
+        self._fuel = 0
+        print(f"your fuel is set back to {self._fuel}")
 
-# Usage
-circle = Circle(5)
-print(circle.radius)
-del circle.radius  # Calls the deleter method
-print(circle.radius)  # Now returns 0
+car = Car(5)
+
+print(car.fuel)
+car.fuel = 15
+print(car.fuel)
+
+del car.fuel
