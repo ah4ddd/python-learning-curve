@@ -34,7 +34,9 @@ class FilmLog:
 log = FilmLog()
 f1 = Film("Mirror", "Tarkovsky", 1979, 10)
 f2 = Film("Memories of Murder", "Bong Joon-ho", 2003, 9.5)
+f3 = Film("In the mood for love", "Wong Kar Wai", 2000, 10)
 log.add(f1)
 log.add(f2)
+log.add(f3)
+f2.rating = 9
 print([(f.title, f.rating) for f in log.films])
-
