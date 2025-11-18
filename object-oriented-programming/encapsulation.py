@@ -39,4 +39,6 @@ log.add(f1)
 log.add(f2)
 log.add(f3)
 f2.rating = 9
-print([(f.title, f.rating) for f in log.films])
+print([(f.title, f.rating, f.director) for f in log.films])
+
+
