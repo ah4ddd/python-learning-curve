@@ -1,7 +1,42 @@
-data = (1, 2, 3, 4)
+class Film:
+    def __init__(self, title, director, year, rating):
+        self.title = title
+        self.director = director
+        self._year = year
+        self.__rating = rating
 
-print([(x * 2) for x in data])
+    @property
+    def rating(self):
+        return self.__rating
 
-words = "ahad", "sia", "dawd"
+    @rating.setter
+    def rating(self, value):
+        if 0 <= value <= 10:
+            self.__rating = value
+        else:
+            raise ValueError("Invalid rating.")
 
-print([(word.title()) for word in words])
+    @rating.deleter
+    def rating(self):
+        self.__rating = 0
+
+class FilmLog:
+    def __init__(self):
+        self.__films = []
+
+    def add(self, film):
+        self.__films.append(film)
+
+    @property
+    def films(self):
+        return tuple(self.__films)
+
+log = FilmLog()
+f1 = Film("Mirror", "Tarkovsky", 1979, 10)
+f2 = Film("Memories of Murder", "Bong Joon-ho", 2003, 9.5)
+f3 = Film("In the mood for love", "Wong Kar Wai", 2000, 10)
+log.add(f1)
+log.add(f2)
+log.add(f3)
+f2.rating = 9
+print([(f.title, f.rating) for f in log.films])
