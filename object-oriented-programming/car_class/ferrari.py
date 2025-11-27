@@ -9,4 +9,4 @@ class Ferrari(Car):
         print(f"{Car.owner}'s {self.get_descriptive_name()} color is {self.color.title()}")
 
     def get_rari(self):
-        print(f"{self.maker} {self.model} {self.year} owned by {Car.owner}")
+        print(f"{self.__maker} {self.__model} {self.__year} owned by {Car.owner}")

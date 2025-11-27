@@ -2,21 +2,21 @@ class Car:
     owner = "Ahad"
     cars = 0
     def __init__(self, maker, model, year):
-        self.maker = maker
-        self.model = model
-        self.year = year
+        self.__maker = maker
+        self.__model = model
+        self.__year = year
         self._odometer_reading = 0
         Car.cars += 1
 
     def get_descriptive_name(self):
-        long_name = f"{self.year} {self.maker} {self.model}"
+        long_name = f"{self.__year} {self.__maker} {self.__model}"
         return long_name.title()
 
     def set_odometer(self, milage):
         self._odometer_reading += milage
 
     def read_odometer(self):
-        print(f"{self.maker.title()} {self.model.title()} has {self._odometer_reading} miles on it")
+        print(f"{self.__maker.title()} {self.__model.title()} has {self._odometer_reading} miles on it")
 
     def update_odometer(self, mileage):
         if mileage >= self._odometer_reading:
@@ -28,7 +28,7 @@ class Car:
 
     def refuel(self,fuel):
         self.fuel = fuel
-        print(f"Filling... Your {self.maker.title()} {self.model.title()} has now {self.fuel} litres of fuel.")
+        print(f"Filling... Your {self.__maker.title()} {self.__model.title()} has now {self.fuel} litres of fuel.")
 
     def get_mileage_status(self):
         if self._odometer_reading < 10000:
@@ -45,7 +45,3 @@ class Car:
     def get_price(self, price):
         self.price = price
         print(f"Your {self.get_descriptive_name()} cost at {self.price}$")
-
-
-
-
