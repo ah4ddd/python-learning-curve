@@ -24,9 +24,6 @@ class Car:
     def odometer(self):
         self.__odometer_reading = 0
 
-    def set_odometer(self, milage):
-        self.__odometer_reading += milage
-
     def read_odometer(self):
         print(f"{self.__maker.title()} {self.__model.title()} has {self.__odometer_reading} miles on it")
 
@@ -35,8 +32,6 @@ class Car:
             self.__odometer_reading = mileage
         else:
             print("You can't roll back an odometer!")
-    def increment_odometer(self,miles):
-        self.__odometer_reading += miles
 
     def refuel(self,fuel):
         self.fuel = fuel
