@@ -4835,17 +4835,7 @@ class ClassName:
 
 ---
 
-# **ENCAPSULATION: COMPLETE! ✅🔥**
-
-**AHAD, YOU NOW UNDERSTAND:**
-✅ What encapsulation is (bundling + hiding data)
-✅ Public vs protected vs private attributes
-✅ Getter and setter methods
-✅ `@property` decorator (the pro way!)
-✅ Why encapsulation matters
-✅ How to write bulletproof classes
-
-**This was the EASIEST of the core concepts because you were already halfway there!** You just learned how to do it PROPERLY! 💯
-
 ---
+
+
 
