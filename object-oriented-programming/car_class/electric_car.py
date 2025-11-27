@@ -11,4 +11,4 @@ class ElectricCar(Car):
         print(f"{self.get_descriptive_name()} has a {self.battery}-kwh battery")
 
     def refuel(self,):
-        print(f"! Your {self.__maker.title()} {self.__model.title()} doesn't have gas tank, you have {self.battery_percentage}% battery left.")
+        print(f"! Your {self.get_descriptive_name()} doesn't have gas tank, you have {self.battery_percentage}% battery left.")

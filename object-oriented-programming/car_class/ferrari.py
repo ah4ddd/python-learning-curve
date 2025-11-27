@@ -5,8 +5,8 @@ class Ferrari(Car):
         super().__init__(maker, model, year,)
         self.color = color
 
-    def rari_color (self):
+    def rari_color(self):
         print(f"{Car.owner}'s {self.get_descriptive_name()} color is {self.color.title()}")
 
     def get_rari(self):
-        print(f"{self.__maker} {self.__model} {self.__year} owned by {Car.owner}")
+        print(f"{self.get_descriptive_name()} owned by {Car.owner}")

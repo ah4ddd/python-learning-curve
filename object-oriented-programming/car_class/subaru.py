@@ -5,4 +5,4 @@ class Subaru(Car):
          super().__init__(make, model, year)
 
      def get_subaru(self):
-         print(f"{self.__maker} {self.__model} {self.__year} also owned by {Car.owner}")
+         print(f"{self.get_descriptive_name()} also owned by {Car.owner}")

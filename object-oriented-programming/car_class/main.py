@@ -6,7 +6,7 @@ from electric_car import ElectricCar as EC
 my_new_car = Ferrari("Ferrari","sp3", 2021, "red")
 print(my_new_car.get_descriptive_name())
 my_new_car.read_odometer()
-my_new_car.set_odometer(25)
+my_new_car.odometer = 25
 my_new_car.read_odometer()
 my_new_car.update_odometer(45)
 my_new_car.read_odometer()
