@@ -1,59 +1,59 @@
-class Database:
-    def connect(self):
-        raise NotImplementedError()
+class PaymentMethod:
 
-    def query(self, sql):
-        raise NotImplementedError()
+    def process_payment(self, amount):
+        raise NotImplementedError("Subclass must implement this!")
 
-class MySQLDatabase(Database):
-    def connect(self):
-        print("Connecting to MySQL...")
+class CreditCard(PaymentMethod):
+    def __init__(self, card_number, holder):
+        self.card_number = card_number
+        self.holder = holder
+
+    def process_payment(self, amount):
+        print(f"💳 Processing credit card payment: ₹{amount}")
+        print(f"   Card: {self.card_number[-4:]} (last 4 digits)")
+        print(f"   Amount debited from {self.holder}")
         return True
 
-    def query(self, sql):
-        print(f"Executing MySQL query: {sql}")
-        return [("row1",), ("row2",)]
+class UPI(PaymentMethod):
+    def __init__(self, upi_id):
+        self.upi_id = upi_id
 
-class PostgresDatabase(Database):
-    def connect(self):
-        print("🔌 Connecting to PostgreSQL...")
+    def process_payment(self, amount):
+        print(f"📱 Processing UPI payment: ₹{amount}")
+        print(f"   UPI ID: {self.upi_id}")
+        print(f"   ✅ Payment successful!")
         return True
 
-    def query(self, sql):
-        print(f"Executing PostgreSQL query: {sql}")
-        return [("row1",), ("row2",)]
+class Cryptocurrency(PaymentMethod):
+    def __init__(self, wallet_address, coin_type):
+        self.wallet_address = wallet_address
+        self.coin_type = coin_type
 
-class MongoDatabase(Database):
-    def connect(self):
-        print("🔌 Connecting to MongoDB...")
+    def process_payment(self, amount):
+        print(f"🪙 Processing {self.coin_type} payment: ₹{amount}")
+        print(f"   Wallet: {self.wallet_address[:10]}...")
+        print(f"   ⛓️ Blockchain confirmed!")
         return True
 
-    def query(self, sql):
-        print(f"Executing MongoDB query: {sql}")
-        return [{"_id": 1}, {"_id": 2}]
+class ShoppingCart:
+    def __init__(self, total):
+        self.total = total
 
-class UserService:
-    def __init__(self, database):
-        self.db = database
+    def checkout(self, payment_method):
+        print(f"\n🛒 Checkout Total: ₹{self.total}")
+        payment_method.process_payment(self.total)
+        print("✅ Thank you for your purchase!\n")
 
-    def get_all_users(self):
-        self.db.connect()
-        results = self.db.query("SELECT * FROM users")
-        return results
+cart = ShoppingCart(50000)
 
-print("--- Using MySQL ---")
-mysql = MySQLDatabase()
-service = UserService(mysql)
-service.get_all_users()
+card = CreditCard("1234567890123456", "Ahad")
+cart.checkout(card)
 
-print("\n--- Using PostgreSQL ---")
-postgres = PostgresDatabase()
-service = UserService(postgres)
-service.get_all_users()
 
-print("\n--- Using MongoDB ---")
-mongo = MongoDatabase()
-service = UserService(mongo)
-service.get_all_users()
+upi = UPI("ahad@upi")
+cart.checkout(upi)
 
+# Payment with crypto:
+crypto = Cryptocurrency("0x742d35Cc6634C0532925a3b844Bc9e7595f", "Bitcoin")
+cart.checkout(crypto)
 
