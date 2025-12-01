@@ -1,59 +1,70 @@
-class PaymentMethod:
+class Money:
+    def __init__(self, amount, currency="INR"):
+        self.amount = amount
+        self.currency = currency
 
-    def process_payment(self, amount):
-        raise NotImplementedError("Subclass must implement this!")
+    def __add__(self, other):
+        """Called by +"""
+        if isinstance(other, Money):
+            if self.currency != other.currency:
+                raise ValueError("Cannot add different currencies!")
+            return Money(self.amount + other.amount, self.currency)
+        elif isinstance(other, (int, float)):
+            return Money(self.amount + other, self.currency)
+        return NotImplemented
 
-class CreditCard(PaymentMethod):
-    def __init__(self, card_number, holder):
-        self.card_number = card_number
-        self.holder = holder
+    def __sub__(self, other):
+        """Called by -"""
+        if isinstance(other, Money):
+            if self.currency != other.currency:
+                raise ValueError("Cannot subtract different currencies!")
+            return Money(self.amount - other.amount, self.currency)
+        elif isinstance(other, (int, float)):
+            return Money(self.amount - other, self.currency)
+        return NotImplemented
 
-    def process_payment(self, amount):
-        print(f"💳 Processing credit card payment: ₹{amount}")
-        print(f"   Card: {self.card_number[-4:]} (last 4 digits)")
-        print(f"   Amount debited from {self.holder}")
-        return True
+    def __mul__(self, multiplier):
+        """Called by *"""
+        if isinstance(multiplier, (int, float)):
+            return Money(self.amount * multiplier, self.currency)
+        return NotImplemented
 
-class UPI(PaymentMethod):
-    def __init__(self, upi_id):
-        self.upi_id = upi_id
+    def __truediv__(self, divisor):
+        """Called by /"""
+        if isinstance(divisor, (int, float)):
+            return Money(self.amount / divisor, self.currency)
+        return NotImplemented
 
-    def process_payment(self, amount):
-        print(f"📱 Processing UPI payment: ₹{amount}")
-        print(f"   UPI ID: {self.upi_id}")
-        print(f"   ✅ Payment successful!")
-        return True
+    def __str__(self):
+        return f"{self.currency} {self.amount:.2f}"
 
-class Cryptocurrency(PaymentMethod):
-    def __init__(self, wallet_address, coin_type):
-        self.wallet_address = wallet_address
-        self.coin_type = coin_type
+    def __repr__(self):
+        return f"Money({self.amount}, '{self.currency}')"
 
-    def process_payment(self, amount):
-        print(f"🪙 Processing {self.coin_type} payment: ₹{amount}")
-        print(f"   Wallet: {self.wallet_address[:10]}...")
-        print(f"   ⛓️ Blockchain confirmed!")
-        return True
+# Use it:
+money1 = Money(1000)
+money2 = Money(500)
 
-class ShoppingCart:
-    def __init__(self, total):
-        self.total = total
+# Add money:
+total = money1 + money2
+print(total)  # INR 1500.00
 
-    def checkout(self, payment_method):
-        print(f"\n🛒 Checkout Total: ₹{self.total}")
-        payment_method.process_payment(self.total)
-        print("✅ Thank you for your purchase!\n")
+# Subtract:
+difference = money1 - money2
+print(difference)  # INR 500.00
 
-cart = ShoppingCart(50000)
+# Multiply:
+doubled = money1 * 2
+print(doubled)  # INR 2000.00
 
-card = CreditCard("1234567890123456", "Ahad")
-cart.checkout(card)
+# Divide:
+half = money1 / 2
+print(half)  # INR 500.00
 
+# Add number:
+more = money1 + 250
+print(more)  # INR 1250.00
 
-upi = UPI("ahad@upi")
-cart.checkout(upi)
-
-# Payment with crypto:
-crypto = Cryptocurrency("0x742d35Cc6634C0532925a3b844Bc9e7595f", "Bitcoin")
-cart.checkout(crypto)
-
+# Chain operations:
+result = (money1 + money2) * 2 - 500
+print(result)  # INR 2500.00
