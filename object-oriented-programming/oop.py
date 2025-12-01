@@ -41,30 +41,23 @@ class Money:
     def __repr__(self):
         return f"Money({self.amount}, '{self.currency}')"
 
-# Use it:
 money1 = Money(1000)
 money2 = Money(500)
 
-# Add money:
 total = money1 + money2
-print(total)  # INR 1500.00
+print(total)
 
-# Subtract:
 difference = money1 - money2
-print(difference)  # INR 500.00
+print(difference)
 
-# Multiply:
 doubled = money1 * 2
-print(doubled)  # INR 2000.00
+print(doubled)
 
-# Divide:
 half = money1 / 2
-print(half)  # INR 500.00
+print(half)
 
-# Add number:
 more = money1 + 250
-print(more)  # INR 1250.00
+print(more)
 
-# Chain operations:
 result = (money1 + money2) * 2 - 500
-print(result)  # INR 2500.00
+print(result)
