@@ -1,63 +1,31 @@
-class Money:
-    def __init__(self, amount, currency="INR"):
-        self.amount = amount
-        self.currency = currency
+class MyDemo:
+    registry = []
 
-    def __add__(self, other):
-        """Called by +"""
-        if isinstance(other, Money):
-            if self.currency != other.currency:
-                raise ValueError("Cannot add different currencies!")
-            return Money(self.amount + other.amount, self.currency)
-        elif isinstance(other, (int, float)):
-            return Money(self.amount + other, self.currency)
-        return NotImplemented
+    def __new__(cls, *args, **kwargs):
+        print("Allocating memory for object")
+        return super().__new__(cls)
 
-    def __sub__(self, other):
-        """Called by -"""
-        if isinstance(other, Money):
-            if self.currency != other.currency:
-                raise ValueError("Cannot subtract different currencies!")
-            return Money(self.amount - other.amount, self.currency)
-        elif isinstance(other, (int, float)):
-            return Money(self.amount - other, self.currency)
-        return NotImplemented
+    def __init__(self, value):
+        self.value = value
 
-    def __mul__(self, multiplier):
-        """Called by *"""
-        if isinstance(multiplier, (int, float)):
-            return Money(self.amount * multiplier, self.currency)
-        return NotImplemented
+    def __hash__(self):
+        return hash(self.value)
 
-    def __truediv__(self, divisor):
-        """Called by /"""
-        if isinstance(divisor, (int, float)):
-            return Money(self.amount / divisor, self.currency)
-        return NotImplemented
+    def __call__(self, x):
+        return self.value * x
 
-    def __str__(self):
-        return f"{self.currency} {self.amount:.2f}"
+    def __enter__(self):
+        print("Entering block")
+        return self
 
-    def __repr__(self):
-        return f"Money({self.amount}, '{self.currency}')"
+    def __exit__(self, a, b, c):
+        print("Leaving block")
 
-money1 = Money(1000)
-money2 = Money(500)
+    def __getitem__(self, index):
+        return str(self.value)[index]
 
-total = money1 + money2
-print(total)
+    def __setitem__(self, key, value):
+        print(f"Setting {key} to {value}")
 
-difference = money1 - money2
-print(difference)
-
-doubled = money1 * 2
-print(doubled)
-
-half = money1 / 2
-print(half)
-
-more = money1 + 250
-print(more)
-
-result = (money1 + money2) * 2 - 500
-print(result)
+    def __init_subclass__(cls):
+        MyDemo.registry.append(cls.__name__)
