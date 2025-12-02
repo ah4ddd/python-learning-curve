@@ -1,31 +1,38 @@
-class MyDemo:
-    registry = []
+class Money:
+    def __init__(self, amount):
+        self.amount = amount
 
-    def __new__(cls, *args, **kwargs):
-        print("Allocating memory for object")
-        return super().__new__(cls)
+    def __iadd__(self, other):
+        if isinstance(other, (int, float)):
+            self.amount += other
+            return self
+        return NotImplemented
 
-    def __init__(self, value):
-        self.value = value
+    def __isub__(self, other):
+        if isinstance(other, (int, float)):
+            self.amount -= other
+            return self
+        return NotImplemented
 
-    def __hash__(self):
-        return hash(self.value)
+    def __imul__(self, other):
+        if isinstance(other, (int, float)):
+            self.amount *= other
+            return self
+        return NotImplemented
 
-    def __call__(self, x):
-        return self.value * x
+    def __str__(self):
+        return f"₹{self.amount}"
 
-    def __enter__(self):
-        print("Entering block")
-        return self
+paisa = Money(100)
 
-    def __exit__(self, a, b, c):
-        print("Leaving block")
+paisa += 500
 
-    def __getitem__(self, index):
-        return str(self.value)[index]
+print(paisa)
 
-    def __setitem__(self, key, value):
-        print(f"Setting {key} to {value}")
+paisa -= 500
 
-    def __init_subclass__(cls):
-        MyDemo.registry.append(cls.__name__)
+print(paisa)
+
+paisa *= 500
+
+print(paisa)
