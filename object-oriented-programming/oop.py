@@ -1,37 +1,17 @@
-class Bag:
-    def __init__(self, items):
-        self.items = items
-
-    def __len__(self):
-        return len(self.items)
-
-    def __contains__(self, item):
-        return item in self.items
-
-    def __getitem__(self, index):
-        return self.items[index]
-
-    def __setitem__(self, index, value):
-        self.items[index] = value
-
-    def __delitem__(self, index):
-        del self.items[index]
+class Counter:
+    def __init__(self, stop):
+        self.stop = stop
 
     def __iter__(self):
-        return iter(self.items)
+        self.current = 0
+        return self
 
-    def __reversed__(self):
-        return reversed(self.items)
+    def __next__(self):
+        if self.current >= self.stop:
+            raise StopIteration
+        value = self.current
+        self.current += 1
+        return value
 
-    def __str__(self):
-        return f"Bag: {self.items}"
-
-b = Bag(["knife", "rope", "key"])
-
-print(len(b))          # 3
-print("rope" in b)     # True
-print(b[1])            # "rope"
-b[1] = "silk"
-del b[0]
-print(list(b))         # ['silk', 'key']
-print(list(reversed(b)))
+for i in Counter(3):
+    print(i)
