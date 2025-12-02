@@ -1,14 +1,21 @@
-class Capitalizer:
-    def __call__(self, text):
-        return text.upper()
+class MyContext:
+    def __enter__(self):
+        print("Entering...")
+        return "Ahad"
 
-cap = Capitalizer()
-print(cap("hello"))
+    def __exit__(self, exc_type, exc_value, traceback):
+        print("Leaving...")
 
-class Square:
-    def __call__(self, x):
-        f = x * x
-        print(f)
+with MyContext() as name:
+    print("Inside:", name)
 
-s = Square()
-s(5)
+class Door:
+    def __enter__(self):
+        print("Opening door")
+        return "You walked in"
+
+    def __exit__(self, *args):
+        print("Closing door")
+
+with Door() as status:
+    print(status)
