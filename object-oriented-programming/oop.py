@@ -1,17 +1,11 @@
-class Counter:
-    def __init__(self, stop):
-        self.stop = stop
+class Bag:
+    def __init__(self, items):
+        self.items = items
 
-    def __iter__(self):
-        self.current = 0
-        return self
+    def __reversed__(self):
+        return reversed(self.items)
 
-    def __next__(self):
-        if self.current >= self.stop:
-            raise StopIteration
-        value = self.current
-        self.current += 1
-        return value
+b = Bag(["knife", "rope", "key"])
 
-for i in Counter(3):
-    print(i)
+for item in reversed(b):
+    print(item)
