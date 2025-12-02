@@ -1,19 +1,14 @@
-class Bag:
-    def __init__(self, items):
-        self.items = items
+class Capitalizer:
+    def __call__(self, text):
+        return text.upper()
 
-    def __reversed__(self):
-        return reversed(self.items)
+cap = Capitalizer()
+print(cap("hello"))
 
-    def __iter__(self):
-        return iter(self.items)
+class Square:
+    def __call__(self, x):
+        f = x * x
+        print(f)
 
-
-b = Bag(["knife", "rope", "key"])
-
-for item in reversed(b):
-    print(item)
-
-for item in b:
-    print(item)
-
+s = Square()
+s(5)
