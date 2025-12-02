@@ -1,21 +1,15 @@
-class MyContext:
+import time
+
+class Timer:
     def __enter__(self):
-        print("Entering...")
-        return "Ahad"
-
-    def __exit__(self, exc_type, exc_value, traceback):
-        print("Leaving...")
-
-with MyContext() as name:
-    print("Inside:", name)
-
-class Door:
-    def __enter__(self):
-        print("Opening door")
-        return "You walked in"
+        self.start = time.time()
+        return self  # available as the variable after "as"
 
     def __exit__(self, *args):
-        print("Closing door")
+        self.end = time.time()
+        print("Time taken:", self.end - self.start)
 
-with Door() as status:
-    print(status)
+
+with Timer() as t:
+    for i in range(10_000_000):
+        pass
