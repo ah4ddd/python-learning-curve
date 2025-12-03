@@ -5961,3 +5961,1234 @@ This is how REAL software is built!
 ✅ Why it makes code professional
 
 ---
+
+---
+
+## **Topic 7: MAGIC METHODS (SPECIAL METHODS)** 🪄
+
+---
+
+## **What The HELL Are Magic Methods?**
+
+**Simple answer:** Special methods with double underscores (`__method__`) that Python calls AUTOMATICALLY in certain situations!
+
+**Also called:**
+- **Dunder methods** ("double underscore")
+- **Special methods**
+- **Magic methods**
+
+**Why they're "magic":** You DON'T call them directly! Python calls them FOR you! 🎩✨
+
+---
+
+## **Real-World Analogy:**
+
+Think of magic methods like **REMOTE CONTROL BUTTONS:**
+
+When you press **POWER** on a TV remote:
+- You don't manually turn on the circuit board
+- You don't manually initialize the display
+- **The button triggers all that automatically!**
+
+**Same with magic methods!**
+
+When you do `print(obj)`:
+- Python AUTOMATICALLY calls `obj.__str__()`
+- You don't see it, but it happens!
+- **That's the magic!** ✨
+
+---
+
+## **Why The FUCK Do Magic Methods Matter?**
+
+### **Without Magic Methods:**
+
+```python
+class Dog:
+    def __init__(self, name, age):
+        self.name = name
+        self.age = age
+
+dog = Dog("Buddy", 3)
+
+print(dog)  # <__main__.Dog object at 0x7f8b4c3d9a90> (UGLY!)
+len(dog)    # ERROR! 'Dog' has no len()
+dog + dog   # ERROR! unsupported operand type
+```
+
+**Your objects are DISCONNECTED from Python!** ❌
+
+---
+
+### **With Magic Methods:**
+
+```python
+class Dog:
+    def __init__(self, name, age):
+        self.name = name
+        self.age = age
+
+    def __str__(self):
+        return f"{self.name} (age {self.age})"
+
+dog = Dog("Buddy", 3)
+
+print(dog)  # Buddy (age 3) (BEAUTIFUL!)
+```
+
+**Your objects INTEGRATE with Python!** ✅
+
+---
+
+## **Part 1: The Most Important Magic Methods**
+
+Let me teach you the BIG ONES first!
+
+---
+
+### **1. `__init__` - Constructor (You Already Know This!)**
+
+```python
+class Dog:
+    def __init__(self, name, age):
+        """Called when you create an object!"""
+        self.name = name
+        self.age = age
+
+dog = Dog("Buddy", 3)  # __init__ is called here!
+```
+
+**When it's called:** When you do `ClassName()`
+
+**You already know this!** ✅
+
+---
+
+### **2. `__str__` - String Representation (For Humans)**
+
+```python
+class Dog:
+    def __init__(self, name, age):
+        self.name = name
+        self.age = age
+
+    def __str__(self):
+        """Called by print() and str()"""
+        return f"Dog named {self.name}, age {self.age}"
+
+dog = Dog("Buddy", 3)
+
+print(dog)       # Calls __str__!  → Dog named Buddy, age 3
+str(dog)         # Calls __str__!  → "Dog named Buddy, age 3"
+f"My dog: {dog}" # Calls __str__!  → "My dog: Dog named Buddy, age 3"
+```
+
+**RUN THIS!**
+
+---
+
+**When it's called:**
+- `print(obj)` → Calls `obj.__str__()`
+- `str(obj)` → Calls `obj.__str__()`
+- `f"{obj}"` → Calls `obj.__str__()`
+
+**What it should return:** A HUMAN-READABLE string!
+
+**Purpose:** Make your object look nice when printed! ✨
+
+---
+
+### **3. `__repr__` - String Representation (For Developers)**
+
+```python
+class Dog:
+    def __init__(self, name, age):
+        self.name = name
+        self.age = age
+
+    def __str__(self):
+        """For humans"""
+        return f"Dog named {self.name}"
+
+    def __repr__(self):
+        """For developers (should be unambiguous)"""
+        return f"Dog('{self.name}', {self.age})"
+
+dog = Dog("Buddy", 3)
+
+print(dog)       # Calls __str__  → Dog named Buddy
+repr(dog)        # Calls __repr__ → Dog('Buddy', 3)
+
+# In interactive shell:
+dog              # Shows __repr__ → Dog('Buddy', 3)
+
+# In a list:
+dogs = [Dog("Max", 5), Dog("Luna", 2)]
+print(dogs)      # Shows __repr__ for each → [Dog('Max', 5), Dog('Luna', 2)]
+```
+
+**RUN THIS!**
+
+---
+
+**The difference:**
+
+**`__str__`:**
+- For END USERS
+- Human-friendly
+- "Dog named Buddy"
+
+**`__repr__`:**
+- For DEVELOPERS
+- Should be unambiguous (ideally, you could recreate the object)
+- "Dog('Buddy', 3)"
+
+**Best practice:**
+```python
+def __repr__(self):
+    return f"Dog('{self.name}', {self.age})"  # Code-like representation
+
+def __str__(self):
+    return f"{self.name}"  # Simple representation
+```
+
+**If you only define ONE, define `__repr__`!** Python will use it for both!
+
+---
+
+### **4. `__len__` - Length**
+
+```python
+class Playlist:
+    def __init__(self, name):
+        self.name = name
+        self.__songs = []
+
+    def add_song(self, song):
+        self.__songs.append(song)
+
+    def __len__(self):
+        """Called by len()"""
+        return len(self.__songs)
+
+    def __str__(self):
+        return f"Playlist: {self.name} ({len(self)} songs)"
+
+playlist = Playlist("My Favorites")
+playlist.add_song("Bohemian Rhapsody")
+playlist.add_song("Stairway to Heaven")
+playlist.add_song("Imagine")
+
+print(len(playlist))  # Calls __len__! → 3
+print(playlist)       # Playlist: My Favorites (3 songs)
+
+if len(playlist) > 0:
+    print("Playlist has songs!")
+```
+
+**RUN THIS!**
+
+---
+
+**When it's called:** `len(obj)` → Calls `obj.__len__()`
+
+**What it should return:** An INTEGER representing the "length" of your object!
+
+**Use it when:** Your object represents a COLLECTION or has a concept of "size"!
+
+---
+
+### **5. `__getitem__` and `__setitem__` - Indexing**
+
+```python
+class Playlist:
+    def __init__(self, name):
+        self.name = name
+        self.__songs = []
+
+    def add_song(self, song):
+        self.__songs.append(song)
+
+    def __len__(self):
+        return len(self.__songs)
+
+    def __getitem__(self, index):
+        """Called when accessing by index: playlist[0]"""
+        return self.__songs[index]
+
+    def __setitem__(self, index, value):
+        """Called when setting by index: playlist[0] = "New Song" """
+        self.__songs[index] = value
+
+    def __str__(self):
+        return f"Playlist: {self.name}"
+
+playlist = Playlist("Rock Classics")
+playlist.add_song("Bohemian Rhapsody")
+playlist.add_song("Stairway to Heaven")
+playlist.add_song("Imagine")
+
+# Access by index:
+print(playlist[0])  # Calls __getitem__(0) → Bohemian Rhapsody
+print(playlist[1])  # Calls __getitem__(1) → Stairway to Heaven
+print(playlist[2])  # Calls __getitem__(2) → Imagine
+
+# Set by index:
+playlist[1] = "Hotel California"  # Calls __setitem__(1, "Hotel California")
+print(playlist[1])  # Hotel California
+
+# Loop through (uses __getitem__!):
+for song in playlist:
+    print(f"♪ {song}")
+
+# Output:
+# ♪ Bohemian Rhapsody
+# ♪ Hotel California
+# ♪ Imagine
+```
+
+**RUN THIS!**
+
+---
+
+**HOLY SHIT, LOOK AT THAT!** 🤯
+
+**Your object now behaves like a LIST!**
+
+```python
+playlist[0]           # Works!
+playlist[1] = "Song"  # Works!
+for song in playlist: # Works!
+```
+
+**When they're called:**
+- `obj[index]` → Calls `obj.__getitem__(index)`
+- `obj[index] = value` → Calls `obj.__setitem__(index, value)`
+
+**Use it when:** Your object represents a COLLECTION!
+
+---
+
+## **Part 2: Comparison Magic Methods**
+
+These make your objects COMPARABLE!
+
+```python
+class Student:
+    def __init__(self, name, grade):
+        self.name = name
+        self.grade = grade
+
+    def __eq__(self, other):
+        """Called by =="""
+        return self.grade == other.grade
+
+    def __ne__(self, other):
+        """Called by !="""
+        return self.grade != other.grade
+
+    def __lt__(self, other):
+        """Called by <"""
+        return self.grade < other.grade
+
+    def __le__(self, other):
+        """Called by <="""
+        return self.grade <= other.grade
+
+    def __gt__(self, other):
+        """Called by >"""
+        return self.grade > other.grade
+
+    def __ge__(self, other):
+        """Called by >="""
+        return self.grade >= other.grade
+
+    def __str__(self):
+        return f"{self.name}: {self.grade}%"
+
+# Create students:
+s1 = Student("Ahad", 95)
+s2 = Student("Sara", 88)
+s3 = Student("Zexo", 95)
+
+# Compare them:
+print(s1 == s3)  # True (same grade)
+print(s1 != s2)  # True (different grades)
+print(s1 > s2)   # True (95 > 88)
+print(s2 < s1)   # True (88 < 95)
+print(s1 >= s3)  # True (95 >= 95)
+
+# Sort them:
+students = [s2, s1, s3]
+students.sort()  # Uses __lt__!
+
+print("\nSorted students:")
+for student in students:
+    print(student)
+
+# Output:
+# Sara: 88%
+# Ahad: 95%
+# Zexo: 95%
+```
+
+**RUN THIS!**
+
+---
+
+**Comparison methods:**
+
+| **Magic Method** | **Operator** | **Called When** |
+|------------------|--------------|-----------------|
+| `__eq__` | `==` | `obj1 == obj2` |
+| `__ne__` | `!=` | `obj1 != obj2` |
+| `__lt__` | `<` | `obj1 < obj2` |
+| `__le__` | `<=` | `obj1 <= obj2` |
+| `__gt__` | `>` | `obj1 > obj2` |
+| `__ge__` | `>=` | `obj1 >= obj2` |
+
+**Pro tip:** If you define `__eq__` and `__lt__`, Python can figure out the rest! But it's clearer to define all!
+
+---
+
+## **Part 3: Arithmetic Magic Methods**
+
+Make your objects work with `+`, `-`, `*`, `/`!
+
+```python
+class Money:
+    def __init__(self, amount, currency="INR"):
+        self.amount = amount
+        self.currency = currency
+
+    def __add__(self, other):
+        """Called by +"""
+        if isinstance(other, Money):
+            if self.currency != other.currency:
+                raise ValueError("Cannot add different currencies!")
+            return Money(self.amount + other.amount, self.currency)
+        elif isinstance(other, (int, float)):
+            return Money(self.amount + other, self.currency)
+        return NotImplemented
+
+    def __sub__(self, other):
+        """Called by -"""
+        if isinstance(other, Money):
+            if self.currency != other.currency:
+                raise ValueError("Cannot subtract different currencies!")
+            return Money(self.amount - other.amount, self.currency)
+        elif isinstance(other, (int, float)):
+            return Money(self.amount - other, self.currency)
+        return NotImplemented
+
+    def __mul__(self, multiplier):
+        """Called by *"""
+        if isinstance(multiplier, (int, float)):
+            return Money(self.amount * multiplier, self.currency)
+        return NotImplemented
+
+    def __truediv__(self, divisor):
+        """Called by /"""
+        if isinstance(divisor, (int, float)):
+            return Money(self.amount / divisor, self.currency)
+        return NotImplemented
+
+    def __str__(self):
+        return f"{self.currency} {self.amount:.2f}"
+
+    def __repr__(self):
+        return f"Money({self.amount}, '{self.currency}')"
+
+# Use it:
+money1 = Money(1000)
+money2 = Money(500)
+
+# Add money:
+total = money1 + money2
+print(total)  # INR 1500.00
+
+# Subtract:
+difference = money1 - money2
+print(difference)  # INR 500.00
+
+# Multiply:
+doubled = money1 * 2
+print(doubled)  # INR 2000.00
+
+# Divide:
+half = money1 / 2
+print(half)  # INR 500.00
+
+# Add number:
+more = money1 + 250
+print(more)  # INR 1250.00
+
+# Chain operations:
+result = (money1 + money2) * 2 - 500
+print(result)  # INR 2500.00
+```
+
+**RUN THIS!**
+
+---
+
+**Arithmetic methods:**
+
+| **Magic Method** | **Operator** | **Called When** |
+|------------------|--------------|-----------------|
+| `__add__` | `+` | `obj1 + obj2` |
+| `__sub__` | `-` | `obj1 - obj2` |
+| `__mul__` | `*` | `obj1 * obj2` |
+| `__truediv__` | `/` | `obj1 / obj2` |
+| `__floordiv__` | `//` | `obj1 // obj2` |
+| `__mod__` | `%` | `obj1 % obj2` |
+| `__pow__` | `**` | `obj1 ** obj2` |
+
+**What's `NotImplemented`?**
+
+```python
+return NotImplemented
+```
+
+**This tells Python:** "I don't know how to handle this type, try something else!"
+
+**Example:**
+```python
+def __add__(self, other):
+    if isinstance(other, Money):
+        return Money(self.amount + other.amount)
+    return NotImplemented  # Can't add Money + string, etc.
+```
+
+---
+
+## **Part 4: Reverse Arithmetic Methods**
+
+**What if someone does `5 + money` instead of `money + 5`?**
+
+```python
+class Money:
+    def __init__(self, amount):
+        self.amount = amount
+
+    def __add__(self, other):
+        """money + 5"""
+        if isinstance(other, (int, float)):
+            return Money(self.amount + other)
+        return NotImplemented
+
+    def __radd__(self, other):
+        """5 + money (reversed!)"""
+        if isinstance(other, (int, float)):
+            return Money(self.amount + other)
+        return NotImplemented
+
+    def __str__(self):
+        return f"₹{self.amount}"
+
+money = Money(100)
+
+print(money + 50)   # Calls __add__   → ₹150
+print(50 + money)   # Calls __radd__  → ₹150
+```
+
+**RUN THIS!**
+
+---
+
+**Reverse methods:**
+
+| **Magic Method** | **Called When** |
+|------------------|-----------------|
+| `__radd__` | `5 + obj` (obj is on right) |
+| `__rsub__` | `5 - obj` |
+| `__rmul__` | `5 * obj` |
+| `__rtruediv__` | `5 / obj` |
+
+**When they're called:** When the LEFT operand doesn't support the operation!
+
+**Example:**
+```python
+5 + money
+# Python tries: 5.__add__(money) → int doesn't know how to add Money!
+# Python then tries: money.__radd__(5) → Money knows how!
+```
+
+---
+
+## **Part 5: In-Place Operators**
+
+**These modify the object IN-PLACE!**
+
+```python
+class Counter:
+    def __init__(self, value=0):
+        self.value = value
+
+    def __iadd__(self, other):
+        """Called by +="""
+        self.value += other
+        return self  # MUST return self!
+
+    def __isub__(self, other):
+        """Called by -="""
+        self.value -= other
+        return self
+
+    def __imul__(self, other):
+        """Called by *="""
+        self.value *= other
+        return self
+
+    def __str__(self):
+        return f"Counter: {self.value}"
+
+counter = Counter(10)
+print(counter)  # Counter: 10
+
+counter += 5   # Calls __iadd__
+print(counter)  # Counter: 15
+
+counter -= 3   # Calls __isub__
+print(counter)  # Counter: 12
+
+counter *= 2   # Calls __imul__
+print(counter)  # Counter: 24
+```
+
+**RUN THIS!**
+
+---
+
+**In-place methods:**
+
+| **Magic Method** | **Operator** |
+|------------------|--------------|
+| `__iadd__` | `+=` |
+| `__isub__` | `-=` |
+| `__imul__` | `*=` |
+| `__itruediv__` | `/=` |
+
+**IMPORTANT:** These methods MUST return `self`!
+
+```python
+def __iadd__(self, other):
+    self.value += other
+    return self  # MUST return self!
+```
+
+---
+
+## **Part 6: Container Magic Methods**
+
+Make your object behave like a CONTAINER (list, dict, set)!
+
+```python
+class ShoppingCart:
+    def __init__(self):
+        self.__items = []
+
+    def __len__(self):
+        """len(cart)"""
+        return len(self.__items)
+
+    def __getitem__(self, index):
+        """cart[0]"""
+        return self.__items[index]
+
+    def __setitem__(self, index, value):
+        """cart[0] = "Apple" """
+        self.__items[index] = value
+
+    def __delitem__(self, index):
+        """del cart[0]"""
+        del self.__items[index]
+
+    def __contains__(self, item):
+        """'Apple' in cart"""
+        return item in self.__items
+
+    def __iter__(self):
+        """for item in cart"""
+        return iter(self.__items)
+
+    def add(self, item):
+        """Helper method"""
+        self.__items.append(item)
+
+    def __str__(self):
+        return f"Cart with {len(self)} items: {', '.join(self.__items)}"
+
+# Use it:
+cart = ShoppingCart()
+cart.add("Apple")
+cart.add("Banana")
+cart.add("Orange")
+
+# Length:
+print(len(cart))  # 3
+
+# Access by index:
+print(cart[0])  # Apple
+print(cart[1])  # Banana
+
+# Set by index:
+cart[1] = "Mango"
+print(cart[1])  # Mango
+
+# Check membership:
+print("Apple" in cart)   # True
+print("Banana" in cart)  # False (we changed it to Mango)
+
+# Delete item:
+del cart[0]
+print(len(cart))  # 2
+
+# Iterate:
+for item in cart:
+    print(f"- {item}")
+# Output:
+# - Mango
+# - Orange
+
+print(cart)  # Cart with 2 items: Mango, Orange
+```
+
+**RUN THIS!**
+
+---
+
+**Container methods:**
+
+| **Magic Method** | **Operator/Function** | **Purpose** |
+|------------------|-----------------------|-------------|
+| `__len__` | `len(obj)` | Return length |
+| `__getitem__` | `obj[key]` | Get item |
+| `__setitem__` | `obj[key] = val` | Set item |
+| `__delitem__` | `del obj[key]` | Delete item |
+| `__contains__` | `key in obj` | Membership test |
+| `__iter__` | `for x in obj` | Make iterable |
+
+---
+
+## **Part 7: Callable Objects**
+
+**Make your object CALLABLE like a function!**
+
+```python
+class Multiplier:
+    def __init__(self, factor):
+        self.factor = factor
+
+    def __call__(self, value):
+        """Called when you use obj()"""
+        return value * self.factor
+
+# Create multipliers:
+double = Multiplier(2)
+triple = Multiplier(3)
+
+# Use them like functions:
+print(double(5))   # Calls __call__(5) → 10
+print(double(10))  # 20
+print(triple(5))   # 15
+print(triple(10))  # 30
+
+# They're objects, not functions!
+print(type(double))  # <class '__main__.Multiplier'>
+
+# But they ACT like functions!
+numbers = [1, 2, 3, 4, 5]
+doubled = [double(n) for n in numbers]
+print(doubled)  # [2, 4, 6, 8, 10]
+```
+
+**RUN THIS!**
+
+---
+
+**When it's called:** `obj()` → Calls `obj.__call__()`
+
+**Use it when:** You want objects that behave like functions but REMEMBER STATE!
+
+**Real-world example:**
+
+```python
+class Logger:
+    def __init__(self, filename):
+        self.filename = filename
+        self.count = 0
+
+    def __call__(self, message):
+        """Log a message"""
+        self.count += 1
+        with open(self.filename, 'a') as f:
+            f.write(f"[{self.count}] {message}\n")
+        print(f"Logged: {message}")
+
+# Use it:
+log = Logger("app.log")
+
+log("App started")        # Logged: App started
+log("User logged in")     # Logged: User logged in
+log("Data saved")         # Logged: Data saved
+
+print(f"Total logs: {log.count}")  # Total logs: 3
+```
+
+**The object REMEMBERS how many times it's been called!** Functions can't do this easily!
+
+---
+
+## **Part 8: Context Managers (`with` statement)**
+
+**Make your objects work with `with` statement!**
+
+```python
+class FileManager:
+    def __init__(self, filename, mode):
+        self.filename = filename
+        self.mode = mode
+        self.file = None
+
+    def __enter__(self):
+        """Called when entering 'with' block"""
+        print(f"Opening {self.filename}...")
+        self.file = open(self.filename, self.mode)
+        return self.file
+
+    def __exit__(self, exc_type, exc_val, exc_tb):
+        """Called when exiting 'with' block (even if error!)"""
+        if self.file:
+            print(f"Closing {self.filename}...")
+            self.file.close()
+        return False  # Don't suppress exceptions
+
+# Use it:
+with FileManager("test.txt", "w") as f:
+    f.write("Hello, World!\n")
+    f.write("This is a test.\n")
+
+# File is automatically closed after the with block!
+print("File operations complete!")
+
+# Output:
+# Opening test.txt...
+# Closing test.txt...
+# File operations complete!
+```
+
+**RUN THIS!**
+
+---
+
+**Context manager methods:**
+
+| **Magic Method** | **When Called** | **Purpose** |
+|------------------|-----------------|-------------|
+| `__enter__` | Entering `with` block | Setup (open file, connect DB, etc.) |
+| `__exit__` | Exiting `with` block | Cleanup (close file, disconnect, etc.) |
+
+**Use it when:** You need GUARANTEED cleanup (even if errors happen)!
+
+**Real-world example:**
+
+```python
+class DatabaseConnection:
+    def __init__(self, db_name):
+        self.db_name = db_name
+        self.connection = None
+
+    def __enter__(self):
+        print(f"Connecting to {self.db_name}...")
+        # self.connection = connect_to_database(self.db_name)
+        self.connection = f"Connection to {self.db_name}"
+        return self.connection
+
+    def __exit__(self, exc_type, exc_val, exc_tb):
+        print(f"Disconnecting from {self.db_name}...")
+        # self.connection.close()
+        self.connection = None
+        return False
+
+# Use it:
+with DatabaseConnection("my_database") as conn:
+    print(f"Using {conn}")
+    # Do database operations...
+    # Even if error occurs, __exit__ is ALWAYS called!
+
+print("Done!")
+
+# Output:
+# Connecting to my_database...
+# Using Connection to my_database
+# Disconnecting from my_database...
+# Done!
+```
+
+**The connection is GUARANTEED to close, even if errors happen!** 🛡️
+
+---
+
+## **Part 9: Complete Real-World Example**
+
+**Let's build a `BankAccount` with ALL the magic methods!**
+
+```python
+class BankAccount:
+    """A complete bank account with all magic methods!"""
+
+    # Class variable (shared by all accounts):
+    total_accounts = 0
+
+    def __init__(self, owner, balance=0):
+        """Constructor"""
+        self.__owner = owner
+        self.__balance = balance
+        self.__transactions = []
+        BankAccount.total_accounts += 1
+
+    # String representations:
+    def __str__(self):
+        """For humans"""
+        return f"{self.__owner}'s account: ₹{self.__balance}"
+
+    def __repr__(self):
+        """For developers"""
+        return f"BankAccount('{self.__owner}', {self.__balance})"
+
+    # Comparison (based on balance):
+    def __eq__(self, other):
+        return self.__balance == other.__balance
+
+    def __lt__(self, other):
+        return self.__balance < other.__balance
+
+    def __gt__(self, other):
+        return self.__balance > other.__balance
+
+    # Arithmetic:
+    def __add__(self, amount):
+        """Deposit money"""
+        if isinstance(amount, (int, float)) and amount > 0:
+            new_balance = self.__balance + amount
+            new_account = BankAccount(self.__owner, new_balance)
+            new_account.__transactions = self.__transactions.copy()
+            new_account.__transactions.append(f"Deposited ₹{amount}")
+            return new_account
+        return NotImplemented
+
+    def __sub__(self, amount):
+        """Withdraw money"""
+        if isinstance(amount, (int, float)) and amount > 0:
+            if amount <= self.__balance:
+                new_balance = self.__balance - amount
+                new_account = BankAccount(self.__owner, new_balance)
+                new_account.__transactions = self.__transactions.copy()
+                new_account.__transactions.append(f"Withdrew ₹{amount}")
+                return new_account
+            else:
+                raise ValueError("Insufficient funds!")
+        return NotImplemented
+
+    # Container methods:
+    def __len__(self):
+        """Number of transactions"""
+        return len(self.__transactions)
+
+    def __getitem__(self, index):
+        """Get transaction by index"""
+        return self.__transactions[index]
+
+    def __contains__(self, transaction):
+        """Check if transaction exists"""
+        return transaction in self.__transactions
+
+    def __iter__(self):
+        """Iterate through transactions"""
+        return iter(self.__transactions)
+
+    # Properties:
+    @property
+    def balance(self):
+        return self.__balance
+
+    @property
+    def owner(self):
+        return self.__owner
+
+    # Methods:
+    def deposit(self, amount):
+        """Deposit money (modifies in place)"""
+        if amount > 0:
+            self.__balance += amount
+            self.__transactions.append(f"Deposited ₹{amount}")
+            print(f"✅ Deposited ₹{amount}. New balance: ₹{self.__balance}")
+        else:
+            print("❌ Amount must be positive!")
+
+    def withdraw(self, amount):
+        """Withdraw money (modifies in place)"""
+        if amount > 0:
+            if amount <= self.__balance:
+                self.__balance -= amount
+                self.__transactions.append(f"Withdrew ₹{amount}")
+                print(f"✅ Withdrew ₹{amount}. New balance: ₹{self.__balance}")
+            else:
+                print(f"❌ Insufficient funds! Balance: ₹{self.__balance}")
+        else:
+            print("❌ Amount must be positive!")
+
+# Use it:
+print("=== Creating Accounts ===")
+account1 = BankAccount("Ahad", 5000)
+account2 = BankAccount("Sara", 3000)
+account3 = BankAccount("Zexo", 7000)
+
+print(f"Total accounts: {BankAccount.total_accounts}\n")
+
+print("=== String Representations ===")
+print(account1)       # __str__
+print(repr(account2)) # __repr__
+print()
+
+print("=== Comparisons ===")
+print(f"account1 == account2: {account1 == account2}")  # False
+print(f"account1 < account3: {account1 < account3}")    # True
+print(f"account3 > account2: {account3 > account2}")    # True
+print()
+
+print("=== Arithmetic (returns new account) ===")
+account1_after_deposit = account1 + 1000
+print(account1_after_deposit)
+print(f"Original account1: {account1}")  # Unchanged!
+print()
+
+print("=== In-place Operations ===")
+account1.deposit(1000)
+account1.deposit(500)
+account1.withdraw(200)
+print()
+
+print("=== Container Operations ===")
+print(f"Number of transactions: {len(account1)}")
+print(f"First transaction: {account1[0]}")
+print(f"Last transaction: {account1[-1]}")
+print()
+
+print("=== Iteration ===")
+print("Transaction history:")
+for i, transaction in enumerate(account1, 1):
+    print(f"  {i}. {transaction}")
+print()
+
+print("=== Membership Test ===")
+print(f"'Deposited ₹1000' in transactions: {'Deposited ₹1000' in account1}")
+print()
+
+print("=== Sorting Accounts ===")
+accounts = [account1, account2, account3]
+accounts.sort()  # Uses __lt__!
+print("Sorted by balance:")
+for acc in accounts:
+    print(f"  {acc}")
+```
+
+**RUN THIS!**
+
+---
+
+**LOOK AT WHAT WE BUILT!** 🔥
+
+This account has:
+✅ `__init__` - Constructor
+✅ `__str__` and `__repr__` - String representations
+✅ `__eq__`, `__lt__`, `__gt__` - Comparisons
+✅ `__add__`, `__sub__` - Arithmetic
+✅ `__len__` - Length
+✅ `__getitem__` - Indexing
+✅ `__contains__` - Membership
+✅ `__iter__` - Iteration
+
+**It behaves like a NATIVE Python object!** 💪
+
+---
+
+## **Part 10: Complete Magic Methods Reference**
+
+Here's EVERY major magic method:
+
+### **Object Lifecycle:**
+```python
+__init__(self, ...)      # Constructor
+__del__(self)            # Destructor (rarely used)
+```
+
+### **String Representations:**
+```python
+__str__(self)            # str(obj), print(obj)
+__repr__(self)           # repr(obj), interactive shell
+__format__(self, spec)   # format(obj, spec)
+```
+
+### **Comparisons:**
+```python
+__eq__(self, other)      # ==
+__ne__(self, other)      # !=
+__lt__(self, other)      #
+__le__(self, other)      # <=
+__gt__(self, other)      # >
+__ge__(self, other)      # >=
+```
+
+### **Arithmetic:**
+```python
+__add__(self, other)     # +
+__sub__(self, other)     # -
+__mul__(self, other)     # *
+__truediv__(self, other) # /
+__floordiv__(self, other)# //
+__mod__(self, other)     # %
+__pow__(self, other)     # **
+```
+
+### **Reverse Arithmetic:**
+```python
+__radd__(self, other)    # other + self
+__rsub__(self, other)    # other - self
+# etc...
+```
+
+### **In-place Arithmetic:**
+```python
+__iadd__(self, other)    # +=
+__isub__(self, other)    # -=
+__imul__(self, other)    # *=
+__itruediv__(self, other)# /=
+```
+
+### **Unary Operators:**
+```python
+__neg__(self)            # -obj
+__pos__(self)            # +obj
+__abs__(self)            # abs(obj)
+```
+
+### **Container:**
+```python
+__len__(self)            # len(obj)
+__getitem__(self, key)   # obj[key]
+__setitem__(self, key, val) # obj[key] = val
+__delitem__(self, key)   # del obj[key]
+__contains__(self, item) # item in obj
+__iter__(self)           # for x in obj
+__next__(self)           # next(obj)
+```
+
+### **Callable:**
+```python
+__call__(self, ...)      # obj()
+```
+
+### **Context Manager:**
+```python
+__enter__(self)          # with obj:
+__exit__(self, ...)      # (cleanup)
+```
+
+### **Attribute Access:**
+```python
+__getattr__(self, name)  # obj.name (if not found)
+__setattr__(self, name, val) # obj.name = val
+__delattr__(self, name)  # del obj.name
+```
+
+---
+
+## **Common Mistakes:**
+
+### ❌ **Mistake 1: Forgetting to return in arithmetic methods**
+
+```python
+def __add__(self, other):
+    self.value += other  # ❌ Modifies in place, returns None!
+
+obj1 + obj2  # Returns None!
+```
+
+**Fix:**
+```python
+def __add__(self, other):
+    return MyClass(self.value + other)  # ✅ Return new object!
+```
+
+---
+
+### ❌ **Mistake 2: Not returning `self` in in-place methods**
+
+```python
+def __iadd__(self, other):
+    self.value += other  # ❌ Doesn't return self!
+
+obj += 5  # obj becomes None!
+```
+
+**Fix:**
+```python
+def __iadd__(self, other):
+    self.value += other
+    return self  # ✅ Must return self!
+```
+
+---
+
+### ❌ **Mistake 3: `__str__` returning non-string**
+
+```python
+def __str__(self):
+    return self.value  # ❌ If value is int, error!
+```
+
+**Fix:**
+```python
+def __str__(self):
+    return str(self.value)  # ✅ Convert to string!
+```
+
+---
+
+### ❌ **Mistake 4: Not handling different types in arithmetic**
+
+```python
+def __add__(self, other):
+    return Money(self.amount + other.amount)  # ❌ What if other is a number?
+```
+
+**Fix:**
+```python
+def __add__(self, other):
+    if isinstance(other, Money):
+        return Money(self.amount + other.amount)
+    elif isinstance(other, (int, float)):
+        return Money(self.amount + other)
+    return NotImplemented  # ✅ Handle all cases!
+```
+
+---
+
+# **MAGIC METHODS: COMPLETE! 🪄✨**
+
+**YOU NOW UNDERSTAND:**
+✅ What magic methods are (dunder methods)
+✅ `__init__`, `__str__`, `__repr__`
+✅ `__len__`, `__getitem__`, `__setitem__`
+✅ Comparison methods (`__eq__`, `__lt__`, etc.)
+✅ Arithmetic methods (`__add__`, `__sub__`, etc.)
+✅ Reverse and in-place arithmetic
+✅ `__call__` (callable objects)
+✅ `__enter__` and `__exit__` (context managers)
+✅ How to make objects feel NATIVE to Python!
+
+---
+
+
