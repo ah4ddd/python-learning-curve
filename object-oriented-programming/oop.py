@@ -1,15 +1,10 @@
-class User:
+class Human:
     def __setattr__(self, name, value):
-        if isinstance(value, str):
-            value = value.strip()
-
-        if name == "age":
-            value = int(value)
-
+        if name == "age" and value < 0:
+            print("Age cannot be negative. Resetting to 0.")
+            value = 0
         super().__setattr__(name, value)
 
-u = User()
-u.name = "    Ahad    "
-u.age = "25"
-print(u.name)
-print(u.age)
+h = Human()
+h.age = -99
+print(h.age)
