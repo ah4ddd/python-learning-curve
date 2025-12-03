@@ -102,19 +102,7 @@ class Checkout:
     def __exit__(self, exc_type, exc, traceback):
         print("Checkout closed.")
 
-cash = Money(5000)
-cash2 = Money(2500)
-
-cash3 = cash + cash2
-cash4 = 500 + cash2
-cash += 3000
-cash5 = cash - cash4
-print(cash5)
-cash6 = cash5 * 5
-cash7 = cash6 / 5
-print(cash6)
-print(cash7)
-
+cash = Money(10)
 p1 = Product("Book", 300)
 p2 = Product("Pen", 20)
 p3 = Product("Laptop", 70000)
@@ -123,6 +111,7 @@ cart = ShoppingCart()
 cart.add(p1)
 cart.add(p2)
 cart.add(p3)
+print(cart.total)
 
 print(cart)
 print(len(cart))
@@ -135,3 +124,5 @@ discount = Discount(10)
 
 with Checkout(cart, discount) as final_amount:
     print("Final payable:", final_amount)
+
+print(cash)
