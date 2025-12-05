@@ -1,128 +1,68 @@
-class Money:
-    def __init__(self, amount):
-        self.amount = amount
-
-    def __add__(self, other):
-        if isinstance(other, Money):
-            return Money(self.amount + other.amount)
-        return Money(self.amount + other)
-
-    def __radd__(self, other):
-        return Money(other + self.amount)
-
-    def __iadd__(self, other):
-        if isinstance(other, Money):
-            self.amount += other.amount
-        else:
-            self.amount += other
-        return self
-
-    def __sub__(self, other):
-        return Money(self.amount - other.amount)
-
-    def __mul__(self, n):
-        return Money(self.amount * n)
-
-    def __truediv__(self, n):
-        return Money(self.amount / n)
-
-    def __str__(self):
-        return f"₹{self.amount:.2f}"
-
-    def __repr__(self):
-        return f"Money({self.amount})"
-
-class Product:
-    def __init__(self, name, price):
+class Habit:
+    def __init__(self, name):
         self.name = name
-        self.price = Money(price)
+        self.streak = 0
 
     def __str__(self):
-        return f"{self.name} - {self.price}"
+        return f"{self.name} - Streak: {self.streak}"
 
     def __repr__(self):
-        return f"Product('{self.name}', {self.price})"
+        return f"Habit('{self.name}', streak={self.streak})"
 
-class ShoppingCart:
+    def __add__(self, days):
+        new_habit = Habit(self.name)
+        new_habit.streak = self.streak + days
+        return new_habit
+
+    def __call__(self):
+        self.streak += 1
+        return f"Nice! You completed {self.name} today."
+
+class HabitTracker:
     def __init__(self):
-        self.items = []
+        self.habits = []
 
-    def add(self, product):
-        self.items.append(product)
+    def add(self, habit):
+        self.habits.append(habit)
 
     def __len__(self):
-        return len(self.items)
+        return len(self.habits)
 
     def __getitem__(self, index):
-        return self.items[index]
-
-    def __setitem__(self, index, value):
-        self.items[index] = value
-
-    def __delitem__(self, index):
-        del self.items[index]
-
-    def __contains__(self, item):
-        return item in self.items
+        return self.habits[index]
 
     def __iter__(self):
-        return iter(self.items)
-
-    def total(self):
-        total = Money(0)
-        for item in self.items:
-            total += item.price
-        return total
+        return iter(self.habits)
 
     def __str__(self):
-        names = ", ".join(p.name for p in self.items)
-        return f"Cart({len(self.items)} items: {names})"
+        return f"HabitTracker with {len(self)} habits."
 
-class Discount:
-    def __init__(self, percentage):
-        self.percentage = percentage
+ht = HabitTracker()
 
-    def __call__(self, money):
-        discount_value = money.amount * (self.percentage / 100)
-        return Money(money.amount - discount_value)
+gym = Habit("Gym")
+coding = Habit("Coding")
+reading = Habit("Reading")
 
-class Checkout:
-    def __init__(self, cart, discount=None):
-        self.cart = cart
-        self.discount = discount
+ht.add(gym)
+ht.add(coding)
+ht.add(reading)
 
-    def __enter__(self):
-        print("Starting checkout...")
-        total = self.cart.total()
-        if self.discount:
-            total = self.discount(total)
-        self.final_total = total
-        return self.final_total
+print(f"{ht}\n")
 
-    def __exit__(self, exc_type, exc, traceback):
-        print("Checkout closed.")
+print(gym())
+print(coding())
+print(reading())
 
-cash = Money(10)
-p1 = Product("Book", 300)
-p2 = Product("Pen", 20)
-p3 = Product("Laptop", 70000)
+print()
+gym = gym + 2
+print(repr(gym))
+print([gym])
 
-cart = ShoppingCart()
-cart.add(p1)
-cart.add(p2)
-cart.add(p3)
-print(cart.total)
+print("\nCurrent Habits:")
+for h in ht:
+    print(h)
 
-print(cart)
-print(len(cart))
-print(cart[0])
-print("Pen" in [p.name for p in cart])
+print("\nSecond habit:", ht[1])
 
-cart[1] = Product("Marker", 25)
 
-discount = Discount(10)
 
-with Checkout(cart, discount) as final_amount:
-    print("Final payable:", final_amount)
-
-print(cash)
