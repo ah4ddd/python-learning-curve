@@ -1,37 +1,21 @@
 from abc import ABC, abstractmethod
 
-class PaymentMethod(ABC):
-    """Abstract payment method"""
+class Weapon(ABC):
 
     @abstractmethod
-    def process_payment(self, amount):
-        """Every payment method MUST process payments!"""
+    def attack(self):
         pass
 
-    @abstractmethod
-    def refund(self, amount):
-        """Every payment method MUST support refunds!"""
-        pass
+class Sword(Weapon):
+    def attack(self):
+        return "Slash!"
 
-class CreditCard(PaymentMethod):
-    def process_payment(self, amount):
-        print(f"💳 Processing ₹{amount} via Credit Card")
+class Gun(Weapon):
+    def attack(self):
+        return "Bang!"
 
-    def refund(self, amount):
-        print(f"💳 Refunding ₹{amount} to Credit Card")
+weapon1 = Sword()
+weapon2 = Gun()
 
-class UPI(PaymentMethod):
-    def process_payment(self, amount):
-        print(f"📱 Processing ₹{amount} via UPI")
-
-    def refund(self, amount):
-        print(f"📱 Refunding ₹{amount} to UPI")
-
-# Use them:
-card = CreditCard()
-upi = UPI()
-
-card.process_payment(5000)
-upi.process_payment(3000)
-
-upi.refund(1000)
+print(weapon1.attack())
+print(weapon2.attack())
