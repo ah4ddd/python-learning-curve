@@ -44,7 +44,6 @@ class Lottery:
                     print(n, "won after", tries, "tries")
                     break
 
-
 game = Lottery()
 
 # play just words
@@ -64,3 +63,4 @@ game.until_win("numbers")
 
 # until everything wins
 game.until_win()
+
