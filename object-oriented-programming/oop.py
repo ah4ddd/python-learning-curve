@@ -1,66 +1,48 @@
-from random import choice
+import random
+import string
+from datetime import datetime
 
-class Lottery:
+class PasswordGenerator:
     def __init__(self):
-        self.categories = {
-            "words": {
-                "values": ["Python", "Java", "JS", "C++", "Rust"],
-                "lucky": ["Python", "C++"]
-            },
-            "numbers": {
-                "values": [67,70,10,3,5,6,90,75,100,1],
-                "lucky": [1,10,100]
-            }
+        self.lowercase = string.ascii_lowercase  # 'abcdefg...'
+        self.uppercase = string.ascii_uppercase  # 'ABCDEFG...'
+        self.digits = string.digits              # '0123456789'
+        self.symbols = "!@#$%^&*"
+
+    def generate(self, length=12, include_symbols=True):
+        """Generate random password"""
+        # Build character pool:
+        chars = self.lowercase + self.uppercase + self.digits
+        if include_symbols:
+            chars += self.symbols
+
+        # Generate password:
+        password = ''.join(random.choice(chars) for _ in range(length))
+
+        # Log generation time:
+        timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+
+        return {
+            "password": password,
+            "length": length,
+            "generated_at": timestamp
         }
 
-    def play(self, name=None):
-        if name:
-            info = self.categories[name]
-            pick = choice(info["values"])
-            print(name, "WIN:" if pick in info["lucky"] else "LOSE:", pick)
-            return
+    def generate_multiple(self, count=5, length=12):
+        """Generate multiple passwords"""
+        return [self.generate(length) for _ in range(count)]
 
-        for n, info in self.categories.items():
-            pick = choice(info["values"])
-            print(n, "WIN:" if pick in info["lucky"] else "LOSE:", pick)
-        print()
+# Use it:
+gen = PasswordGenerator()
 
-    def until_win(self, name=None):
-        if name:
-            info = self.categories[name]
-            tries = 0
-            while True:
-                tries += 1
-                if choice(info["values"]) in info["lucky"]:
-                    print(name, "won after", tries, "tries")
-                    break
-            return
+# Single password:
+pwd = gen.generate(length=16)
+print(f"Password: {pwd['password']}")
+print(f"Length: {pwd['length']}")
+print(f"Generated: {pwd['generated_at']}")
 
-        for n, info in self.categories.items():
-            tries = 0
-            while True:
-                tries += 1
-                if choice(info["values"]) in info["lucky"]:
-                    print(n, "won after", tries, "tries")
-                    break
-
-game = Lottery()
-
-# play just words
-game.play("words")
-
-# play just numbers
-game.play("numbers")
-
-# play all
-game.play()
-
-# until word wins
-game.until_win("words")
-
-# until number wins
-game.until_win("numbers")
-
-# until everything wins
-game.until_win()
-
+# Multiple passwords:
+print("\nGenerate 5 passwords:")
+passwords = gen.generate_multiple(count=5, length=12)
+for i, pwd in enumerate(passwords, 1):
+    print(f"{i}. {pwd['password']}")

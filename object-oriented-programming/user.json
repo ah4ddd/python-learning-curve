@@ -1,0 +1,10 @@
+{
+  "name": "Ahad",
+  "age": 20,
+  "hobbies": [
+    "coding",
+    "gaming",
+    "reading"
+  ],
+  "active": true
+}
