@@ -12,7 +12,7 @@ class DiceRoll:
         for _ in range(rolls):
             roll = self.roll_dice()
             print(roll)
-        return None
+        return
 
 dice = DiceRoll()
 ten_sided = DiceRoll(10)
@@ -39,8 +39,11 @@ class Lottery:
             "numbers": {
                 "values": [67,70,10,3,5,6,90,75,100,1],
                 "lucky": [1,10,100]
+            },
+            "colors": {
+                "values": ["red", "blue", "green", "yellow"],
+                "lucky": ["blue"]
             }
-
         }
 
     def play(self, name=None):
@@ -89,16 +92,19 @@ class Lottery:
 game = Lottery()
 
 print("--- Lucky Words : Python, C++ ---")
-print("--- Lucky Numbers : 1, 10, 100 ---\n")
+print("--- Lucky Numbers : 1, 10, 100 ---")
+print("--- Lucky Color : Blue ---\n")
 
 game.play("words")
+
 game.play("numbers")
+
+game.play("colors")
 
 game.play()
 
 game.until_win("words")
+
 game.until_win("numbers")
+
 game.until_win()
-
-
-
