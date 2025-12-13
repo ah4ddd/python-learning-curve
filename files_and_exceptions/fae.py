@@ -20,4 +20,4 @@ bday = input("Enter Bday in mmddyy: ")
 if bday in pi_string:
     print("oh your bday is in first million digit of pi, not impressesed")
 else:
-    print("haha, no nicht nada nothing, pi bye")
+    print("haha, no nicht nada nothing, pi says bye")
