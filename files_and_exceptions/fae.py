@@ -31,3 +31,14 @@ quotes = [quote.strip() for quote in quotes]
 
 random_quote = choice(quotes)
 print(f"Mia says: {random_quote}")
+
+with open("names.txt", "r") as f:
+    names = f.readlines()
+
+names = [name.strip() for name in names]
+
+a_names = [name for name in names if name.startswith('A')]
+
+print(f"Total names: {len(names)}")
+print(f"Names starting with 'A': {len(a_names)}")
+print(f"Those names: {a_names}")
