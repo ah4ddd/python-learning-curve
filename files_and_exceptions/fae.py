@@ -1,27 +1,17 @@
-file_name = "txt/test.txt"
+file = open("msg.txt", "r")
 
-pi = "txt/pi.txt"
+content = file.read()
+print(content)
 
-with open(file_name) as file_obj:
-    lines = file_obj.readlines()
+with open("msg.txt", "r") as f:
+    content = f.read()
+    print(content)
 
-with open(pi) as pi_obj:
-    pi_lines = pi_obj.readlines()
+with open("msg.txt", "r") as f:
+    lines = f.readlines()
+    print(lines)
+    print(type(lines))
 
-pi_string = ""
-for line in pi_lines:
-    pi_string += line.rstrip()
-
-print(f"{pi_string[:52]}")
-print(len(pi_string))
-
-bday = input("Enter Bday in mmddyy: ")
-
-if bday in pi_string:
-    print("oh your bday is in first million digit of pi, not impressesed")
-else:
-    print("haha, no nicht nada nothing.. pi says bye")
-
-# Read name from file
-with open("user.txt", "r") as f:
-    user_name = f.read()
+print("\nEach line:")
+for line in lines:
+    print(repr(line))
