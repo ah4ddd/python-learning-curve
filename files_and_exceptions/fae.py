@@ -42,3 +42,18 @@ a_names = [name for name in names if name.startswith('A')]
 print(f"Total names: {len(names)}")
 print(f"Names starting with 'A': {len(a_names)}")
 print(f"Those names: {a_names}")
+
+print("=== CODEC CALL ===\n")
+
+with open("dialogue.txt", "r") as f:
+    for line in f:
+        line = line.strip()
+        if line:  # Skip empty lines
+            # Split into speaker and dialogue
+            if ":" in line:
+                speaker, dialogue = line.split(":", 1)
+                print(f"[{speaker}]: {dialogue}")
+            else:
+                print(line)
+
+print("\n=== END TRANSMISSION ===")
