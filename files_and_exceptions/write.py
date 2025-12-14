@@ -9,26 +9,29 @@ with open(file, "a") as file_object:
     file_object.write("I also love finding meaning in large datasets.\n")
     file_object.write("I love creating apps that can run in a browser.\n")
 
-print("=== Guest Log ===")
-print("Enter 'N' when you are done with your lil list\n")
+print("=== Guest Book ===")
+print("Enter 'n' to stop\n")
 
-while True :
-    name = input("Put your name:").lower()
-    more = input("you wanna put more name ? y/n:")
-    with open("guest.txt", "a") as g:
-        g.write(f"{name.title()}\n")
-    if more == "n":
+while True:
+    name = input("Enter your name: ").strip()
+    if name.lower() == "n":
         break
+
+    print(f"Welcome, {name}!")
+
+    with open("guest.txt", "a") as g:
+        g.write(f"{name}\n")
 
 print()
 
-print("=== Programming Poll ===")
-print("Enter 'n' when you are done with your lil torcher session\n")
+print("\n=== Programming Poll ===")
+print("Enter 'n' to stop\n")
 
-while True :
-    why = input("Why you even like programming ( i mean not touching grass)?").lower()
-    more_why = input("you wanna put more reason or touch grass.. ? y/n:")
-    with open("guest.txt", "a") as p:
-        p.write(f"Why likes Programming: {why.title()}\n")
-    if more_why == "n":
+while True:
+    reason = input("Why do you like programming? ").strip()
+    if reason.lower() == "n":
         break
+
+    with open("programming_poll.txt", "a") as p:
+        p.write(reason + "\n")
+
