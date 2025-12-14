@@ -87,3 +87,10 @@ if file_path.exists():
     print(content.strip())
 else:
     print("File doesn't exist!")
+
+try:
+    with open("nonexistent.txt", "r") as f:
+        content = f.read()
+        print(content)
+except FileNotFoundError:
+    print("File not found! Check the filename.")
