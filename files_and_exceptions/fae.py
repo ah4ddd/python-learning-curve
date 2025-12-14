@@ -45,16 +45,21 @@ print(f"Those names: {a_names}")
 
 print("=== CODEC CALL ===\n")
 
+signal_received = False
+
 with open("dialogue.txt", "r") as f:
     for line in f:
         line = line.strip()
-        if line:  # Skip empty lines
-            # Split into speaker and dialogue
+        if line:
+            signal_received = True
             if ":" in line:
-                speaker, dialogue = line.split(":", 1)
+                speaker, dialogue = line.split(":",1 )
                 print(f"[{speaker}]: {dialogue}")
             else:
                 print(line)
+
+if not signal_received:
+    print("--- SIGNAL LOST --- ENEMY JAMMING DETECTED")
 
 print("\n=== END TRANSMISSION ===")
 
@@ -66,5 +71,5 @@ scores = [int(score.strip()) for score in scores]
 scores.sort(reverse=True)
 
 print("🏆 TOP 3 HIGH SCORES 🏆")
-for i, score in enumerate(scores[:3], 1):
+for i, score in enumerate(scores[:3], start=1):
     print(f"{i}. {score} points")

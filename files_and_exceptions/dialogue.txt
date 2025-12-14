@@ -1,5 +1,1 @@
-Snake: Colonel, what's my mission?
-Colonel: Snake, you need to infiltrate Shadow Moses.
-Snake: Understood. What's the situation?
-Colonel: Terrorists have taken hostages. Be careful!
-Snake: Roger that. Moving in now.
+
