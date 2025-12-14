@@ -57,3 +57,14 @@ with open("dialogue.txt", "r") as f:
                 print(line)
 
 print("\n=== END TRANSMISSION ===")
+
+with open("highscores.txt", "r") as f:
+    scores = f.readlines()
+
+scores = [int(score.strip()) for score in scores]
+
+scores.sort(reverse=True)
+
+print("🏆 TOP 3 HIGH SCORES 🏆")
+for i, score in enumerate(scores[:3], 1):
+    print(f"{i}. {score} points")
