@@ -9,29 +9,26 @@ with open(file, "a") as file_object:
     file_object.write("I also love finding meaning in large datasets.\n")
     file_object.write("I love creating apps that can run in a browser.\n")
 
-print("=== Guest Book ===")
-print("Enter 'n' to stop\n")
+print("=== Guest Book & Programming Poll ===")
+print("Type 'n' anytime to quit.\n")
+
+with open("guest.txt", "w") as f:
+        f.write("Name | Reason to code\n")
 
 while True:
-    name = input("Enter your name: ").strip()
+    name = input("Your name: ").strip()
     if name.lower() == "n":
         break
 
-    print(f"Welcome, {name}!")
-
-    with open("guest.txt", "a") as g:
-        g.write(f"{name}\n")
-
-print()
-
-print("\n=== Programming Poll ===")
-print("Enter 'n' to stop\n")
-
-while True:
     reason = input("Why do you like programming? ").strip()
     if reason.lower() == "n":
         break
 
-    with open("programming_poll.txt", "a") as p:
-        p.write(reason + "\n")
+    with open("guest.txt", "a") as f:
+        f.write(f"{name} | {reason}\n")
+
+    print(f"Logged: {name}\n")
+
+print("\n=== Session Ended ===")
+
 
