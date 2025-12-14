@@ -73,3 +73,4 @@ scores.sort(reverse=True)
 print("🏆 TOP 3 HIGH SCORES 🏆")
 for i, score in enumerate(scores[:3], start=1):
     print(f"{i}. {score} points")
+
