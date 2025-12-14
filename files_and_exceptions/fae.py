@@ -74,3 +74,16 @@ print("🏆 TOP 3 HIGH SCORES 🏆")
 for i, score in enumerate(scores[:3], start=1):
     print(f"{i}. {score} points")
 
+from pathlib import Path
+
+current_dir = Path.cwd()
+print(f"Current directory: {current_dir}")
+
+file_path = Path("msg.txt")
+
+if file_path.exists():
+    with open(file_path, "r") as f:
+        content = f.read()
+    print(content.strip())
+else:
+    print("File doesn't exist!")
