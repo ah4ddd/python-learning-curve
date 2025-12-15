@@ -1,106 +1,47 @@
-with open("output.txt", "w") as f:
-    f.write("Hello, this is my first written file!")
+def save_score(player_name, score):
+    """Save a high score to file."""
+    with open("highscores.txt", "a") as f:
+        f.write(f"{player_name}:{score}\n")
+    print(f"✅ Saved {player_name}'s score: {score}")
 
-with open("story.txt", "w") as f:
-    f.write("Once upon a time...\n")
-    f.write("There was a programmer named Ahad.\n")
-    f.write("He mastered Python in 61 days.\n")
-    f.write("The end.\n")
+def load_scores():
+    """Load all high scores from file."""
+    try:
+        with open("highscores.txt", "r") as f:
+            lines = f.readlines()
 
-lines = [
-    "Once upon a time...\n",
-    "There was a programmer named Ahad.\n",
-    "He mastered Python in 61 days.\n",
-    "The end.\n"
-]
+        scores = []
+        for line in lines:
+            line = line.strip()
+            if line:
+                name, score = line.split(":")
+                scores.append({"name": name, "score": int(score)})
 
-with open("story.txt", "w") as f:
-    f.writelines(lines)
+        return scores
+    except FileNotFoundError:
+        return []
 
-story = """Once upon a time...
-There was a programmer named Ahad.
-He mastered Python in 61 days.
-The end.
-"""
+def display_top_scores():
+    """Display top 5 scores."""
+    scores = load_scores()
 
-with open("story.txt", "w") as f:
-    f.write(story)
+    if not scores:
+        print("No scores yet!")
+        return
 
-with open("important.txt", "w") as f:
-    f.write("This is very important data!\n")
-    f.write("Do not delete this!\n")
+    # Sort by score (highest first)
+    scores.sort(key=lambda x: x["score"], reverse=True)
 
-print("File created with important data!")
+    print("\n🏆 TOP 5 HIGH SCORES 🏆")
+    for i, entry in enumerate(scores[:5], 1):
+        print(f"{i}. {entry['name']}: {entry['score']} points")
 
-# Oops, accidentally open in "w" mode again!
-with open("important.txt", "w") as f:
-    f.write("New data\n")
+# Simulate game sessions
+save_score("Ahad", 1500)
+save_score("Mia", 1800)
+save_score("Sara", 1200)
+save_score("Zexo", 1650)
+save_score("Ahad", 2000)  # Ahad plays again!
 
-print("Check the file now...")
-
-# Create initial file
-with open("log.txt", "w") as f:
-    f.write("Day 1: Started learning Python\n")
-
-print("Initial file created!")
-
-# Add more data (APPEND mode!)
-with open("log.txt", "a") as f:
-    f.write("Day 2: Learned variables and loops\n")
-
-print("Added Day 2!")
-
-# Add even more
-with open("log.txt", "a") as f:
-    f.write("Day 3: Mastered functions\n")
-
-print("Added Day 3!")
-
-# Read and display the result
-with open("log.txt", "r") as f:
-    content = f.read()
-    print("\nFile contents:")
-    print(content)
-
-quotes = [
-    "Why are you still coding? Go touch grass.",
-    "Your code works? Impressive. Barely.",
-    "Did you even test that function?",
-    "Stop snacking and finish the project.",
-    "I'm not mad, just disappointed in your variable names."
-]
-
-# Save quotes to file
-with open("mia_quotes.txt", "w") as f:
-    for quote in quotes:
-        f.write(quote + "\n")
-
-print("✅ Mia's quotes saved!")
-
-# Read them back
-with open("mia_quotes.txt", "r") as f:
-    print("\n📝 Mia's Wisdom:")
-    print(f.read())
-
-from datetime import datetime
-
-def log_event(event):
-    """Add an event to the log file."""
-    timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-    log_entry = f"[{timestamp}] {event}\n"
-
-    with open("app_log.txt", "a") as f:
-        f.write(log_entry)
-
-    print(f"✅ Logged: {event}")
-
-# Use it
-log_event("Program started")
-log_event("User logged in")
-log_event("Data saved successfully")
-log_event("User logged out")
-
-# Read the log
-print("\n📋 Event Log:")
-with open("app_log.txt", "r") as f:
-    print(f.read())
+# Display leaderboard
+display_top_scores()
