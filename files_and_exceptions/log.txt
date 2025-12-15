@@ -1,0 +1,3 @@
+Day 1: Started learning Python
+Day 2: Learned variables and loops
+Day 3: Mastered functions
