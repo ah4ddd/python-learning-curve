@@ -1,41 +1,32 @@
-def save_settings(settings):
-    """Save user settings to file."""
-    with open("settings.txt", "w") as f:
-        for key, value in settings.items():
-            f.write(f"{key}={value}\n")
-    print("✅ Settings saved!")
+file_name = "txt/pi.txt"
 
-def load_settings():
-    """Load user settings from file."""
-    settings = {}
-    try:
-        with open("settings.txt", "r") as f:
-            for line in f:
-                line = line.strip()
-                if line and "=" in line:
-                    key, value = line.split("=", 1)
-                    settings[key] = value
-        return settings
-    except FileNotFoundError:
-        # Return defaults if file doesn't exist
-        return {
-            "volume": "80",
-            "difficulty": "medium",
-            "theme": "dark"
-        }
+with open(file_name) as pi_obj:
+    pi_lines = pi_obj.readlines()
 
-# User changes settings
-user_settings = {
-    "volume": "100",
-    "difficulty": "hard",
-    "theme": "dark",
-    "player_name": "Ahad"
+pi_string = ""
+for line in pi_lines:
+    pi_string += line.rstrip()
+
+birthdays = {
+    "Ahad": "121590",
+    "Mia": "081595",
+    "Sara": "031292"
 }
 
-save_settings(user_settings)
+with open("birthday_results.txt", "w") as f:
+    f.write("🎂 BIRTHDAY IN PI CHECKER 🎂\n")
+    f.write("="*40 + "\n\n")
 
-# Later, load settings
-loaded = load_settings()
-print("\n⚙️  Current Settings:")
-for key, value in loaded.items():
-    print(f"  {key}: {value}")
+    for name, bday in birthdays.items():
+        if bday in pi_string:
+            result = f"✅ {name}'s birthday ({bday}) IS in the first million digits!"
+        else:
+            result = f"❌ {name}'s birthday ({bday}) is NOT in the first million digits."
+
+        f.write(result + "\n")
+        print(result)
+
+    f.write("\n" + "="*40 + "\n")
+    f.write(f"Total digits of pi checked: {len(pi_string)}\n")
+
+print("\n📄 Results saved to birthday_results.txt!")

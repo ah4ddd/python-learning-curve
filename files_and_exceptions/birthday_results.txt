@@ -1,0 +1,9 @@
+🎂 BIRTHDAY IN PI CHECKER 🎂
+========================================
+
+❌ Ahad's birthday (121590) is NOT in the first million digits.
+❌ Mia's birthday (081595) is NOT in the first million digits.
+❌ Sara's birthday (031292) is NOT in the first million digits.
+
+========================================
+Total digits of pi checked: 11200
