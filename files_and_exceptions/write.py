@@ -33,7 +33,4 @@ with open("guest.txt", "r") as f:
     print("\n=== Guest & Whys ===")
     print(f.read())
 
-
 print("\n=== Session Ended ===")
-
-
