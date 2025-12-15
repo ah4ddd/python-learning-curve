@@ -8,3 +8,13 @@ Mia:1800
 Sara:1200
 Zexo:1650
 Ahad:2000
+Ahad:1500
+Mia:1800
+Sara:1200
+Zexo:1650
+Ahad:2000
+Ahad:1500
+Mia:1800
+Sara:1200
+Zexo:1650
+Ahad:2000
