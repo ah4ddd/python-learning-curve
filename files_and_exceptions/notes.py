@@ -1,0 +1,54 @@
+from datetime import datetime
+
+def add_note():
+    note = input("Enter your note: ").strip()
+    if note:
+        with open("notes.txt", "a") as f:
+            timestamp = datetime.now().strftime("%Y-%m-%d %H:%M")
+            f.write(f"[{timestamp}] {note}\n")
+        print("✅ Note saved!")
+    else:
+        print("❌ Note cannot be empty!")
+
+def view_notes():
+    try:
+        with open("notes.txt", "r") as f:
+            notes = f.read()
+            if notes:
+                print("\n📝 YOUR NOTES:")
+                print("="*50)
+                print(notes)
+            else:
+                print("📝 No notes yet!")
+    except FileNotFoundError:
+        print("📝 No notes yet!")
+
+def clear_notes():
+    confirm = input("Are you sure you want to delete all notes? (yes/no): ")
+    if confirm.lower() == "yes":
+        with open("notes.txt", "w") as f:
+            pass
+        print("✅ All notes deleted!")
+    else:
+        print("❌ Cancelled!")
+
+while True:
+    print("\n📓 NOTES APP")
+    print("1. Add Note")
+    print("2. View Notes")
+    print("3. Clear All Notes")
+    print("4. Exit")
+
+    choice = input("\nChoose option: ").strip()
+
+    if choice == "1":
+        add_note()
+    elif choice == "2":
+        view_notes()
+    elif choice == "3":
+        clear_notes()
+    elif choice == "4":
+        print("👋 Goodbye!")
+        break
+    else:
+        print("❌ Invalid choice!")
