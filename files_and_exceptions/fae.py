@@ -81,3 +81,26 @@ print("✅ Mia's quotes saved!")
 with open("mia_quotes.txt", "r") as f:
     print("\n📝 Mia's Wisdom:")
     print(f.read())
+
+from datetime import datetime
+
+def log_event(event):
+    """Add an event to the log file."""
+    timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+    log_entry = f"[{timestamp}] {event}\n"
+
+    with open("app_log.txt", "a") as f:
+        f.write(log_entry)
+
+    print(f"✅ Logged: {event}")
+
+# Use it
+log_event("Program started")
+log_event("User logged in")
+log_event("Data saved successfully")
+log_event("User logged out")
+
+# Read the log
+print("\n📋 Event Log:")
+with open("app_log.txt", "r") as f:
+    print(f.read())

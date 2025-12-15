@@ -1,0 +1,4 @@
+[2025-12-15 11:50:48] Program started
+[2025-12-15 11:50:48] User logged in
+[2025-12-15 11:50:48] Data saved successfully
+[2025-12-15 11:50:48] User logged out
