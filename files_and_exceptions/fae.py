@@ -45,3 +45,7 @@ save_score("Ahad", 2000)  # Ahad plays again!
 
 # Display leaderboard
 display_top_scores()
+
+x = (lambda x: x + 1)
+
+print(x(1))
