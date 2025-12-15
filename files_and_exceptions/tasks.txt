@@ -1,0 +1,5 @@
+Finish Python chapter
+Build RPG game
+Master file handling
+Learn exceptions
+Start web development
