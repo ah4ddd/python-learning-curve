@@ -1,12 +1,16 @@
 from pathlib import Path
 
-base = Path("projects")
-users = ["ahad", "mia", "zexo"]
+structure = {
+    "src": ["main.py", "utils.py"],
+    "tests": ["test_main.py"],
+    "docs": ["readme.md"]
+}
 
-for user in users:
-    user_dir = base / user
-    (user_dir / "logs").mkdir(parents=True, exist_ok=True)
-    (user_dir / "data").mkdir(exist_ok=True)
-    (user_dir / "config").mkdir(exist_ok=True)
-    (user_dir / "output").mkdir(exist_ok=True)
+base = Path("my_project")
+base.mkdir()
 
+for folder, files in structure.items():
+    folder_path = base / folder
+    folder_path.mkdir()
+    for file in files:
+        (folder_path / file).touch()
