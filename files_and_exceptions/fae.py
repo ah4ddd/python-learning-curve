@@ -4,7 +4,7 @@ def setup_project():
     """Create a professional project structure."""
 
     # Define structure
-    base = Path("my_project")
+    base = Path("test_proj")
 
     folders = [
         base / "data" / "input",
@@ -13,7 +13,7 @@ def setup_project():
         base / "logs",
         base / "scripts",
         base / "tests"
-    ] #path object
+    ] #path objects
 
     # Create all folders
     for folder in folders:
