@@ -1,6 +1,13 @@
 from pathlib import Path
 
-# Create a path object
-file_path = Path("data.txt")
-print(file_path)  # data.txt
-print(type(file_path))  # <class 'pathlib.PosixPath'> or <class 'pathlib.WindowsPath'>
+# Current working directory (where your script is running)
+current = Path.cwd()
+print(f"Current directory: {current}")
+
+# Home directory
+home = Path.home()
+print(f"Home directory: {home}")
+
+# Create a path
+data_file = Path("data") / "input.txt"
+print(f"File path: {data_file}")
