@@ -1,15 +1,27 @@
 from pathlib import Path
 
-# Create a single directory
-data_dir = Path("data")
-data_dir.mkdir(exist_ok=True)  # exist_ok=True means no error if already exists
-print(f"✅ Created directory: {data_dir}")
+# Create some test files first
+test_dir = Path("test_files")
+test_dir.mkdir(exist_ok=True)
 
-# Create nested directories
-nested_dir = Path("data") / "input" / "users"
-nested_dir.mkdir(parents=True, exist_ok=True)  # parents=True creates all parents
-print(f"✅ Created nested directories: {nested_dir}")
+# Create some files
+(test_dir / "file1.txt").write_text("Content 1")
+(test_dir / "file2.txt").write_text("Content 2")
+(test_dir / "data.json").write_text('{"key": "value"}')
+(test_dir / "readme.md").write_text("# Readme")
 
-# Check it was created
-if nested_dir.exists():
-    print(f"✅ {nested_dir} exists!")
+# List all items
+print("All items:")
+for item in test_dir.iterdir():
+    print(f"  {item.name}")
+
+# List only .txt files
+print("\nOnly .txt files:")
+for item in test_dir.glob("*.txt"):
+    print(f"  {item.name}")
+
+# List all files recursively (including subfolders)
+print("\nAll files recursively:")
+for item in test_dir.rglob("*"):
+    if item.is_file():
+        print(f"  {item}")
