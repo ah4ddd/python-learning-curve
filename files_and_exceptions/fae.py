@@ -1,26 +1,23 @@
 from pathlib import Path
+import platform
 
-# Current script location
-script_dir = Path(__file__).parent if '__file__' in globals() else Path.cwd()
-print(f"Script directory: {script_dir}")
+print(f"Operating System: {platform.system()}")
+print(f"Python Platform: {platform.platform()}\n")
 
-# Project root (assuming script is in a subfolder)
-project_root = script_dir.parent
-print(f"Project root: {project_root}")
+# These work on ALL platforms!
+home = Path.home()
+current = Path.cwd()
+file_path = Path("data") / "users" / "ahad.txt"
 
-# Build paths relative to project root
-data_dir = project_root / "data"
-config_file = project_root / "config" / "settings.json"
-log_file = project_root / "logs" / "app.log"
+print(f"Home directory: {home}")
+print(f"Current directory: {current}")
+print(f"File path: {file_path}")
 
-print(f"\nPaths:")
-print(f"  Data directory: {data_dir}")
-print(f"  Config file: {config_file}")
-print(f"  Log file: {log_file}")
+# Path automatically uses correct separators!
+print(f"\nPath as string: {str(file_path)}")
+# Windows: data\users\ahad.txt
+# Mac/Linux: data/users/ahad.txt
 
-# Check if data directory exists, create if not
-if not data_dir.exists():
-    data_dir.mkdir(parents=True)
-    print(f"✅ Created: {data_dir}")
-else:
-    print(f"✅ Exists: {data_dir}")
+# Convert to absolute path
+absolute = file_path.resolve()
+print(f"Absolute path: {absolute}")
