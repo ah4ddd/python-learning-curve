@@ -1,14 +1,14 @@
 import json
 
-with open("me.json", "r") as f:
-    user = json.load(f)
+user_data = {
+    "name": "Mia",
+    "age": 22,
+    "email": "mia@example.com",
+    "hobbies": ["roasting Ahad", "being right", "programming"],
+    "savage_level": 100
+}
 
-print(user)
-print(type(user))
+with open("mia.json", "w") as f:
+    json.dump(user_data, f, indent=4)
 
-print(user["name"])     # Ahad
-print(user["age"])      # 20
-print(user["hobbies"])  # ['coding', 'gaming', 'learning']
-
-for hobby in user["hobbies"]:
-    print(f"Hobby: {hobby}")
+print("✅ Saved pretty JSON!")

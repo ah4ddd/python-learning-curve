@@ -1,0 +1,11 @@
+{
+    "name": "Mia",
+    "age": 22,
+    "email": "mia@example.com",
+    "hobbies": [
+        "roasting Ahad",
+        "being right",
+        "programming"
+    ],
+    "savage_level": 100
+}
