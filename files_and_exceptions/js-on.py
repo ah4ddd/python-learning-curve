@@ -1,22 +1,18 @@
 import json
 
 def add_guest(name, reason):
-    """Add a guest to the guest book."""
-    # Load existing guests
     try:
         with open("guests.json", "r") as f:
             guests = json.load(f)
-    except FileNotFoundError:
+    except (FileNotFoundError, json.JSONDecodeError):
         guests = []
 
-    # Add new guest
     guest = {
         "name": name,
         "reason": reason
     }
     guests.append(guest)
 
-    # Save back to file
     with open("guests.json", "w") as f:
         json.dump(guests, f, indent=4)
 
