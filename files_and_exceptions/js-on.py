@@ -1,14 +1,8 @@
 import json
 
-user_data = {
-    "name": "Mia",
-    "age": 22,
-    "email": "mia@example.com",
-    "hobbies": ["roasting Ahad", "being right", "programming"],
-    "savage_level": 100
-}
+data = {"name": "Ahad", "score": 1500}
 
-with open("mia.json", "w") as f:
-    json.dump(user_data, f, indent=4)
+json_string = json.dumps(data)
 
-print("✅ Saved pretty JSON!")
+print(json_string)
+print(type(json_string))
