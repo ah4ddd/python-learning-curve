@@ -1,10 +1,10 @@
 import json
 
-dickionary = {"ahad": 20, "mia" : 23, "us": "we hate each other"}
+dickionary = '{"ahad": 20, "mia" : 23, "us": "we hate each other"}'
 
-jsonstring = json.dumps(dickionary)
+jsonstring = json.loads(dickionary)
 
-print(type(jsonstring))
+print(jsonstring)
 
 with open("mia.json", "w") as xexy:
     json.dump(dickionary, xexy, indent=4)
