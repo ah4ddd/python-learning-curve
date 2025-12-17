@@ -1,0 +1,11 @@
+{
+    "name": "Ahad",
+    "age": 20,
+    "email": "ahad@example.com",
+    "hobbies": [
+        "coding",
+        "gaming",
+        "learning"
+    ],
+    "active": true
+}
