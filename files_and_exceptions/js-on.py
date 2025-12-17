@@ -1,8 +1,13 @@
 import json
 
-data = {"name": "Ahad", "score": 1500}
+dickionary = {"ahad": 20, "mia" : 23, "us": "we hate each other"}
 
-json_string = json.dumps(data)
+jsonstring = json.dumps(dickionary)
 
-print(json_string)
-print(type(json_string))
+print(type(jsonstring))
+
+dickionary = '{"ahad": 20, "mia" : 23, "us": "we hate each other"}'
+
+jsonstring = json.loads(dickionary)
+
+print(type(jsonstring))
