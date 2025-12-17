@@ -12,7 +12,7 @@ def add_guest(name, reason):
         "reason": reason
     }
     guests.append(guest)
-
+    print("About to write:", guests)
     with open("guests.json", "w") as f:
         json.dump(guests, f, indent=4)
 
