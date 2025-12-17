@@ -6,8 +6,14 @@ jsonstring = json.dumps(dickionary)
 
 print(type(jsonstring))
 
-dickionary = '{"ahad": 20, "mia" : 23, "us": "we hate each other"}'
+with open("mia.json", "w") as xexy:
+    json.dump(dickionary, xexy, indent=4)
 
-jsonstring = json.loads(dickionary)
+with open("mia.json", "r") as m:
+    mine = json.load(m)
 
-print(type(jsonstring))
+print(mine)
+
+
+
+
