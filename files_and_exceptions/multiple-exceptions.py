@@ -1,15 +1,8 @@
-def get_positive_number(prompt):
-    while True:
-        try:
-            number = float(input(prompt))
-            if number <= 0:
-                print("number must be positive")
-                continue
-            return number
-        except (ValueError, EOFError, KeyboardInterrupt):
-            print("\n invalid input or interrupted!")
-            return None
 
-age = get_positive_number("Enter your age: ")
-if age:
-    print(f"age: {age}")
+# WRONG ORDER!
+try:
+    number = int(input("Enter number: "))
+except Exception:  # ❌ This catches EVERYTHING first!
+    print("Caught some exception!")
+except ValueError:  # type: ignore # ❌ This will NEVER run!
+    print("Caught ValueError specifically!")
