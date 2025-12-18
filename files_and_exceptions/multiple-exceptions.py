@@ -1,18 +1,16 @@
-def divide_numbers():
-    """Division with detailed error info."""
+def read_file_safely(filename):
+    """Read file with comprehensive error handling."""
     try:
-        a = float(input("Enter first number: "))
-        b = float(input("Enter second number: "))
-        result = a / b
-        print(f"Result: {result}")
-    except ValueError as e:
-        print(f"❌ Invalid number format!")
-        print(f"   Details: {e}")
-    except ZeroDivisionError as e:
-        print(f"❌ Division by zero!")
-        print(f"   Details: {e}")
+        with open(filename, "r") as f:
+            content = f.read()
+        return content
+    except (FileNotFoundError, PermissionError, IsADirectoryError) as e:
+        error_type = type(e).__name__
+        print(f"❌ Cannot read file: {error_type}")
+        print(f"   {e}")
+        return None
     except Exception as e:
-        print(f"❌ Unexpected error: {type(e).__name__}")
-        print(f"   Details: {e}")
+        print(f"❌ Unexpected error: {e}")
+        return None
 
-divide_numbers()
+content = read_file_safely("data.txt")
