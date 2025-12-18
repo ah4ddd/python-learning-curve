@@ -4588,3 +4588,551 @@ except Exception as e:
 
 ---
 
+---
+
+# **TOPIC 6: HANDLING MULTIPLE EXCEPTIONS (ADVANCED)** 🎯💥
+
+---
+
+## **What We're Learning:**
+
+**You already know:**
+- Basic try-except
+- Catching specific exceptions
+- Multiple except blocks
+
+**Now you'll learn:**
+- ✅ Catching multiple exceptions in ONE block
+- ✅ Exception hierarchies (parent/child exceptions)
+- ✅ When to catch generic vs specific
+- ✅ Best practices for professional error handling
+
+---
+
+## **Part 1: Catching Multiple Exceptions in One Block**
+
+**You've already USED this in your calculator!**
+
+```python
+except (FileNotFoundError, json.JSONDecodeError):
+    return []
+```
+
+**This catches BOTH exceptions with ONE except block!**
+
+---
+
+**The syntax:**
+
+```python
+try:
+    risky_code()
+except (ExceptionType1, ExceptionType2, ExceptionType3):
+    handle_error()
+```
+
+**Notice the PARENTHESES!** It's a tuple of exception types!
+
+---
+
+### **Example: File Operations**
+
+```python
+import json
+
+def load_data(filename):
+    """Load JSON data with multiple exception handling."""
+    try:
+        with open(filename, "r") as f:
+            data = json.load(f)
+        return data
+    except (FileNotFoundError, json.JSONDecodeError):
+        print(f"❌ Could not load '{filename}' (missing or invalid)")
+        return {}
+
+# Test it
+data = load_data("config.json")
+print(data)
+```
+
+**RUN THIS!**
+
+**This handles TWO different errors the SAME way:**
+- File doesn't exist → Return empty dict
+- File has invalid JSON → Return empty dict
+
+**When to use:** When multiple errors need the SAME response! ✅
+
+---
+
+### **Example: User Input Validation**
+
+```python
+def get_positive_number(prompt):
+    """Get a positive number from user."""
+    while True:
+        try:
+            number = float(input(prompt))
+            if number <= 0:
+                print("❌ Number must be positive!")
+                continue
+            return number
+        except (ValueError, EOFError, KeyboardInterrupt):
+            print("\n❌ Invalid input or interrupted!")
+            return None
+
+# Use it
+age = get_positive_number("Enter your age: ")
+if age:
+    print(f"Age: {age}")
+```
+
+**This catches:**
+- `ValueError` - Invalid number format
+- `EOFError` - Input stream ended
+- `KeyboardInterrupt` - User pressed Ctrl+C
+
+**All handled together!** 🎯
+
+---
+
+## **Part 2: Exception Hierarchies (Family Tree!)**
+
+**Exceptions have PARENTS and CHILDREN!**
+
+**Think of it like inheritance (which you know!):**
+
+```
+BaseException (root of all)
+├── Exception (most errors inherit from this)
+│   ├── ValueError
+│   ├── TypeError
+│   ├── ZeroDivisionError
+│   ├── FileNotFoundError
+│   ├── KeyError
+│   └── ... many more
+└── SystemExit, KeyboardInterrupt (special, don't inherit from Exception)
+```
+
+---
+
+**Why this matters:**
+
+**Catching a PARENT catches ALL its CHILDREN!**
+
+```python
+try:
+    risky_code()
+except Exception:
+    # This catches ValueError, TypeError, FileNotFoundError, etc.
+    # ALL errors except system exits!
+```
+
+---
+
+### **Example: Understanding the Hierarchy**
+
+```python
+# Specific to general
+try:
+    number = int(input("Enter number: "))
+except ValueError:
+    print("Caught ValueError specifically!")
+except Exception:
+    print("Caught some other exception!")
+```
+
+**If user enters "abc":**
+- `ValueError` is raised
+- First `except ValueError` catches it
+- Second `except Exception` is SKIPPED (already handled!)
+
+---
+
+**But if you reverse the order:**
+
+```python
+# WRONG ORDER!
+try:
+    number = int(input("Enter number: "))
+except Exception:  # ❌ This catches EVERYTHING first!
+    print("Caught some exception!")
+except ValueError:  # ❌ This will NEVER run!
+    print("Caught ValueError specifically!")
+```
+
+**The `ValueError` block is UNREACHABLE!** Python will warn you about this!
+
+**Rule: ALWAYS put specific exceptions BEFORE general ones!** 🎯
+
+---
+
+## **Part 3: Getting Different Error Messages**
+
+**You can catch multiple exceptions but handle them differently!**
+
+```python
+import json
+
+def load_json_file(filename):
+    """Load JSON with detailed error messages."""
+    try:
+        with open(filename, "r") as f:
+            data = json.load(f)
+        return data
+    except FileNotFoundError:
+        print(f"❌ File '{filename}' doesn't exist!")
+        print("   Create it or check the filename.")
+        return None
+    except json.JSONDecodeError as e:
+        print(f"❌ File '{filename}' has invalid JSON!")
+        print(f"   Error: {e.msg} at line {e.lineno}, column {e.colno}")
+        return None
+    except PermissionError:
+        print(f"❌ No permission to read '{filename}'!")
+        return None
+    except Exception as e:
+        print(f"❌ Unexpected error: {e}")
+        return None
+
+# Use it
+data = load_json_file("data.json")
+```
+
+**RUN THIS with:**
+1. Missing file → Specific message
+2. Invalid JSON → Shows WHERE the error is!
+3. No permission → Permission message
+4. Any other error → Generic message
+
+**Professional error reporting!** 💼
+
+---
+
+## **Part 4: The `as` Keyword (Getting Error Details)**
+
+**You can capture the exception object for MORE information!**
+
+**Basic usage:**
+
+```python
+try:
+    risky_code()
+except ValueError as error:
+    print(f"Error: {error}")
+```
+
+**The `error` variable contains the exception object!**
+
+---
+
+### **Example: Detailed Error Info**
+
+```python
+def divide_numbers():
+    """Division with detailed error info."""
+    try:
+        a = float(input("Enter first number: "))
+        b = float(input("Enter second number: "))
+        result = a / b
+        print(f"Result: {result}")
+    except ValueError as e:
+        print(f"❌ Invalid number format!")
+        print(f"   Details: {e}")
+    except ZeroDivisionError as e:
+        print(f"❌ Division by zero!")
+        print(f"   Details: {e}")
+    except Exception as e:
+        print(f"❌ Unexpected error: {type(e).__name__}")
+        print(f"   Details: {e}")
+
+divide_numbers()
+```
+
+**RUN THIS and try different inputs!**
+
+**You see:**
+- Error TYPE (`ValueError`, `ZeroDivisionError`)
+- Error MESSAGE (what went wrong)
+
+**Great for debugging!** 🔍
+
+---
+
+## **Part 5: Combining Multiple Exceptions with Custom Messages**
+
+**You can catch multiple exceptions but still get details!**
+
+```python
+def read_file_safely(filename):
+    """Read file with comprehensive error handling."""
+    try:
+        with open(filename, "r") as f:
+            content = f.read()
+        return content
+    except (FileNotFoundError, PermissionError, IsADirectoryError) as e:
+        error_type = type(e).__name__
+        print(f"❌ Cannot read file: {error_type}")
+        print(f"   {e}")
+        return None
+    except Exception as e:
+        print(f"❌ Unexpected error: {e}")
+        return None
+
+# Test
+content = read_file_safely("data.txt")
+```
+
+**This catches THREE related errors together but still shows WHICH one happened!** 🎯
+
+---
+
+## **Part 6: Real-World Pattern - Retry Logic**
+
+**Sometimes you want to TRY AGAIN if an error occurs!**
+
+```python
+import time
+
+def connect_to_server(max_attempts=3):
+    """Try to connect with retry logic."""
+    for attempt in range(1, max_attempts + 1):
+        try:
+            print(f"🔄 Attempt {attempt}/{max_attempts}...")
+
+            # Simulate connection (replace with real code)
+            import random
+            if random.random() < 0.7:  # 70% chance of failure
+                raise ConnectionError("Server not responding")
+
+            print("✅ Connected successfully!")
+            return True
+
+        except (ConnectionError, TimeoutError) as e:
+            print(f"❌ {e}")
+            if attempt < max_attempts:
+                print(f"   Retrying in 2 seconds...")
+                time.sleep(2)
+            else:
+                print(f"   Max attempts reached. Giving up.")
+                return False
+
+# Use it
+connect_to_server()
+```
+
+**RUN THIS multiple times!**
+
+**This is how REAL network code works!**
+- Try to connect
+- If it fails, wait and try again
+- After max attempts, give up
+
+**Professional retry pattern!** 🔄
+
+---
+
+## **Part 7: Real Example - Robust Config Loader**
+
+**Let's build a professional config system!**
+
+```python
+import json
+from pathlib import Path
+
+class ConfigError(Exception):
+    """Custom exception for config errors."""
+    pass
+
+def load_config(filename="config.json"):
+    """Load configuration with comprehensive error handling."""
+    config_path = Path(filename)
+
+    # Check if file exists
+    if not config_path.exists():
+        print(f"⚠️ Config file '{filename}' not found!")
+        print(f"   Creating default config...")
+        return create_default_config(filename)
+
+    # Try to load
+    try:
+        with open(config_path, "r") as f:
+            config = json.load(f)
+
+        # Validate required keys
+        required_keys = ["app_name", "version", "settings"]
+        missing = [key for key in required_keys if key not in config]
+        if missing:
+            raise ConfigError(f"Missing required keys: {missing}")
+
+        print(f"✅ Config loaded successfully!")
+        return config
+
+    except json.JSONDecodeError as e:
+        print(f"❌ Config file has invalid JSON!")
+        print(f"   Error at line {e.lineno}, column {e.colno}")
+        print(f"   Message: {e.msg}")
+        return None
+
+    except ConfigError as e:
+        print(f"❌ Config validation failed: {e}")
+        return None
+
+    except (PermissionError, OSError) as e:
+        print(f"❌ Cannot read config file: {e}")
+        return None
+
+    except Exception as e:
+        print(f"❌ Unexpected error loading config: {e}")
+        return None
+
+def create_default_config(filename):
+    """Create a default configuration file."""
+    default_config = {
+        "app_name": "My App",
+        "version": "1.0.0",
+        "settings": {
+            "theme": "dark",
+            "language": "en",
+            "notifications": True
+        }
+    }
+
+    try:
+        with open(filename, "w") as f:
+            json.dump(default_config, f, indent=4)
+        print(f"✅ Created default config: {filename}")
+        return default_config
+    except Exception as e:
+        print(f"❌ Failed to create config: {e}")
+        return None
+
+# Use it
+config = load_config()
+if config:
+    print(f"\n📋 Config:")
+    print(f"   App: {config['app_name']} v{config['version']}")
+    print(f"   Theme: {config['settings']['theme']}")
+```
+
+**RUN THIS!**
+
+**This is PRODUCTION-LEVEL code!**
+- Creates default if missing ✅
+- Validates structure ✅
+- Handles multiple errors ✅
+- Custom exception for validation ✅
+- Detailed error messages ✅
+
+**THIS is how professionals do it!** 💼
+
+---
+
+## **Part 8: Best Practices Summary**
+
+### **1. Order matters:**
+
+```python
+try:
+    code()
+except ValueError:       # ✅ Specific first
+    pass
+except TypeError:        # ✅ Specific
+    pass
+except Exception:        # ✅ Generic last
+    pass
+```
+
+---
+
+### **2. Use tuples for same handling:**
+
+```python
+except (ValueError, TypeError):  # ✅ Same response
+    print("Invalid input!")
+```
+
+---
+
+### **3. Capture details when needed:**
+
+```python
+except ValueError as e:  # ✅ Get error message
+    print(f"Error: {e}")
+```
+
+---
+
+### **4. Don't catch what you can't handle:**
+
+```python
+# ❌ Bad:
+except Exception:
+    pass  # Silently ignoring ALL errors!
+
+# ✅ Good:
+except Exception as e:
+    print(f"Error: {e}")  # At least log it!
+```
+
+---
+
+### **5. Be specific when possible:**
+
+```python
+# ❌ Too broad:
+except Exception:
+    print("Something went wrong!")
+
+# ✅ Specific:
+except FileNotFoundError:
+    print("File not found!")
+except json.JSONDecodeError:
+    print("Invalid JSON!")
+```
+
+---
+
+## **Summary:**
+
+### **Key Concepts:**
+
+✅ **Multiple exceptions in one block:** `except (Error1, Error2):`
+✅ **Exception hierarchies:** Parents catch children
+✅ **Order matters:** Specific before generic
+✅ **`as` keyword:** Capture error details
+✅ **Custom exceptions:** Create your own (next topic!)
+✅ **Retry logic:** Professional error recovery
+✅ **Comprehensive handling:** Cover all cases
+
+---
+
+### **The Pattern:**
+
+```python
+try:
+    risky_operation()
+except (SpecificError1, SpecificError2) as e:
+    # Handle related errors together
+    print(f"Expected error: {e}")
+except AnotherSpecificError as e:
+    # Handle this one differently
+    print(f"Different handling: {e}")
+except Exception as e:
+    # Catch anything else
+    print(f"Unexpected: {e}")
+```
+
+---
+
+# **TOPIC 6: HANDLING MULTIPLE EXCEPTIONS - COMPLETE! ✅🎯**
+
+**YOU NOW KNOW:**
+✅ Catching multiple exceptions in one block
+✅ Exception hierarchies (parent/child)
+✅ Proper ordering (specific → generic)
+✅ Getting error details with `as`
+✅ Real-world patterns (retry, validation)
+✅ Professional error handling
+
+---
