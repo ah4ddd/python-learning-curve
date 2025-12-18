@@ -1,22 +1,33 @@
-def read_file_safe(filename):
+def calculator():
+    """Simple calculator with error handling."""
+    print("🔢 CALCULATOR")
+    print("="*30)
 
     try:
-        with open(filename, "r") as f:
-            content = f.read()
-        print(f"✅ Successfully read {len(content)} characters!")
-        return content
-    except FileNotFoundError:
-        print(f"❌ Error: File '{filename}' not found!")
-        return None
-    except PermissionError:
-        print(f"❌ Error: No permission to read '{filename}'!")
-        return None
+        a = float(input("Enter first number: "))
+        operator = input("Enter operator (+, -, *, /): ")
+        b = float(input("Enter second number: "))
+
+        if operator == "+":
+            result = a + b
+        elif operator == "-":
+            result = a - b
+        elif operator == "*":
+            result = a * b
+        elif operator == "/":
+            result = a / b
+        else:
+            print("❌ Invalid operator!")
+            return
+
+        print(f"✅ Result: {a} {operator} {b} = {result}")
+
+    except ValueError:
+        print("❌ Invalid number! Please enter numbers only.")
+    except ZeroDivisionError:
+        print("❌ Cannot divide by zero!")
     except Exception as e:
         print(f"❌ Unexpected error: {e}")
-        return None
 
-content = read_file_safe("data.json")
-if content:
-    print(f"First 50 characters: {content[:160]}")
-else:
-    print("Could not read file!")
+# Run it
+calculator()
