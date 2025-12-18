@@ -7,7 +7,7 @@ def get_positive_number(prompt):
                 continue
             return number
         except (ValueError, EOFError, KeyboardInterrupt):
-            print("\n invalid input ot interrupted!")
+            print("\n invalid input or interrupted!")
             return None
 
 age = get_positive_number("Enter your age: ")
