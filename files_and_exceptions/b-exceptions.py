@@ -29,10 +29,11 @@ def calculate(user):
         elif operator == "*":
             result = a * b
         elif operator == "/":
-            if b == 0:
+            try:
+                result = a / b
+            except ZeroDivisionError:
                 print("❌ Cannot divide by zero!")
                 return
-            result = a / b
         else:
             print("❌ Invalid operator!")
             return
