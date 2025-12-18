@@ -1,15 +1,22 @@
-def get_number(prompt):
-    """Get a valid number from user (keeps asking until valid)."""
-    while True:
-        try:
-            number = float(input(prompt))
-            return number
-        except ValueError:
-            print("❌ Invalid input! Please enter a number.")
+def read_file_safe(filename):
 
-# Use it
-age = get_number("Enter your age: ")
-print(f"You are {age} years old!")
+    try:
+        with open(filename, "r") as f:
+            content = f.read()
+        print(f"✅ Successfully read {len(content)} characters!")
+        return content
+    except FileNotFoundError:
+        print(f"❌ Error: File '{filename}' not found!")
+        return None
+    except PermissionError:
+        print(f"❌ Error: No permission to read '{filename}'!")
+        return None
+    except Exception as e:
+        print(f"❌ Unexpected error: {e}")
+        return None
 
-score = get_number("Enter your score: ")
-print(f"Your score: {score}")
+content = read_file_safe("data.json")
+if content:
+    print(f"First 50 characters: {content[:160]}")
+else:
+    print("Could not read file!")
