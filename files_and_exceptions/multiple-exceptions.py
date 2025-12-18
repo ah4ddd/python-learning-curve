@@ -1,27 +1,76 @@
-import time
+import json
+from pathlib import Path
 
-def connect_to_server(max_attempts=3):
-    """Try to connect with retry logic."""
-    for attempt in range(1, max_attempts + 1):
-        try:
-            print(f"🔄 Attempt {attempt}/{max_attempts}...")
+class ConfigError(Exception):
+    """Custom exception for config errors."""
+    pass
 
-            # Simulate connection (replace with real code)
-            import random
-            if random.random() < 0.7:  # 70% chance of failure
-                raise ConnectionError("Server not responding")
+def load_config(filename="config.json"):
+    """Load configuration with comprehensive error handling."""
+    config_path = Path(filename)
 
-            print("✅ Connected successfully!")
-            return True
+    # Check if file exists
+    if not config_path.exists():
+        print(f"⚠️ Config file '{filename}' not found!")
+        print(f"   Creating default config...")
+        return create_default_config(filename)
 
-        except (ConnectionError, TimeoutError) as e:
-            print(f"❌ {e}")
-            if attempt < max_attempts:
-                print(f"   Retrying in 2 seconds...")
-                time.sleep(2)
-            else:
-                print(f"   Max attempts reached. Giving up.")
-                return False
+    # Try to load
+    try:
+        with open(config_path, "r") as f:
+            config = json.load(f)
+
+        # Validate required keys
+        required_keys = ["app_name", "version", "settings"]
+        missing = [key for key in required_keys if key not in config]
+        if missing:
+            raise ConfigError(f"Missing required keys: {missing}")
+
+        print(f"✅ Config loaded successfully!")
+        return config
+
+    except json.JSONDecodeError as e:
+        print(f"❌ Config file has invalid JSON!")
+        print(f"   Error at line {e.lineno}, column {e.colno}")
+        print(f"   Message: {e.msg}")
+        return None
+
+    except ConfigError as e:
+        print(f"❌ Config validation failed: {e}")
+        return None
+
+    except (PermissionError, OSError) as e:
+        print(f"❌ Cannot read config file: {e}")
+        return None
+
+    except Exception as e:
+        print(f"❌ Unexpected error loading config: {e}")
+        return None
+
+def create_default_config(filename):
+    """Create a default configuration file."""
+    default_config = {
+        "app_name": "My App",
+        "version": "1.0.0",
+        "settings": {
+            "theme": "dark",
+            "language": "en",
+            "notifications": True
+        }
+    }
+
+    try:
+        with open(filename, "w") as f:
+            json.dump(default_config, f, indent=4)
+        print(f"✅ Created default config: {filename}")
+        return default_config
+    except Exception as e:
+        print(f"❌ Failed to create config: {e}")
+        return None
 
 # Use it
-connect_to_server()
+config = load_config()
+if config:
+    print(f"\n📋 Config:")
+    print(f"   App: {config['app_name']} v{config['version']}")
+    print(f"   Theme: {config['settings']['theme']}")
