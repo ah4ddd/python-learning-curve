@@ -1,7 +1,6 @@
 import json
 
 def load_json_file(filename):
-    """Load JSON with detailed error messages."""
     try:
         with open(filename, "r") as f:
             data = json.load(f)
@@ -21,5 +20,4 @@ def load_json_file(filename):
         print(f"❌ Unexpected error: {e}")
         return None
 
-# Use it
 data = load_json_file("data.json")
