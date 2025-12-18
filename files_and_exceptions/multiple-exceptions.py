@@ -1,13 +1,15 @@
-import json
+def get_positive_number(prompt):
+    while True:
+        try:
+            number = float(input(prompt))
+            if number <= 0:
+                print("number must be positive")
+                continue
+            return number
+        except (ValueError, EOFError, KeyboardInterrupt):
+            print("\n invalid input ot interrupted!")
+            return None
 
-def load_data(filename):
-    try:
-        with open(filename, "r") as f:
-            data = json.load(f)
-        return data
-    except (FileNotFoundError, json.JSONDecodeError,):
-        print(f"could not found '{filename}'(missing or invalid)")
-        return {}
-
-data = load_data("data.json")
-print(type(data))
+age = get_positive_number("Enter your age: ")
+if age:
+    print(f"age: {age}")
