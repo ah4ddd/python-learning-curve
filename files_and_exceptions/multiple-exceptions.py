@@ -1,23 +1,18 @@
-import json
-
-def load_json_file(filename):
+def divide_numbers():
+    """Division with detailed error info."""
     try:
-        with open(filename, "r") as f:
-            data = json.load(f)
-        return data
-    except FileNotFoundError:
-        print(f"❌ File '{filename}' doesn't exist!")
-        print("   Create it or check the filename.")
-        return None
-    except json.JSONDecodeError as e:
-        print(f"❌ File '{filename}' has invalid JSON!")
-        print(f"   Error: {e.msg} at line {e.lineno}, column {e.colno}")
-        return None
-    except PermissionError:
-        print(f"❌ No permission to read '{filename}'!")
-        return None
+        a = float(input("Enter first number: "))
+        b = float(input("Enter second number: "))
+        result = a / b
+        print(f"Result: {result}")
+    except ValueError as e:
+        print(f"❌ Invalid number format!")
+        print(f"   Details: {e}")
+    except ZeroDivisionError as e:
+        print(f"❌ Division by zero!")
+        print(f"   Details: {e}")
     except Exception as e:
-        print(f"❌ Unexpected error: {e}")
-        return None
+        print(f"❌ Unexpected error: {type(e).__name__}")
+        print(f"   Details: {e}")
 
-data = load_json_file("data.json")
+divide_numbers()
