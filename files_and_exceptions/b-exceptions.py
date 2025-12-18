@@ -12,8 +12,11 @@ def load_history():
 
 
 def save_history(history):
-    with open(HISTORY_FILE, "w") as f:
-        json.dump(history, f, indent=4)
+    try:
+        with open(HISTORY_FILE, "w") as f:
+            json.dump(history, f, indent=4)
+    except Exception as e:
+        print(f"⚠️ Failed to save history: {e}")
 
 
 def calculate(user):

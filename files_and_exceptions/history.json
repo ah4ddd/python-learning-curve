@@ -5,5 +5,12 @@
         "operator": "+",
         "b": 700.0,
         "result": 1500.0
+    },
+    {
+        "user": "ahad",
+        "a": 69.0,
+        "operator": "*",
+        "b": 69.0,
+        "result": 4761.0
     }
 ]
