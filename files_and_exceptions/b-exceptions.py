@@ -1,5 +1,4 @@
 def calculator():
-    """Simple calculator with error handling."""
     print("🔢 CALCULATOR")
     print("="*30)
 
@@ -29,5 +28,4 @@ def calculator():
     except Exception as e:
         print(f"❌ Unexpected error: {e}")
 
-# Run it
 calculator()
