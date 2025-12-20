@@ -1,7 +1,8 @@
+file = open("data.json", "r")
 try:
-    number = int(input("Enter number: "))
-    print(f"Number: {number}")
-except ValueError:
-    print("❌ Invalid input!")
+    content = file.read()
+    print(content)
+except Exception:
+    print("Error!")
 finally:
-    print("🧹 Cleanup: This ALWAYS runs!")
+    file.close()  # ✅ ALWAYS runs! File gets closed!
