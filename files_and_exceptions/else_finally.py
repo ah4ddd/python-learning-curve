@@ -1,33 +1,19 @@
-try:
-    x = int("abc")
-except ValueError:
-    print("That blew up.")
+def process_file(filename):
+    try:
+        with open(filename, "r") as f:
+            content = f.read()
+    except FileNotFoundError:
+        print(f"❌ File '{filename}' not found!")
+        return None
+    except PermissionError:
+        print(f"❌ No permission to read '{filename}'!")
+        return None
+    else:
+        print(f"✅ File read successfully!")
+        lines = content.split('\n')
+        print(f"   Total lines: {len(lines)}")
+        return content
 
-try:
-    x = int("42")
-except ValueError:
-    print("Conversion failed")
-else:
-    print("Conversion worked")
-
-try:
-    x = 10 / 0
-except ZeroDivisionError:
-    print("Math betrayed you")
-finally:
-    print("This always runs")
-
-try:
-    x = 10 / 2
-except ZeroDivisionError:
-    print("Nope")
-finally:
-    print("Still runs")
-
-try:
-    file = open("data.json", "r")
-    content = file.read()
-except FileNotFoundError:
-    print("File not found")
-finally:
-    file.close()
+content = process_file("guest.txt")
+if content:
+    print(f"First 50 chars: {content[:50]}")
