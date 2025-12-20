@@ -14,7 +14,6 @@ def read_file(filename):
     except Exception:
         print("❌ Unexpected error while reading file.")
         traceback.print_exc()
-
     return None
 
 def write_file(filename, content):
