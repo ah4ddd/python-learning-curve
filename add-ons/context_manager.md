@@ -221,15 +221,260 @@ No more overthinking.
 
 ---
 
-## Why you only saw it with files (so far)
 
-Because:
+> does `with` have try / except / else inside it?
 
-* files are the first resource beginners touch
-* Python teachers introduce `with` early but don’t explain it
-* everything else comes later when systems get real
+**Yes and no.**
 
-You’re just arriving at the “systems get real” phase.
+* `with` **always** has `try / finally` semantics.
+* `with` does **NOT automatically include `except` or `else`**.
+* Exception *handling* is still **your responsibility** if you want it.
+
+What `with` guarantees is **cleanup**, not **error handling**.
+
+So the mental rewrite is:
+
+```python
+with X:
+    BODY
+```
+
+≈
+
+```python
+obj = X.__enter__()
+try:
+    BODY
+finally:
+    X.__exit__(exception_info_if_any)
+```
+
+Notice:
+
+* No `except`
+* No `else`
+* Just **guaranteed exit**
+
+That’s intentional.
+
+---
+
+## Now let’s STOP hand-waving and show real, runnable behavior
+
+### Example 1: A REAL context manager you can run and watch fail
+
+```python
+class DemoContext:
+    def __enter__(self):
+        print("🟢 ENTER: setup happens")
+        return "RESOURCE"
+
+    def __exit__(self, exc_type, exc_value, traceback):
+        print("🔴 EXIT: cleanup happens")
+        print(f"   exc_type = {exc_type}")
+        print(f"   exc_value = {exc_value}")
+        print("   resource released")
+```
+
+Now use it:
+
+```python
+print("---- NORMAL CASE ----")
+with DemoContext() as r:
+    print(f"Using {r}")
+```
+
+Output:
+
+```
+---- NORMAL CASE ----
+🟢 ENTER: setup happens
+Using RESOURCE
+🔴 EXIT: cleanup happens
+   exc_type = None
+   exc_value = None
+   resource released
+```
+
+Now break it **on purpose**:
+
+```python
+print("\n---- ERROR CASE ----")
+with DemoContext() as r:
+    print(f"Using {r}")
+    1 / 0
+```
+
+Output:
+
+```
+---- ERROR CASE ----
+🟢 ENTER: setup happens
+Using RESOURCE
+🔴 EXIT: cleanup happens
+   exc_type = <class 'ZeroDivisionError'>
+   exc_value = division by zero
+   resource released
+Traceback (most recent call last):
+  ...
+ZeroDivisionError
+```
+
+### Stop and look carefully
+
+* `__exit__` **ran even though the program crashed**
+* Python passed the exception details into `__exit__`
+* Cleanup still happened
+* Error was NOT swallowed
+
+That is **finally behavior**, mechanically proven.
+
+---
+
+## Where the hell is `except` then?
+
+You add it **outside** the `with`.
+
+```python
+try:
+    with DemoContext() as r:
+        print("Inside context")
+        1 / 0
+except ZeroDivisionError:
+    print("❌ I handled the error myself")
+```
+
+Output:
+
+```
+🟢 ENTER: setup happens
+Inside context
+🔴 EXIT: cleanup happens
+   exc_type = <class 'ZeroDivisionError'>
+   exc_value = division by zero
+   resource released
+❌ I handled the error myself
+```
+
+**Order matters**:
+
+1. `__enter__`
+2. body
+3. `__exit__`
+4. THEN `except`
+
+Cleanup happens **before** exception handling. Always.
+
+---
+
+## Now let’s show a REAL value example: a fake database transaction
+
+This is not toy nonsense.
+
+```python
+class Transaction:
+    def __enter__(self):
+        print("🔓 BEGIN TRANSACTION")
+        return self
+
+    def __exit__(self, exc_type, exc_value, tb):
+        if exc_type:
+            print("↩️ ROLLBACK (error detected)")
+        else:
+            print("✅ COMMIT")
+        print("🔒 END TRANSACTION")
+```
+
+### Success case
+
+```python
+with Transaction():
+    print("Updating user balance")
+    print("Logging audit entry")
+```
+
+Output:
+
+```
+🔓 BEGIN TRANSACTION
+Updating user balance
+Logging audit entry
+✅ COMMIT
+🔒 END TRANSACTION
+```
+
+### Failure case
+
+```python
+try:
+    with Transaction():
+        print("Updating user balance")
+        raise RuntimeError("DB constraint violated")
+except RuntimeError as e:
+    print(f"❌ Caught error: {e}")
+```
+
+Output:
+
+```
+🔓 BEGIN TRANSACTION
+Updating user balance
+↩️ ROLLBACK (error detected)
+🔒 END TRANSACTION
+❌ Caught error: DB constraint violated
+```
+
+This is **not fake usefulness**.
+This is literally how database ORMs work.
+
+---
+
+## Now answer your core question precisely
+
+> is it enter → try → finally every time?
+
+**Yes. Structurally. Always.**
+
+But:
+
+* `__exit__` can *inspect* the exception
+* `__exit__` can even **suppress** it by returning `True`
+* Python gives the context manager control over cleanup behavior
+
+So it’s **more powerful than plain `finally`**, not weaker.
+
+---
+
+## Why context managers are better than manual `finally`
+
+Because this:
+
+```python
+with lock:
+    critical_section()
+```
+
+Cannot be written incorrectly.
+
+But this can:
+
+```python
+lock.acquire()
+try:
+    critical_section()
+finally:
+    lock.release()
+```
+
+Humans mess this up. Python doesn’t trust you.
+
+---
+
+## One brutal sentence to seal this topic
+
+**A context manager is an object that gets told when you enter, when you leave, and whether you fucked up in between.**
+
+That’s the whole abstraction.
 
 ---
 
