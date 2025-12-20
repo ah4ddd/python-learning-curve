@@ -1,4 +1,4 @@
-a = [1, 2, 3, 4, 5]
-
-for i, value in enumerate(a):
-    print(f"ELEMENT {i} is {value}")
+try:
+    print(5/0)
+except ZeroDivisionError:
+    print("cant divide by zero u dumb cunt")
