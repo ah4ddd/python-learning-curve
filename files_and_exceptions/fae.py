@@ -32,4 +32,14 @@ except FileNotFoundError:
 finally:
     file.close()
 
+from calendar import c
+from pathlib import Path
+
+path = Path("guest.txt")
+try:
+    contents = path.read_text()
+except:
+    print(f"sorry, the file {path} does not exist")
+else:
+    print(contents.strip())
 

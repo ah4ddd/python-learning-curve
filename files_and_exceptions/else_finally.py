@@ -11,4 +11,3 @@ class DemoContext:
 
 with DemoContext() as d:
     print("using",d)
-
