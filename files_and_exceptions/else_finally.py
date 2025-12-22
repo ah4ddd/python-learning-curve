@@ -1,54 +1,63 @@
-import json
+import time
 
-def save_calculation_history(history, filename="history.json"):
-    """Save history with guaranteed cleanup."""
-    file_handle = None
-    temp_filename = filename + ".tmp"  # Temporary file
+class GameSession:
+    """Manage a game session with guaranteed cleanup."""
+
+    def __init__(self, player_name):
+        self.player_name = player_name
+        self.started = False
+        self.score = 0
+
+    def start(self):
+        """Start the session."""
+        print(f"🎮 Starting session for {self.player_name}...")
+        self.started = True
+        self.start_time = time.time()
+
+    def play(self):
+        """Simulate gameplay."""
+        if not self.started:
+            raise RuntimeError("Session not started!")
+
+        print(f"🎯 {self.player_name} is playing...")
+        self.score += 100
+
+        # Simulate random error
+        import random
+        if random.random() < 0.3:  # 30% chance
+            raise RuntimeError("Game crashed! (Mia pressed wrong button 😏)")
+
+    def end(self):
+        """End the session (cleanup)."""
+        if self.started:
+            duration = time.time() - self.start_time
+            print(f"🏁 Session ended for {self.player_name}")
+            print(f"   Score: {self.score}")
+            print(f"   Duration: {duration:.2f}s")
+            self.started = False
+
+def play_game(player_name):
+    """Play a game with guaranteed cleanup."""
+    session = GameSession(player_name)
 
     try:
-        print(f"💾 Saving to {filename}...")
+        session.start()
 
-        # Write to temporary file first (safer!)
-        file_handle = open(temp_filename, "w")
-        json.dump(history, file_handle, indent=4)
-        file_handle.close()
+        # Play a few rounds
+        for round_num in range(3):
+            print(f"\n--- Round {round_num + 1} ---")
+            session.play()
+            time.sleep(0.5)
 
-        # Rename temp to actual (atomic operation)
-        import os
-        if os.path.exists(filename):
-            os.remove(filename)
-        os.rename(temp_filename, filename)
+        print(f"\n✅ Game completed successfully!")
 
-        print(f"✅ Saved successfully!")
-        return True
-
-    except IOError as e:
-        print(f"❌ Failed to save: {e}")
-        return False
-
-    except Exception as e:
-        print(f"❌ Unexpected error: {e}")
-        return False
+    except RuntimeError as e:
+        print(f"\n❌ Error occurred: {e}")
 
     finally:
-        # Cleanup: Close file if still open
-        if file_handle and not file_handle.closed:
-            file_handle.close()
-            print("🧹 Closed file handle")
+        # ALWAYS cleanup, even if game crashed
+        session.end()
+        print("🧹 Session cleanup complete!")
 
-        # Remove temp file if it exists and save failed
-        import os
-        if os.path.exists(temp_filename):
-            try:
-                os.remove(temp_filename)
-                print("🧹 Cleaned up temporary file")
-            except:
-                pass  # Cleanup failed, but that's okay
-
-# Test
-history = [
-    {"user": "Ahad", "a": 10, "operator": "+", "b": 5, "result": 15},
-    {"user": "Mia", "a": 20, "operator": "*", "b": 2, "result": 40}
-]
-
-save_calculation_history(history)
+# Play
+play_game("Ahad")
