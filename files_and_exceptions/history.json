@@ -1,16 +1,16 @@
 [
     {
-        "user": "vaish",
-        "a": 800.0,
+        "user": "Ahad",
+        "a": 10,
         "operator": "+",
-        "b": 700.0,
-        "result": 1500.0
+        "b": 5,
+        "result": 15
     },
     {
-        "user": "ahad",
-        "a": 69.0,
+        "user": "Mia",
+        "a": 20,
         "operator": "*",
-        "b": 69.0,
-        "result": 4761.0
+        "b": 2,
+        "result": 40
     }
 ]
