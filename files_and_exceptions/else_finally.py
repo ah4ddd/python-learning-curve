@@ -1,35 +1,20 @@
-def divide_numbers(a, b):
-    """Division with full exception handling."""
-    print("🔢 Starting division...")
-
+def test_return():
     try:
-        result = a / b
-        print(f"   Calculation: {a} / {b}")
-
-    except ZeroDivisionError:
-        print("   ❌ Cannot divide by zero!")
-        return None
-
-    except TypeError:
-        print("   ❌ Invalid types for division!")
-        return None
-
-    else:
-        print(f"   ✅ Result: {result}")
-        return result
-
+        print("Try block")
+        return "Returning from try!"
+    except:
+        print("Except block")
     finally:
-        print("🧹 Cleanup: Operation finished!\n")
+        print("Finally block")
 
-# Test different scenarios
-print("=== Test 1: Valid division ===")
-divide_numbers(10, 2)
+result = test_return()
+print(f"Result: {result}")
 
-print("=== Test 2: Division by zero ===")
-divide_numbers(10, 0)
+def tricky_function():
+    try:
+        return "From try"
+    finally:
+        return "From finally"  # This WINS!
 
-print("=== Test 3: Invalid types ===")
-divide_numbers("10", 2)
-
-print("=== Test 4: Another valid ===")
-divide_numbers(100, 5)
+result = tricky_function()
+print(result)  # From finally
