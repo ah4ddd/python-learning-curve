@@ -1,15 +1,11 @@
-class Transaction:
-    def __enter__(self):
-        print("🔓 BEGIN TRANSACTION")
-        return self
+from contextlib import contextmanager
 
-    def __exit__(self, exc_type, exc_value, tb):
-        if exc_type:
-            print("↩️ ROLLBACK (error detected)")
-        else:
-            print("✅ COMMIT")
-        print("🔒 END TRANSACTION")
+@contextmanager
+def db_connection():
+    print("🔌 connect")
+    try:
+        yield "DB"
+    finally:
+        print("🔌 close")
 
-with Transaction():
-    print("Updating user balance")
-    print("Logging audit entry")
+db_connection()
