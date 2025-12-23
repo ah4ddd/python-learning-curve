@@ -1,18 +1,19 @@
 from contextlib import contextmanager
 
 @contextmanager
-def simple_context():
-    print("🟢 SETUP: entering context")
+def demo():
+    print("A: setup starts")
     try:
+        print("B: before yield")
         yield "RESOURCE"
+        print("E: after yield (normal exit)")
     finally:
-        print("🔴 CLEANUP: exiting context")
+        print("F: cleanup runs")
 
-print("Before with")
+print("0: before with")
 
-with simple_context() as r:
-    print("Inside with block")
-    print("Using:", r)
+with demo() as r:
+    print("C: inside with")
+    print("D: r =", r)
 
-print("After with")
-
+print("G: after with")
