@@ -1,11 +1,18 @@
 from contextlib import contextmanager
 
 @contextmanager
-def db_connection():
-    print("🔌 connect")
+def simple_context():
+    print("🟢 SETUP: entering context")
     try:
-        yield "DB"
+        yield "RESOURCE"
     finally:
-        print("🔌 close")
+        print("🔴 CLEANUP: exiting context")
 
-db_connection()
+print("Before with")
+
+with simple_context() as r:
+    print("Inside with block")
+    print("Using:", r)
+
+print("After with")
+
