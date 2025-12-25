@@ -1,16 +1,9 @@
-from multiprocessing import Value
+age = int(input("Enter your age: "))
 
+if age < 0:
+    raise ValueError("Age cannot be negative!")
 
-class BankAccount:
-    def __init__(self, balance):
-        self.balance = balance
+if age > 150:
+    raise ValueError("Age seems unrealistic!")
 
-    def withdraw(self, amount):
-        if amount > self.balance:
-            raise ValueError("brokie")
-        self.balance -= amount
-        return True
-
-acc1 = BankAccount(1000)
-
-print(acc1.withdraw(10000))
+print(f"Valid age: {age}")
