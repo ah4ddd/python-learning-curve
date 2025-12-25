@@ -17,3 +17,8 @@ def add_numbers(a, b):
 print(set_age(90))
 
 print(add_numbers("10", 10))
+
+def get_user_name(user_dict):
+    if "name" not in user_dict:
+        raise KeyError("User dict must have 'name' key!")
+    return user_dict["name"]
