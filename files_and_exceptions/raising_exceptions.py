@@ -1,24 +1,33 @@
-def set_age(age):
-    if not isinstance(age, int):
-        raise ValueError("Age must be an integer!")
-    if age < 0:
-        raise ValueError("Age cannot be negative!")
-    if age > 150:
-        raise ValueError("Age too high!")
-    return age
+def validate_email(email):
+    """Validate email format."""
+    if not isinstance(email, str):
+        raise TypeError("Email must be a string!")
 
-def add_numbers(a, b):
-    if not isinstance(a, (int, float)):
-        raise TypeError(f"First argument must be number, got {type(a).__name__}")
-    if not isinstance(b, (int, float)):
-        raise TypeError(f"Second argument must be number, got {type(b).__name__}")
-    return a + b
+    if not email:
+        raise ValueError("Email cannot be empty!")
 
-print(set_age(90))
+    if "@" not in email:
+        raise ValueError("Email must contain @!")
 
-print(add_numbers("10", 10))
+    if "." not in email.split("@")[1]:
+        raise ValueError("Email domain must contain a dot!")
 
-def get_user_name(user_dict):
-    if "name" not in user_dict:
-        raise KeyError("User dict must have 'name' key!")
-    return user_dict["name"]
+    return email.lower()
+
+# Use it with error handling
+def create_user(email):
+    """Create user with email validation."""
+    try:
+        validated_email = validate_email(email)
+        print(f"✅ User created with email: {validated_email}")
+        return {"email": validated_email}
+    except (TypeError, ValueError) as e:
+        print(f"❌ Invalid email: {e}")
+        return None
+
+# Test cases
+create_user("ahad@example.com")  # ✅ Valid
+create_user("invalid")            # ❌ No @
+create_user("invalid@domain")     # ❌ No dot in domain
+create_user("")                   # ❌ Empty
+create_user(123)                  # ❌ Not a string
