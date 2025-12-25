@@ -1,38 +1,22 @@
-# Base exception for all game errors
-class GameError(Exception):
-    """Base exception for game-related errors."""
-    pass
+def critical_operation():
+    """Operation that logs errors before propagating."""
+    try:
+        risky_code()
+    except Exception as e:
+        # Log the error
+        print(f"🚨 ERROR LOGGED: {e}")
+        with open("error.log", "a") as f:
+            f.write(f"Error: {e}\n")
 
-# Specific game errors (inherit from GameError)
-class InvalidMoveError(GameError):
-    """Raised when move is invalid."""
-    pass
+        # Re-raise the same exception!
+        raise  # <- This re-raises the caught exception!
 
-class GameOverError(GameError):
-    """Raised when game is over."""
-    pass
+def risky_code():
+    raise ValueError("Something went wrong!")
 
-class PlayerNotFoundError(GameError):
-    """Raised when player doesn't exist."""
-    pass
-
-# Use them
-def make_move(player, move):
-    if not player:
-        raise PlayerNotFoundError("Player not found!")
-    if not is_valid_move(move):
-        raise InvalidMoveError(f"Move '{move}' is not valid!")
-    # Make move...
-
-def is_valid_move(move):
-    return move in ["up", "down", "left", "right"]
-
-# Catch specific or general
+# Use it
 try:
-    make_move(None, "up")
-except PlayerNotFoundError as e:
-    print(f"❌ Player error: {e}")
-except InvalidMoveError as e:
-    print(f"❌ Move error: {e}")
-except GameError as e:
-    print(f"❌ Game error: {e}")  # Catches ANY game error!
+    critical_operation()
+except ValueError as e:
+    print(f"❌ Caught at top level: {e}")
+
