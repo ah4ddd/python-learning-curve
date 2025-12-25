@@ -1,19 +1,25 @@
-from contextlib import contextmanager
+class InsufficientFundsError(Exception):
+    """Raised when account has insufficient funds."""
+    pass
 
-@contextmanager
-def demo():
-    print("A: setup starts")
-    try:
-        print("B: before yield")
-        yield "RESOURCE"
-        print("E: after yield (normal exit)")
-    finally:
-        print("F: cleanup runs")
+class BankAccount:
+    def __init__(self, owner, balance):
+        self.owner = owner
+        self.balance = balance
 
-print("0: before with")
+    def withdraw(self, amount):
+        if amount > self.balance:
+            raise InsufficientFundsError(
+                f"Cannot withdraw ₹{amount}, balance is only ₹{self.balance}"
+            )
+        self.balance -= amount
+        print(f"✅ Withdrew ₹{amount}. New balance: ₹{self.balance}")
 
-with demo() as r:
-    print("C: inside with")
-    print("D: r =", r)
+# Use it
+account = BankAccount("Ahad", 1000)
 
-print("G: after with")
+try:
+    account.withdraw(500)   # ✅ Works
+    account.withdraw(2000)  # ❌ Raises InsufficientFundsError
+except InsufficientFundsError as e:
+    print(f"❌ {e}")
