@@ -1,23 +1,38 @@
-class InvalidAgeError(Exception):
-    """Raised when age is invalid."""
+# Base exception for all game errors
+class GameError(Exception):
+    """Base exception for game-related errors."""
+    pass
 
-    def __init__(self, age, message):
-        self.age = age
-        self.message = message
-        super().__init__(self.message)
+# Specific game errors (inherit from GameError)
+class InvalidMoveError(GameError):
+    """Raised when move is invalid."""
+    pass
 
-def set_age(age):
-    """Set age with validation."""
-    if age < 0:
-        raise InvalidAgeError(age, f"Age cannot be negative! Got: {age}")
-    if age > 150:
-        raise InvalidAgeError(age, f"Age too high! Got: {age}")
-    return age
+class GameOverError(GameError):
+    """Raised when game is over."""
+    pass
 
-# Use it
+class PlayerNotFoundError(GameError):
+    """Raised when player doesn't exist."""
+    pass
+
+# Use them
+def make_move(player, move):
+    if not player:
+        raise PlayerNotFoundError("Player not found!")
+    if not is_valid_move(move):
+        raise InvalidMoveError(f"Move '{move}' is not valid!")
+    # Make move...
+
+def is_valid_move(move):
+    return move in ["up", "down", "left", "right"]
+
+# Catch specific or general
 try:
-    age = set_age(-5)
-except InvalidAgeError as e:
-    print(f"❌ Error: {e.message}")
-    print(f"   Invalid value: {e.age}")
-    print(f"   Suggestion: Enter age between 0 and 150")
+    make_move(None, "up")
+except PlayerNotFoundError as e:
+    print(f"❌ Player error: {e}")
+except InvalidMoveError as e:
+    print(f"❌ Move error: {e}")
+except GameError as e:
+    print(f"❌ Game error: {e}")  # Catches ANY game error!
