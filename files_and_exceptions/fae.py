@@ -17,4 +17,3 @@ try:
     critical_operation()
 except ValueError as e:
     print(f"❌ Caught at top level: {e}")
-

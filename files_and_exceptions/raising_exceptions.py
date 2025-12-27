@@ -1,24 +1,19 @@
-class InvalidAgeError(Exception):
-    """Raised when age is invalid."""
+import json
 
-    def __init__(self, age, message):
-        self.age = age
-        self.message = message
-        super().__init__(self.message)
+def load_user_data(filename):
+    """Load user data with error context."""
+    try:
+        with open(filename, "r") as f:
+            data = json.load(f)
+        return data
+    except FileNotFoundError as e:
+        # Original error caused this new error
+        raise RuntimeError(f"Cannot load user data from '{filename}'") from e
+    except json.JSONDecodeError as e:
+        raise RuntimeError(f"Invalid JSON in '{filename}'") from e
 
-def set_age(age):
-    """Set age with validation."""
-    if age < 0:
-        raise InvalidAgeError(age, f"Age cannot be negative! Got: {age}")
-    if age > 150:
-        raise InvalidAgeError(age, f"Age too high! Got: {age}")
-    return age
-
-# Use it
 try:
-    age = set_age(900)
-except InvalidAgeError as e:
-    print(f"❌ Error: {e.message}")
-    print(f"   Invalid value: {e.age}")
-    print(f"   Suggestion: Enter age between 0 and 150")
-
+    load_user_data("missing.json")
+except RuntimeError as e:
+    print(f"❌ Error: {e}")
+    print(f"   Caused by: {e.__cause__}")
