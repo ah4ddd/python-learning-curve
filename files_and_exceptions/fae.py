@@ -8,13 +8,11 @@ def critical_operation():
         with open("error.log", "a") as f:
             f.write(f"Error: {e}\n")
 
-        # Re-raise the same exception!
         raise  # <- This re-raises the caught exception!
 
 def risky_code():
     raise ValueError("Something went wrong!")
 
-# Use it
 try:
     critical_operation()
 except ValueError as e:
