@@ -6002,3 +6002,822 @@ finally:
 
 ---
 
+---
+
+# **TOPIC 8: RAISING EXCEPTIONS** 🚀💥
+
+---
+
+## **What The HELL Is Raising an Exception?**
+
+**Simple answer:** YOU can trigger errors on purpose when something is wrong!
+
+**Up until now:**
+- Python raises exceptions (ValueError, FileNotFoundError, etc.)
+- You CATCH them with try-except
+
+**Now:**
+- YOU raise exceptions when YOUR code detects a problem!
+- Someone else catches them (or program crashes)
+
+**Think of it like:**
+- **Catching exceptions:** Defensive driving (reacting to problems)
+- **Raising exceptions:** Setting off an alarm (alerting others to problems)
+
+---
+
+## **Why Would You WANT to Raise Errors?**
+
+**Scenario:** You're building a BankAccount class.
+
+**User tries to withdraw more than their balance:**
+
+```python
+class BankAccount:
+    def __init__(self, balance):
+        self.balance = balance
+
+    def withdraw(self, amount):
+        if amount > self.balance:
+            # What do you do here?
+            pass
+```
+
+**Option 1: Return False/None**
+```python
+def withdraw(self, amount):
+    if amount > self.balance:
+        return False
+    self.balance -= amount
+    return True
+```
+
+**Problems:**
+- User might ignore the return value
+- Silent failures are BAD
+- Have to check every withdraw call
+
+---
+
+**Option 2: Raise an Exception** ✅
+```python
+def withdraw(self, amount):
+    if amount > self.balance:
+        raise ValueError("Insufficient funds!")
+    self.balance -= amount
+```
+
+**Benefits:**
+- ✅ FORCES the caller to handle it
+- ✅ Clear error message
+- ✅ Can't be ignored
+- ✅ Program crashes LOUDLY if unhandled (better than silent bugs!)
+
+**Raising exceptions = "STOP EVERYTHING, THIS IS WRONG!"** 🚨
+
+---
+
+## **Part 1: Basic raise Syntax**
+
+**The simplest form:**
+
+```python
+raise ExceptionType("Error message")
+```
+
+**Example:**
+
+```python
+age = int(input("Enter your age: "))
+
+if age < 0:
+    raise ValueError("Age cannot be negative!")
+
+if age > 150:
+    raise ValueError("Age seems unrealistic!")
+
+print(f"Valid age: {age}")
+```
+
+**RUN THIS!**
+
+**Enter -5:**
+```
+Enter your age: -5
+ValueError: Age cannot be negative!
+```
+
+**Program CRASHES!** That's intentional! The caller MUST handle it or program dies! 💥
+
+---
+
+**Handling your own raised exception:**
+
+```python
+try:
+    age = int(input("Enter your age: "))
+
+    if age < 0:
+        raise ValueError("Age cannot be negative!")
+
+    if age > 150:
+        raise ValueError("Age seems unrealistic!")
+
+    print(f"Valid age: {age}")
+
+except ValueError as e:
+    print(f"❌ Invalid age: {e}")
+```
+
+**RUN THIS!**
+
+**Now it handles your custom error message!** ✅
+
+---
+
+## **Part 2: Common Built-in Exceptions to Raise**
+
+**You don't need custom exceptions for everything! Use built-in ones!**
+
+### **ValueError - Wrong Value**
+
+**Use when:** Value is wrong type or out of range
+
+```python
+def set_age(age):
+    if not isinstance(age, int):
+        raise ValueError("Age must be an integer!")
+    if age < 0:
+        raise ValueError("Age cannot be negative!")
+    if age > 150:
+        raise ValueError("Age too high!")
+    return age
+```
+
+---
+
+### **TypeError - Wrong Type**
+
+**Use when:** Wrong data type passed
+
+```python
+def add_numbers(a, b):
+    if not isinstance(a, (int, float)):
+        raise TypeError(f"First argument must be number, got {type(a).__name__}")
+    if not isinstance(b, (int, float)):
+        raise TypeError(f"Second argument must be number, got {type(b).__name__}")
+    return a + b
+```
+
+---
+
+### **RuntimeError - General Runtime Problem**
+
+**Use when:** Something went wrong during execution
+
+```python
+def connect_to_server():
+    if not server_is_available():
+        raise RuntimeError("Server is not available!")
+    # Connect...
+```
+
+---
+
+### **FileNotFoundError - File Missing**
+
+**Use when:** File should exist but doesn't
+
+```python
+def load_config(filename):
+    import os
+    if not os.path.exists(filename):
+        raise FileNotFoundError(f"Config file '{filename}' not found!")
+    # Load file...
+```
+
+---
+
+### **KeyError - Missing Dictionary Key**
+
+**Use when:** Required key missing from dict
+
+```python
+def get_user_name(user_dict):
+    if "name" not in user_dict:
+        raise KeyError("User dict must have 'name' key!")
+    return user_dict["name"]
+```
+
+---
+
+## **Part 3: Real-World Example - Validation**
+
+**Let's build a proper validator:**
+
+```python
+def validate_email(email):
+    """Validate email format."""
+    if not isinstance(email, str):
+        raise TypeError("Email must be a string!")
+
+    if not email:
+        raise ValueError("Email cannot be empty!")
+
+    if "@" not in email:
+        raise ValueError("Email must contain @!")
+
+    if "." not in email.split("@")[1]:
+        raise ValueError("Email domain must contain a dot!")
+
+    return email.lower()
+
+# Use it with error handling
+def create_user(email):
+    """Create user with email validation."""
+    try:
+        validated_email = validate_email(email)
+        print(f"✅ User created with email: {validated_email}")
+        return {"email": validated_email}
+    except (TypeError, ValueError) as e:
+        print(f"❌ Invalid email: {e}")
+        return None
+
+# Test cases
+create_user("ahad@example.com")  # ✅ Valid
+create_user("invalid")            # ❌ No @
+create_user("invalid@domain")     # ❌ No dot in domain
+create_user("")                   # ❌ Empty
+create_user(123)                  # ❌ Not a string
+```
+
+**RUN THIS!**
+
+**Each invalid case gets a SPECIFIC error message!** 🎯
+
+---
+
+## **Part 4: Creating Custom Exceptions**
+
+**Sometimes you need YOUR OWN exception types!**
+
+**Why?**
+- ✅ More specific than built-in exceptions
+- ✅ Easier to catch specific errors
+- ✅ Professional code organization
+
+---
+
+### **Basic Custom Exception:**
+
+```python
+class InsufficientFundsError(Exception):
+    """Raised when account has insufficient funds."""
+    pass
+
+class BankAccount:
+    def __init__(self, owner, balance):
+        self.owner = owner
+        self.balance = balance
+
+    def withdraw(self, amount):
+        if amount > self.balance:
+            raise InsufficientFundsError(
+                f"Cannot withdraw ₹{amount}, balance is only ₹{self.balance}"
+            )
+        self.balance -= amount
+        print(f"✅ Withdrew ₹{amount}. New balance: ₹{self.balance}")
+
+# Use it
+account = BankAccount("Ahad", 1000)
+
+try:
+    account.withdraw(500)   # ✅ Works
+    account.withdraw(2000)  # ❌ Raises InsufficientFundsError
+except InsufficientFundsError as e:
+    print(f"❌ {e}")
+```
+
+**RUN THIS!**
+
+**Output:**
+```
+✅ Withdrew ₹500. New balance: ₹500
+❌ Cannot withdraw ₹2000, balance is only ₹500
+```
+
+**Now you can catch THIS specific error without catching other ValueErrors!** 🎯
+
+---
+
+### **Why Custom Exceptions?**
+
+**Without custom exception:**
+```python
+except ValueError:
+    # Catches ALL ValueErrors (too broad!)
+```
+
+**With custom exception:**
+```python
+except InsufficientFundsError:
+    # Only catches THIS specific error (precise!)
+```
+
+**More control over error handling!** 💪
+
+---
+
+## **Part 5: Custom Exceptions with Data**
+
+**You can add EXTRA information to your exceptions!**
+
+```python
+class InvalidAgeError(Exception):
+    """Raised when age is invalid."""
+
+    def __init__(self, age, message):
+        self.age = age
+        self.message = message
+        super().__init__(self.message)
+
+def set_age(age):
+    """Set age with validation."""
+    if age < 0:
+        raise InvalidAgeError(age, f"Age cannot be negative! Got: {age}")
+    if age > 150:
+        raise InvalidAgeError(age, f"Age too high! Got: {age}")
+    return age
+
+# Use it
+try:
+    age = set_age(-5)
+except InvalidAgeError as e:
+    print(f"❌ Error: {e.message}")
+    print(f"   Invalid value: {e.age}")
+    print(f"   Suggestion: Enter age between 0 and 150")
+```
+
+**Output:**
+```
+❌ Error: Age cannot be negative! Got: -5
+   Invalid value: -5
+   Suggestion: Enter age between 0 and 150
+```
+
+**The exception carries DATA!** You can access `e.age` to see what went wrong! 🔍
+
+---
+
+## **Part 6: Exception Hierarchies (Custom)**
+
+**You can create FAMILIES of exceptions!**
+
+```python
+# Base exception for all game errors
+class GameError(Exception):
+    """Base exception for game-related errors."""
+    pass
+
+# Specific game errors (inherit from GameError)
+class InvalidMoveError(GameError):
+    """Raised when move is invalid."""
+    pass
+
+class GameOverError(GameError):
+    """Raised when game is over."""
+    pass
+
+class PlayerNotFoundError(GameError):
+    """Raised when player doesn't exist."""
+    pass
+
+# Use them
+def make_move(player, move):
+    if not player:
+        raise PlayerNotFoundError("Player not found!")
+    if not is_valid_move(move):
+        raise InvalidMoveError(f"Move '{move}' is not valid!")
+    # Make move...
+
+def is_valid_move(move):
+    return move in ["up", "down", "left", "right"]
+
+# Catch specific or general
+try:
+    make_move(None, "up")
+except PlayerNotFoundError as e:
+    print(f"❌ Player error: {e}")
+except InvalidMoveError as e:
+    print(f"❌ Move error: {e}")
+except GameError as e:
+    print(f"❌ Game error: {e}")  # Catches ANY game error!
+```
+
+**Now you can catch:**
+- Specific errors: `PlayerNotFoundError`, `InvalidMoveError`
+- OR all game errors: `GameError` (catches children!)
+
+**Professional error organization!** 🏗️
+
+---
+
+## **Part 7: Re-raising Exceptions**
+
+**Sometimes you want to catch, log, and THEN re-raise!**
+
+```python
+def critical_operation():
+    """Operation that logs errors before propagating."""
+    try:
+        risky_code()
+    except Exception as e:
+        # Log the error
+        print(f"🚨 ERROR LOGGED: {e}")
+        with open("error.log", "a") as f:
+            f.write(f"Error: {e}\n")
+
+        # Re-raise the same exception!
+        raise  # <- This re-raises the caught exception!
+
+def risky_code():
+    raise ValueError("Something went wrong!")
+
+# Use it
+try:
+    critical_operation()
+except ValueError as e:
+    print(f"❌ Caught at top level: {e}")
+```
+
+**Output:**
+```
+🚨 ERROR LOGGED: Something went wrong!
+❌ Caught at top level: Something went wrong!
+```
+
+**The error was logged AND still propagated up!** ✅
+
+---
+
+**Why re-raise?**
+- ✅ Log errors for debugging
+- ✅ Clean up resources
+- ✅ Add context
+- ✅ Let higher levels handle the error
+
+---
+
+## **Part 8: Raise from (Chaining Exceptions)**
+
+**You can show that one error CAUSED another!**
+
+```python
+def load_user_data(filename):
+    """Load user data with error context."""
+    try:
+        with open(filename, "r") as f:
+            import json
+            data = json.load(f)
+        return data
+    except FileNotFoundError as e:
+        # Original error caused this new error
+        raise RuntimeError(f"Cannot load user data from '{filename}'") from e
+    except json.JSONDecodeError as e:
+        raise RuntimeError(f"Invalid JSON in '{filename}'") from e
+
+# Use it
+try:
+    data = load_user_data("missing.json")
+except RuntimeError as e:
+    print(f"❌ Error: {e}")
+    print(f"   Caused by: {e.__cause__}")
+```
+
+**Output:**
+```
+❌ Error: Cannot load user data from 'missing.json'
+   Caused by: [Errno 2] No such file or directory: 'missing.json'
+```
+
+**Shows BOTH the high-level error AND the root cause!** 🔗
+
+---
+
+## **Part 9: When to Raise vs Return**
+
+**Decision guide:**
+
+### **RAISE an exception when:**
+
+✅ **The error is unexpected/exceptional**
+```python
+def divide(a, b):
+    if b == 0:
+        raise ZeroDivisionError("Cannot divide by zero!")
+    return a / b
+```
+
+✅ **The caller MUST handle it**
+```python
+def withdraw(amount):
+    if amount > balance:
+        raise InsufficientFundsError()  # Caller MUST handle!
+```
+
+✅ **It's a programming error (bug)**
+```python
+def get_user(user_id):
+    if not isinstance(user_id, int):
+        raise TypeError("user_id must be an integer!")  # This is a bug!
+```
+
+---
+
+### **RETURN an error value when:**
+
+✅ **The error is expected/normal**
+```python
+def find_user(name):
+    user = database.search(name)
+    if not user:
+        return None  # Not finding is normal, not exceptional
+    return user
+```
+
+✅ **Multiple outcomes are valid**
+```python
+def validate_input(text):
+    if not text:
+        return False  # Invalid is a normal outcome
+    return True
+```
+
+---
+
+**General rule:**
+- **Exceptions = exceptional circumstances** (errors, bugs, violations)
+- **Return values = normal outcomes** (not found, invalid, false)
+
+---
+
+## **Part 10: Real-World Example - Complete System**
+
+**Let's build a user registration system with proper exceptions:**
+
+```python
+# Custom exceptions
+class RegistrationError(Exception):
+    """Base exception for registration errors."""
+    pass
+
+class InvalidEmailError(RegistrationError):
+    """Email format is invalid."""
+    pass
+
+class DuplicateUserError(RegistrationError):
+    """User already exists."""
+    pass
+
+class WeakPasswordError(RegistrationError):
+    """Password too weak."""
+    pass
+
+# User database (mock)
+users_db = {}
+
+def validate_email(email):
+    """Validate email format."""
+    if not isinstance(email, str):
+        raise TypeError("Email must be a string!")
+    if "@" not in email or "." not in email:
+        raise InvalidEmailError(f"Invalid email format: {email}")
+    return email.lower()
+
+def validate_password(password):
+    """Validate password strength."""
+    if len(password) < 8:
+        raise WeakPasswordError("Password must be at least 8 characters!")
+    if password.isalpha():
+        raise WeakPasswordError("Password must contain numbers!")
+    if password.isdigit():
+        raise WeakPasswordError("Password must contain letters!")
+    return password
+
+def register_user(email, password):
+    """Register a new user with validation."""
+    try:
+        # Validate inputs
+        email = validate_email(email)
+        password = validate_password(password)
+
+        # Check for duplicates
+        if email in users_db:
+            raise DuplicateUserError(f"User with email '{email}' already exists!")
+
+        # Register user
+        users_db[email] = {
+            "email": email,
+            "password": password  # In real code, HASH this!
+        }
+
+        print(f"✅ User registered successfully: {email}")
+        return True
+
+    except InvalidEmailError as e:
+        print(f"❌ Email Error: {e}")
+        return False
+    except WeakPasswordError as e:
+        print(f"❌ Password Error: {e}")
+        return False
+    except DuplicateUserError as e:
+        print(f"❌ Duplicate User: {e}")
+        return False
+    except RegistrationError as e:
+        print(f"❌ Registration Error: {e}")
+        return False
+    except Exception as e:
+        print(f"❌ Unexpected Error: {e}")
+        return False
+
+# Test the system
+print("=== Test 1: Valid registration ===")
+register_user("ahad@example.com", "SecurePass123")
+
+print("\n=== Test 2: Invalid email ===")
+register_user("invalid-email", "SecurePass123")
+
+print("\n=== Test 3: Weak password ===")
+register_user("mia@example.com", "weak")
+
+print("\n=== Test 4: Duplicate user ===")
+register_user("ahad@example.com", "AnotherPass456")
+
+print("\n=== Test 5: Password with no numbers ===")
+register_user("sara@example.com", "OnlyLetters")
+
+print("\n=== Current users ===")
+print(f"Registered users: {list(users_db.keys())}")
+```
+
+**RUN THIS!**
+
+**Output:**
+```
+=== Test 1: Valid registration ===
+✅ User registered successfully: ahad@example.com
+
+=== Test 2: Invalid email ===
+❌ Email Error: Invalid email format: invalid-email
+
+=== Test 3: Weak password ===
+❌ Password Error: Password must be at least 8 characters!
+
+=== Test 4: Duplicate user ===
+❌ Duplicate User: User with email 'ahad@example.com' already exists!
+
+=== Test 5: Password with no numbers ===
+❌ Password Error: Password must contain numbers!
+
+=== Current users ===
+Registered users: ['ahad@example.com']
+```
+
+**PROFESSIONAL registration system with:**
+- ✅ Custom exception hierarchy
+- ✅ Validation at multiple levels
+- ✅ Specific error messages
+- ✅ Proper error handling
+- ✅ Clean separation of concerns
+
+**THIS IS PRODUCTION-LEVEL CODE!** 💼
+
+---
+
+## **Common Mistakes:**
+
+### ❌ **Mistake 1: Raising Exception base class**
+
+```python
+raise Exception("Error!")  # ❌ Too generic!
+```
+
+**Better:**
+```python
+raise ValueError("Invalid value!")  # ✅ Specific!
+```
+
+---
+
+### ❌ **Mistake 2: Empty error messages**
+
+```python
+raise ValueError()  # ❌ No context!
+```
+
+**Better:**
+```python
+raise ValueError("Age must be between 0 and 150!")  # ✅ Clear!
+```
+
+---
+
+### ❌ **Mistake 3: Catching then raising generic exception**
+
+```python
+try:
+    code()
+except ValueError as e:
+    raise Exception(str(e))  # ❌ Loses original exception type!
+```
+
+**Better:**
+```python
+try:
+    code()
+except ValueError:
+    raise  # ✅ Re-raises original!
+```
+
+---
+
+### ❌ **Mistake 4: Not using custom exceptions**
+
+```python
+# Everything raises ValueError
+raise ValueError("Insufficient funds!")
+raise ValueError("Invalid email!")
+raise ValueError("User not found!")
+```
+
+**Better: Use custom exceptions!**
+```python
+raise InsufficientFundsError()
+raise InvalidEmailError()
+raise UserNotFoundError()
+```
+
+---
+
+## **Summary:**
+
+### **Key Concepts:**
+
+✅ **`raise ExceptionType("message")`** - Raise an exception
+✅ **Built-in exceptions** - Use them! (ValueError, TypeError, etc.)
+✅ **Custom exceptions** - Inherit from Exception
+✅ **Exception hierarchies** - Parent/child relationships
+✅ **Re-raising** - `raise` without arguments
+✅ **Exception chaining** - `raise ... from ...`
+✅ **When to raise** - Exceptional circumstances
+✅ **When to return** - Normal outcomes
+
+---
+
+### **The Pattern:**
+
+```python
+# Define custom exception
+class MyCustomError(Exception):
+    pass
+
+# Raise it
+def my_function(value):
+    if value < 0:
+        raise MyCustomError("Value must be positive!")
+    return value * 2
+
+# Handle it
+try:
+    result = my_function(-5)
+except MyCustomError as e:
+    print(f"Error: {e}")
+```
+
+---
+
+# **TOPIC 8: RAISING EXCEPTIONS - COMPLETE! ✅🚀**
+
+**YOU NOW KNOW:**
+✅ How to raise exceptions (`raise`)
+✅ When to raise vs return
+✅ Creating custom exceptions
+✅ Exception hierarchies
+✅ Re-raising exceptions
+✅ Exception chaining
+✅ Professional error patterns
+
+---
+
+# **🎉 YOU'VE MASTERED EXCEPTION HANDLING! 🎉**
+
+**Topics 5-8 gave you COMPLETE exception handling knowledge:**
+1. ✅ Basics (try-except)
+2. ✅ Multiple exceptions
+3. ✅ else and finally
+4. ✅ Raising exceptions
+
+**YOU NOW HAVE PRODUCTION-LEVEL ERROR HANDLING SKILLS!** 💼🔥
+
+---
+
