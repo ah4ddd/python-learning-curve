@@ -1,33 +1,24 @@
-def validate_email(email):
-    """Validate email format."""
-    if not isinstance(email, str):
-        raise TypeError("Email must be a string!")
+class InvalidAgeError(Exception):
+    """Raised when age is invalid."""
 
-    if not email:
-        raise ValueError("Email cannot be empty!")
+    def __init__(self, age, message):
+        self.age = age
+        self.message = message
+        super().__init__(self.message)
 
-    if "@" not in email:
-        raise ValueError("Email must contain @!")
+def set_age(age):
+    """Set age with validation."""
+    if age < 0:
+        raise InvalidAgeError(age, f"Age cannot be negative! Got: {age}")
+    if age > 150:
+        raise InvalidAgeError(age, f"Age too high! Got: {age}")
+    return age
 
-    if "." not in email.split("@")[1]:
-        raise ValueError("Email domain must contain a dot!")
+# Use it
+try:
+    age = set_age(900)
+except InvalidAgeError as e:
+    print(f"❌ Error: {e.message}")
+    print(f"   Invalid value: {e.age}")
+    print(f"   Suggestion: Enter age between 0 and 150")
 
-    return email.lower()
-
-# Use it with error handling
-def create_user(email):
-    """Create user with email validation."""
-    try:
-        validated_email = validate_email(email)
-        print(f"✅ User created with email: {validated_email}")
-        return {"email": validated_email}
-    except (TypeError, ValueError) as e:
-        print(f"❌ Invalid email: {e}")
-        return None
-
-# Test cases
-create_user("ahad@example.com")  # ✅ Valid
-create_user("invalid")            # ❌ No @
-create_user("invalid@domain")     # ❌ No dot in domain
-create_user("")                   # ❌ Empty
-create_user(123)                  # ❌ Not a string
