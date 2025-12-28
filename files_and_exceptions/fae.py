@@ -1,53 +1,72 @@
 import json
 
-class UserDataError(Exception):
-    """High-level error shown to the user."""
+# -----------------------------
+# Custom exception (high-level)
+# -----------------------------
+class UserProfileError(Exception):
+    """Raised when user profile cannot be loaded or validated."""
     pass
 
 
-def load_user_data(filename):
+# -----------------------------
+# Low-level loader
+# -----------------------------
+def load_user_profile(filename):
     """
-    Load user data from a JSON file.
+    Loads and validates a user profile from JSON.
+    Returns profile dict on success.
+    Raises UserProfileError on failure.
+    """
 
-    - Returns data on success
-    - Raises UserDataError on failure
-    """
     try:
         with open(filename, "r") as f:
             data = json.load(f)
 
-        # Normal validation → return, not raise
-        if not isinstance(data, dict):
-            return None  # expected but invalid structure
-
-        return data
-
     except FileNotFoundError as e:
-        # Low-level error → wrap into high-level error
-        raise UserDataError("User data file not found.") from e
+        # Technical error → wrapped as user-level error
+        raise UserProfileError("User profile file not found.") from e
 
     except json.JSONDecodeError as e:
-        raise UserDataError("User data file is corrupted.") from e
+        raise UserProfileError("User profile file is corrupted.") from e
+
+    # -----------------------------
+    # Validation (business rules)
+    # -----------------------------
+    if "username" not in data:
+        raise UserProfileError("Profile missing username.")
+
+    if "age" not in data:
+        raise UserProfileError("Profile missing age.")
+
+    if not isinstance(data["age"], int) or data["age"] <= 0:
+        raise UserProfileError("Invalid age in profile.")
+
+    # Normal outcome
+    return data
 
 
+# -----------------------------
+# High-level application logic
+# -----------------------------
 def main():
     try:
-        data = load_user_data("users.json")
+        profile = load_user_profile("data.json")
+        print("✅ Profile loaded successfully!")
+        print(f"Username: {profile['username']}")
+        print(f"Age: {profile['age']}")
 
-        if data is None:
-            print("⚠️ User data format is invalid but program can continue.")
-            return
+    except UserProfileError as e:
+        # User-facing message
+        print("❌ Failed to load user profile.")
+        print(f"Reason: {e}")
 
-        print("✅ User data loaded successfully!")
-        print("Data:", data)
-
-    except UserDataError as e:
-        # USER-FACING MESSAGE
-        print(f"❌ Error: {e}")
-
-        # DEVELOPER-FACING CAUSE
-        print(f"   Caused by: {e.__cause__}")
+        # Developer-facing detail (optional)
+        if e.__cause__:
+            print(f"[DEBUG] Root cause: {e.__cause__}")
 
 
+# -----------------------------
+# Entry point
+# -----------------------------
 if __name__ == "__main__":
     main()
