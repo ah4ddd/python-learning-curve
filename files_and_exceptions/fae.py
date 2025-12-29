@@ -4,7 +4,9 @@ for i,book in enumerate(literatures):
 
 def how_many_times(path, search):
     with open(path, "r", encoding="utf-8") as f:
-        return f.read().lower().count(search.lower())
+        book = f.read().lower()
+        words = book.split()
+        return words.count(search.lower())
 
 try:
     file = int(input("Choose book file, via number: "))
