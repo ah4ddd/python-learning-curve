@@ -7,9 +7,9 @@ for path in paths:
         with open(path, "r") as f:
             content = f.read()
         print(f"\n--- {path} ---")
-        print(content)
+        print(content.strip())
     except FileNotFoundError:
-        print(f"❌ file {path} not found")
+        pass
 
 while True:
     try:
