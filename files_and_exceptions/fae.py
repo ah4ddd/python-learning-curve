@@ -1,37 +1,61 @@
 from pathlib import Path
 import json
 
-path = Path('username.json')
+path = Path("user_data.json")
 
 def get_new_user(path):
     """
-    takes new user input
+    Collect new user information and store it.
     """
-    username = input("What is your name? ")
-    contents = json.dumps(username)
-    path.write_text(contents)
-    return username
+    name = input("What is your name? ")
+    age = input("How old are you? ")
+    city = input("Which city do you live in? ")
+
+    user_data = {
+        "name": name,
+        "age": age,
+        "city": city
+    }
+
+    path.write_text(json.dumps(user_data))
+    return user_data
 
 def stored_user(path):
     """
-    runs if username already in file
+    Return stored user data if it exists.
     """
     if path.exists():
-        contents = path.read_text()
-        username = json.loads(contents)
-        return username
-    else:
-        return None
+        return json.loads(path.read_text())
+    return None
 
-def greet():
+def greet_user():
     """
-    greet user by name
+    Greet user and verify identity.
     """
-    username = stored_user(path)
-    if username:
-        print(f"Welcome back, {username}!")
-    else:
-        username = get_new_user(path)
-        print(f"we'll remembe you when you comeback, {username}!")
+    user = stored_user(path)
 
-greet()
+    if user is not None:
+        correct = input(f"Is your name {user['name']}? (yes/no): ").lower()
+
+        if correct == "yes":
+            print("\nWelcome back!")
+            print("Here’s what I remember about you:")
+            print(f"Name: {user['name']}")
+            print(f"Age: {user['age']}")
+            print(f"City: {user['city']}")
+        else:
+            print("\nOkay, let's update your information.")
+            user = get_new_user(path)
+            print("\nGot it. I’ll remember this about you:")
+            print(f"Name: {user['name']}")
+            print(f"Age: {user['age']}")
+            print(f"City: {user['city']}")
+    else:
+        user = get_new_user(path)
+        print("\nNice to meet you!")
+        print("I’ll remember this about you:")
+        print(f"Name: {user['name']}")
+        print(f"Age: {user['age']}")
+        print(f"City: {user['city']}")
+
+greet_user()
