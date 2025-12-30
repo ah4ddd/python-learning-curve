@@ -1,19 +1,28 @@
-paths = ['film.txt', 'tv.txt', 'dontknow.txt']
+from pathlib import Path
+import json
 
-for path in paths:
-    try:
-        with open(path, "r") as f:
-            content = f.read()
-        print(f"\n--- {path} ---")
-        print(content.strip())
-    except FileNotFoundError:
-        pass
+path = Path('favnumb.json')
 
-while True:
-    try:
-        numb_one = int(input("first number: "))
-        numb_two = int(input("second number: "))
-    except ValueError:
-        print("❌ Please enter numbers only.")
+def get_new_number(path):
+    numb = int(input("What is your favorite number? "))
+    contents = json.dumps(numb)
+    path.write_text(contents)
+    return numb
+
+def stored_number(path):
+    if path.exists():
+        contents = path.read_text()
+        numb = json.loads(contents)
+        return numb
     else:
-        print(numb_one + numb_two)
+        return None
+
+def fav_number():
+    numb = stored_number(path)
+    if numb:
+        print(f"you already gave me your favorite number, its: {numb}!")
+    else:
+        numb = get_new_number(path)
+        print(f"I'll remember your favorite number when you comeback: {numb}!")
+
+fav_number()
