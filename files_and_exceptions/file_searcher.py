@@ -24,7 +24,7 @@ try:
         file = "Metamorphosis"
     count = len(results)
     print(f"\n{name.title()} appears on {count} lines in {file}.\n")
-    for idx, (line_number,text) in enumerate(results, start=1):
+    for idx, (line_number, text) in enumerate(results[:10], start=1):
         print(f"{idx}. Line {line_number}:")
         print(text)
         print()
