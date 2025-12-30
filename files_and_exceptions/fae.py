@@ -4,9 +4,6 @@ import json
 path = Path("user_data.json")
 
 def get_new_user(path):
-    """
-    Collect new user information and store it.
-    """
     name = input("What is your name? ")
     age = input("How old are you? ")
     city = input("Which city do you live in? ")
@@ -18,20 +15,14 @@ def get_new_user(path):
     }
 
     path.write_text(json.dumps(user_data))
-    return user_data
+    return user_data # doing same thing as json.dump
 
 def stored_user(path):
-    """
-    Return stored user data if it exists.
-    """
     if path.exists():
-        return json.loads(path.read_text())
+        return json.loads(path.read_text()) # doing same thing as json.load
     return None
 
 def greet_user():
-    """
-    Greet user and verify identity.
-    """
     user = stored_user(path)
 
     if user is not None:
