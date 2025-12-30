@@ -1,20 +1,9 @@
-data = (1, (10, 20))
+from pathlib import Path
+import json
 
-a, (b, c) = data
+numbers = [1,2,3,4,5,6,7,8]
 
-print(a)
-print(b)
-print(c)
+path = Path('numbers.json')
+contents = json.dumps(numbers)
+path.write_text(contents)
 
-items = [
-    (1, ("apple", "red")),
-    (2, ("banana", "yellow")),
-]
-
-for idx, (fruit, color) in items:
-    print(idx, fruit, color)
-
-values = [("A", "alpha"), ("B", "beta")]
-
-for idx, (letter, word) in enumerate(values, start=1):
-    print(idx, letter, word)

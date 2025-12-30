@@ -1,5 +1,3 @@
-from pathlib import Path
-
 paths = ['film.txt', 'tv.txt', 'dontknow.txt']
 
 for path in paths:
