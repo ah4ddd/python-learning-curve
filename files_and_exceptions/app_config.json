@@ -1,0 +1,13 @@
+{
+    "app_name": "My App",
+    "version": "1.0.0",
+    "settings": {
+        "theme": "light",
+        "language": "hi",
+        "notifications": true
+    },
+    "database": {
+        "host": "localhost",
+        "port": 5432
+    }
+}
