@@ -49,7 +49,6 @@ def save_results(character, book_title, results):
         json.dumps(data, indent=4, ensure_ascii=False),
         encoding="utf-8"
     )
-
     return True
 
 try:
