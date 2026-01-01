@@ -1,0 +1,255 @@
+{
+    "character": "witch",
+    "searches": [
+        {
+            "book": "Macbeth",
+            "count": 61,
+            "matches": [
+                {
+                    "line_number": 67,
+                    "text": "HECATE, and three Witches."
+                },
+                {
+                    "line_number": 76,
+                    "text": "Thunder and Lightning. Enter three Witches."
+                },
+                {
+                    "line_number": 78,
+                    "text": "FIRST WITCH."
+                },
+                {
+                    "line_number": 82,
+                    "text": "SECOND WITCH."
+                },
+                {
+                    "line_number": 86,
+                    "text": "THIRD WITCH."
+                },
+                {
+                    "line_number": 89,
+                    "text": "FIRST WITCH."
+                },
+                {
+                    "line_number": 92,
+                    "text": "SECOND WITCH."
+                },
+                {
+                    "line_number": 95,
+                    "text": "THIRD WITCH."
+                },
+                {
+                    "line_number": 98,
+                    "text": "FIRST WITCH."
+                },
+                {
+                    "line_number": 101,
+                    "text": "SECOND WITCH."
+                },
+                {
+                    "line_number": 104,
+                    "text": "THIRD WITCH."
+                },
+                {
+                    "line_number": 237,
+                    "text": "Thunder. Enter the three Witches."
+                },
+                {
+                    "line_number": 239,
+                    "text": "FIRST WITCH."
+                },
+                {
+                    "line_number": 242,
+                    "text": "SECOND WITCH."
+                },
+                {
+                    "line_number": 245,
+                    "text": "THIRD WITCH."
+                },
+                {
+                    "line_number": 248,
+                    "text": "FIRST WITCH."
+                },
+                {
+                    "line_number": 251,
+                    "text": "“Aroint thee, witch!” the rump-fed ronyon cries."
+                },
+                {
+                    "line_number": 257,
+                    "text": "SECOND WITCH."
+                },
+                {
+                    "line_number": 260,
+                    "text": "FIRST WITCH."
+                },
+                {
+                    "line_number": 263,
+                    "text": "THIRD WITCH."
+                },
+                {
+                    "line_number": 266,
+                    "text": "FIRST WITCH."
+                },
+                {
+                    "line_number": 281,
+                    "text": "SECOND WITCH."
+                },
+                {
+                    "line_number": 284,
+                    "text": "FIRST WITCH."
+                },
+                {
+                    "line_number": 290,
+                    "text": "THIRD WITCH."
+                },
+                {
+                    "line_number": 321,
+                    "text": "FIRST WITCH."
+                },
+                {
+                    "line_number": 324,
+                    "text": "SECOND WITCH."
+                },
+                {
+                    "line_number": 327,
+                    "text": "THIRD WITCH."
+                },
+                {
+                    "line_number": 343,
+                    "text": "FIRST WITCH."
+                },
+                {
+                    "line_number": 346,
+                    "text": "SECOND WITCH."
+                },
+                {
+                    "line_number": 349,
+                    "text": "THIRD WITCH."
+                },
+                {
+                    "line_number": 352,
+                    "text": "FIRST WITCH."
+                },
+                {
+                    "line_number": 355,
+                    "text": "SECOND WITCH."
+                },
+                {
+                    "line_number": 358,
+                    "text": "THIRD WITCH."
+                },
+                {
+                    "line_number": 362,
+                    "text": "FIRST WITCH."
+                },
+                {
+                    "line_number": 376,
+                    "text": "[Witches vanish.]"
+                },
+                {
+                    "line_number": 1009,
+                    "text": "The curtain’d sleep. Witchcraft celebrates"
+                },
+                {
+                    "line_number": 2288,
+                    "text": "Thunder. Enter the three Witches meeting Hecate."
+                },
+                {
+                    "line_number": 2290,
+                    "text": "FIRST WITCH."
+                },
+                {
+                    "line_number": 2334,
+                    "text": "FIRST WITCH."
+                },
+                {
+                    "line_number": 2411,
+                    "text": "Thunder. Enter the three Witches."
+                },
+                {
+                    "line_number": 2413,
+                    "text": "FIRST WITCH."
+                },
+                {
+                    "line_number": 2416,
+                    "text": "SECOND WITCH."
+                },
+                {
+                    "line_number": 2419,
+                    "text": "THIRD WITCH."
+                },
+                {
+                    "line_number": 2422,
+                    "text": "FIRST WITCH."
+                },
+                {
+                    "line_number": 2434,
+                    "text": "SECOND WITCH."
+                },
+                {
+                    "line_number": 2448,
+                    "text": "THIRD WITCH."
+                },
+                {
+                    "line_number": 2450,
+                    "text": "Witch’s mummy, maw and gulf"
+                },
+                {
+                    "line_number": 2467,
+                    "text": "SECOND WITCH."
+                },
+                {
+                    "line_number": 2484,
+                    "text": "SECOND WITCH."
+                },
+                {
+                    "line_number": 2513,
+                    "text": "FIRST WITCH."
+                },
+                {
+                    "line_number": 2516,
+                    "text": "SECOND WITCH."
+                },
+                {
+                    "line_number": 2519,
+                    "text": "THIRD WITCH."
+                },
+                {
+                    "line_number": 2522,
+                    "text": "FIRST WITCH."
+                },
+                {
+                    "line_number": 2529,
+                    "text": "FIRST WITCH."
+                },
+                {
+                    "line_number": 2544,
+                    "text": "FIRST WITCH."
+                },
+                {
+                    "line_number": 2558,
+                    "text": "FIRST WITCH."
+                },
+                {
+                    "line_number": 2625,
+                    "text": "FIRST WITCH."
+                },
+                {
+                    "line_number": 2628,
+                    "text": "SECOND WITCH."
+                },
+                {
+                    "line_number": 2631,
+                    "text": "THIRD WITCH."
+                },
+                {
+                    "line_number": 2655,
+                    "text": "FIRST WITCH."
+                },
+                {
+                    "line_number": 2665,
+                    "text": "[Music. The Witches dance, and vanish.]"
+                }
+            ]
+        }
+    ]
+}
