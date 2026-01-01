@@ -183,12 +183,19 @@ def test_duplicate_prevention():
 ## **MY TEACHING PLAN:**
 
 **Topic 1: Installing pytest** (Setting up the tools!)
+
 **Topic 2: Testing Functions - Basics** (Your first test!)
+
 **Topic 3: Passing and Failing Tests** (Understanding test output!)
+
 **Topic 4: Building Test Suites** (Multiple tests!)
+
 **Topic 5: Testing Classes** (Testing OOP!)
+
 **Topic 6: Assertions** (All the ways to check results!)
+
 **Topic 7: Fixtures** (THE POWER MOVE! 🔥)
+
 **Topic 8: Testing YOUR Project!** (Make your analyzer bulletproof!)
 
 ---
