@@ -71,10 +71,10 @@ try:
 
     if save == "yes":
         saved = save_results(name, book_title, results)
-    if saved:
-        print(f"Results saved to {name.lower()}.json")
-    else:
-        print("This search already exists. Nothing was saved.")
+        if saved:
+            print(f"Results saved to {name.lower()}.json")
+        else:
+            print("This search already exists. Nothing was saved.")
 
 
 except json.JSONDecodeError:
