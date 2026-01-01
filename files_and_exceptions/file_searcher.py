@@ -39,21 +39,18 @@ def save_results(character, book_title, results):
             "searches": []
         }
 
-    # 🔒 Prevent duplicate entries
     for search in data["searches"]:
         if search["book"] == book_title:
-            print("⚠️ This search already exists. Not saving again.")
-            return
+            return False
 
     data["searches"].append(entry)
 
-    # 🔥 FIX UNICODE ESCAPES HERE
     file_path.write_text(
         json.dumps(data, indent=4, ensure_ascii=False),
         encoding="utf-8"
     )
 
-    print(f"✅ Saved to {file_path}")
+    return True
 
 try:
     choice = int(input("\nChoose book file, via number: "))
@@ -71,12 +68,15 @@ try:
         print(match['text'])
         print()
 
-    # Optional saving
     save = input("Do you want to save this search to a file? (yes/no): ").lower()
 
     if save == "yes":
-        save_results(name, book_title, results)
-        print(f"✅ Results saved to {name.lower()}.json")
+        saved = save_results(name, book_title, results)
+    if saved:
+        print(f"Results saved to {name.lower()}.json")
+    else:
+        print("This search already exists. Nothing was saved.")
+
 
 except json.JSONDecodeError:
     print("❌ Saved JSON file is corrupted ❌")
