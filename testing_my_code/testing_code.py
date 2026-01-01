@@ -18,3 +18,6 @@ def test_lists():
     assert 3 in numbers
     assert numbers[0] == 1
 
+def test_intentional_failure():
+    """This test will fail on purpose."""
+    assert 2 + 2 == 5  # This is wrong!
