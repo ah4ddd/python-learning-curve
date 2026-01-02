@@ -1,23 +1,6 @@
-def test_basic_math():
-    """Test that basic math works."""
-    assert 2 + 2 == 4
-    assert 10 - 5 == 5
-    assert 3 * 3 == 9
+from name_function import get_full_name
 
-def test_strings():
-    """Test string operations."""
-    name = "Ahad"
-    assert name.upper() == "AHAD"
-    assert len(name) == 4
-    assert "h" in name.lower()
-
-def test_lists():
-    """Test list operations."""
-    numbers = [1, 2, 3, 4, 5]
-    assert len(numbers) == 5
-    assert 3 in numbers
-    assert numbers[0] == 1
-
-def test_intentional_failure():
-    """This test will fail on purpose."""
-    assert 2 + 2 == 5  # This is wrong!
+def test_first_last_name():
+    """Does 'Ahad Khan' work?"""
+    full_name = get_full_name('Ahad', 'Khan')
+    assert full_name == 'Ahad Khan'
