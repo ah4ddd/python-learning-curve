@@ -1,4 +1,10 @@
 from character_analyzer import how_many_times
+import pytest
+
+def test_file_not_found():
+    """Test that FileNotFoundError is raised for missing files."""
+    with pytest.raises(FileNotFoundError):
+        how_many_times("nonexistent_book.txt", "Raskolnikov")
 
 def test_basic_search():
     """Test basic character search."""
@@ -53,3 +59,5 @@ def test_special_characters():
     # Cleanup
     import os
     os.remove("test_special.txt")
+
+
