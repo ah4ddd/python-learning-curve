@@ -1,29 +1,25 @@
 import pytest
 from shopping_cart import ShoppingCart
 
-def test_shopping_cart_comprehensive():
-    """Comprehensive test using multiple assertion types."""
+@pytest.fixture
+def empty_cart():
+    """Provide empty cart."""
+    return ShoppingCart()
+
+@pytest.fixture
+def cart_with_items():
+    """Provide cart with multiple items."""
     cart = ShoppingCart()
+    cart.add_item("Apple", 1.50, quantity=2)
+    cart.add_item("Banana", 0.75, quantity=3)
+    cart.add_item("Orange", 2.00, quantity=1)
+    return cart
 
-    # Identity assertions
-    assert cart.items is not None
-    assert cart.is_empty() is True
-
-    # Type assertions
-    assert isinstance(cart.items, list)
-
-    # Add item
-    cart.add_item("Apple", 1.50, quantity=3)
-
-    # Membership assertions
-    assert len(cart.items) > 0
-    assert "Apple" in [item["name"] for item in cart.items]
-
-    # Comparison assertions
-    assert cart.get_total() == pytest.approx(4.50)
-    assert cart.get_item_count() >= 3
-
-    # Exception assertion
-    with pytest.raises(ValueError) as exc:
-        cart.add_item("Banana", -0.75)
-    assert "negative" in str(exc.value).lower()
+@pytest.fixture(params=[
+    ("Apple", 1.50, 1),
+    ("Banana", 0.75, 5),
+    ("Orange", 2.00, 3),
+])
+def item_data(request):
+    """Provide different item data for parametrized tests."""
+    return request.param

@@ -123,3 +123,10 @@ def test_add_item_with_negative_quantity():
     with pytest.raises(ValueError):
         cart.add_item("Apple", 1.50, quantity=-5)
 
+# test_shopping_cart.py
+def test_something(empty_cart):  # ✅ Works!
+    pass
+
+# test_checkout.py
+def test_other_thing(cart_with_items):  # ✅ Works!
+    pass
