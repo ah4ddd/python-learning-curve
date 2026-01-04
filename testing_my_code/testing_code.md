@@ -4930,3 +4930,716 @@ def test_method1():
 # **TOPIC 5: COMPLETE! ✅🎯**
 
 ---
+
+---
+
+# **TOPIC 6 & 7 COMBINED: ASSERTIONS & FIXTURES (The Complete Guide!)** 🧪⚡
+
+---
+
+## **Part 1: Assertions Deep Dive** ✅
+
+**You already know:** `assert result == expected`
+
+**But there are MANY types of assertions!** Let's master them ALL! 🎯
+
+---
+
+### **1. Comparison Assertions (Equality & Inequality)**
+
+```python
+def test_comparisons():
+    """Test different comparison assertions."""
+    x = 10
+    y = 20
+
+    # Equality
+    assert x == 10
+    assert y == 20
+
+    # Inequality
+    assert x != y
+    assert x != 15
+
+    # Greater than / Less than
+    assert y > x
+    assert x < y
+
+    # Greater than or equal / Less than or equal
+    assert x >= 10
+    assert y <= 20
+```
+
+**When to use:**
+- Numbers, strings, any comparable types
+- Checking ranges, boundaries
+
+---
+
+### **2. Membership Assertions (in / not in)**
+
+```python
+def test_membership():
+    """Test membership assertions."""
+    my_list = [1, 2, 3, 4, 5]
+    my_string = "Hello World"
+    my_dict = {"name": "Ahad", "age": 20}
+
+    # in (contains)
+    assert 3 in my_list
+    assert "World" in my_string
+    assert "name" in my_dict
+
+    # not in (doesn't contain)
+    assert 10 not in my_list
+    assert "Python" not in my_string
+    assert "salary" not in my_dict
+```
+
+**When to use:**
+- Checking if item exists in collection
+- String contains substring
+- Dict has key
+
+---
+
+### **3. Identity Assertions (is / is not)**
+
+```python
+def test_identity():
+    """Test identity assertions."""
+    x = None
+    y = True
+    z = False
+
+    # is (same object)
+    assert x is None
+    assert y is True
+    assert z is False
+
+    # is not (different object)
+    assert x is not False
+    assert y is not None
+```
+
+**IMPORTANT:** `is` checks IDENTITY (same object), `==` checks VALUE!
+
+```python
+a = [1, 2, 3]
+b = [1, 2, 3]
+
+assert a == b     # ✅ Same values
+assert a is not b # ✅ Different objects
+```
+
+**When to use:**
+- Checking for `None`
+- Checking boolean values
+- NOT for comparing numbers/strings!
+
+---
+
+### **4. Type Assertions**
+
+```python
+def test_types():
+    """Test type assertions."""
+    x = 42
+    y = "hello"
+    z = [1, 2, 3]
+
+    assert isinstance(x, int)
+    assert isinstance(y, str)
+    assert isinstance(z, list)
+
+    # Can check multiple types
+    assert isinstance(x, (int, float))  # x is EITHER int OR float
+```
+
+**When to use:**
+- Checking function returns correct type
+- Validating input types
+
+---
+
+### **5. Exception Assertions (Advanced!)**
+
+**You know:** `pytest.raises(ValueError)`
+
+**But you can do MORE!**
+
+```python
+import pytest
+
+def test_exception_with_message():
+    """Test exception AND its message."""
+    from shopping_cart import ShoppingCart
+    cart = ShoppingCart()
+
+    # Check exception is raised
+    with pytest.raises(ValueError) as exc_info:
+        cart.add_item("Apple", -1.50)
+
+    # Check the error message
+    assert "Price cannot be negative" in str(exc_info.value)
+
+    # Check exact message
+    assert str(exc_info.value) == "Price cannot be negative!"
+
+def test_exception_not_raised():
+    """Test that NO exception is raised."""
+    cart = ShoppingCart()
+
+    # This should NOT raise exception
+    cart.add_item("Apple", 1.50)  # ✅ No error
+
+    # If it raised an error, test would fail!
+```
+
+**When to use:**
+- Testing error messages are correct
+- Testing error handling
+- Ensuring valid inputs DON'T raise errors
+
+---
+
+### **6. Custom Assertion Messages (Debugging Help!)**
+
+**When assertion fails, you can add YOUR OWN message!**
+
+```python
+def test_with_custom_message():
+    """Test with custom error messages."""
+    x = 10
+    y = 20
+
+    assert x > y, f"Expected x ({x}) to be greater than y ({y}), but it's not!"
+```
+
+**If this fails, output is:**
+
+```
+AssertionError: Expected x (10) to be greater than y (20), but it's not!
+```
+
+**Much clearer than just:** `assert 10 > 20` ✅
+
+**When to use:**
+- Complex assertions
+- When failure reason isn't obvious
+- Helping future you debug!
+
+---
+
+### **7. Approximate Assertions (For Floats!)**
+
+**Floats are TRICKY!**
+
+```python
+def test_float_equality():
+    """Test float comparisons."""
+    result = 0.1 + 0.2
+
+    # This FAILS! (floating point precision)
+    # assert result == 0.3  # ❌ Actually 0.30000000000000004
+
+    # Use pytest.approx instead!
+    import pytest
+    assert result == pytest.approx(0.3)  # ✅ Works!
+```
+
+**Why:** Computers can't represent 0.1 exactly in binary!
+
+**When to use:**
+- ANY float comparisons
+- Math calculations
+- Prices, measurements, percentages
+
+---
+
+### **8. Real-World Example (All Assertions Together!)**
+
+```python
+import pytest
+from shopping_cart import ShoppingCart
+
+def test_shopping_cart_comprehensive():
+    """Comprehensive test using multiple assertion types."""
+    cart = ShoppingCart()
+
+    # Identity assertions
+    assert cart.items is not None
+    assert cart.is_empty() is True
+
+    # Type assertions
+    assert isinstance(cart.items, list)
+
+    # Add item
+    cart.add_item("Apple", 1.50, quantity=3)
+
+    # Membership assertions
+    assert len(cart.items) > 0
+    assert "Apple" in [item["name"] for item in cart.items]
+
+    # Comparison assertions
+    assert cart.get_total() == pytest.approx(4.50)
+    assert cart.get_item_count() >= 3
+
+    # Exception assertion
+    with pytest.raises(ValueError) as exc:
+        cart.add_item("Banana", -0.75)
+    assert "negative" in str(exc.value).lower()
+```
+
+**This is PROFESSIONAL testing!** Multiple assertion types in ONE test! 💼
+
+---
+
+## **Part 2: Fixtures Deep Dive** 🔧
+
+**You know the basics!** Now let's level up! 🔥
+
+---
+
+### **1. Fixture Scopes (Control When Fixtures Run)**
+
+**Remember:** By default, fixtures run ONCE PER TEST!
+
+**But you can change that!**
+
+---
+
+#### **Function Scope (Default)**
+
+```python
+@pytest.fixture  # Same as scope="function"
+def cart():
+    """New cart for EACH test."""
+    return ShoppingCart()
+
+def test_1(cart):
+    cart.add_item("Apple", 1.50)
+    # cart has 1 item
+
+def test_2(cart):
+    # cart is FRESH! Empty again!
+    assert cart.is_empty()
+```
+
+**Each test gets a FRESH cart!** ✅
+
+---
+
+#### **Module Scope (Once Per File)**
+
+```python
+@pytest.fixture(scope="module")
+def database_connection():
+    """Connect ONCE for entire file."""
+    print("Connecting to database...")  # Runs ONCE
+    conn = connect_database()
+    yield conn
+    print("Disconnecting...")  # Runs ONCE at end
+    conn.close()
+
+def test_1(database_connection):
+    # Uses SAME connection
+
+def test_2(database_connection):
+    # Uses SAME connection
+```
+
+**Connection created ONCE, shared by ALL tests in file!** ⚡
+
+**When to use:**
+- Expensive operations (database connections)
+- File I/O
+- API connections
+
+**WARNING:** Tests might affect each other! Be careful! ⚠️
+
+---
+
+#### **Session Scope (Once Per Entire Test Run)**
+
+```python
+@pytest.fixture(scope="session")
+def test_data():
+    """Load test data ONCE for ALL tests."""
+    print("Loading test data...")  # Runs ONCE
+    data = load_large_dataset()
+    return data
+
+# In ANY test file:
+def test_something(test_data):
+    # Uses SAME data
+
+# In ANOTHER test file:
+def test_other_thing(test_data):
+    # Uses SAME data
+```
+
+**Created ONCE for entire pytest session!** 🌐
+
+---
+
+### **2. Fixture Parameters (One Fixture, Multiple Inputs!)**
+
+**Sometimes you want to test with DIFFERENT data!**
+
+**Instead of writing multiple fixtures:**
+
+```python
+@pytest.fixture(params=[1, 2, 3, 5, 10])
+def quantity(request):
+    """Provide different quantities."""
+    return request.param
+
+def test_add_item_with_various_quantities(quantity):
+    """Test with different quantities."""
+    cart = ShoppingCart()
+    cart.add_item("Apple", 1.50, quantity=quantity)
+
+    assert cart.get_item_count() == quantity
+    assert cart.get_total() == pytest.approx(1.50 * quantity)
+```
+
+**Run this:**
+
+```bash
+pytest -v
+```
+
+**Output:**
+
+```
+test_file.py::test_add_item_with_various_quantities[1] PASSED
+test_file.py::test_add_item_with_various_quantities[2] PASSED
+test_file.py::test_add_item_with_various_quantities[3] PASSED
+test_file.py::test_add_item_with_various_quantities[5] PASSED
+test_file.py::test_add_item_with_various_quantities[10] PASSED
+
+========================= 5 passed in 0.02s =========================
+```
+
+**ONE test ran 5 TIMES with different inputs!** 🎯
+
+**This is called PARAMETRIZED FIXTURES!** It's POWERFUL! 🔥
+
+---
+
+### **3. conftest.py (Shared Fixtures Across Files!)**
+
+**Problem:** You have 10 test files, all need the SAME fixtures!
+
+**Bad solution:** Copy-paste fixtures into each file ❌
+
+**Good solution:** `conftest.py`! ✅
+
+---
+
+**Create `conftest.py` in your test directory:**
+
+```
+my_project/
+├── shopping_cart.py
+├── conftest.py          # ← Special file!
+├── test_shopping_cart.py
+├── test_checkout.py
+└── test_payment.py
+```
+
+**In `conftest.py`:**
+
+```python
+import pytest
+from shopping_cart import ShoppingCart
+
+@pytest.fixture
+def empty_cart():
+    """Provide empty cart (available to ALL test files!)."""
+    return ShoppingCart()
+
+@pytest.fixture
+def cart_with_items():
+    """Provide cart with items (available to ALL test files!)."""
+    cart = ShoppingCart()
+    cart.add_item("Apple", 1.50)
+    cart.add_item("Banana", 0.75)
+    return cart
+```
+
+**Now in ANY test file:**
+
+```python
+# test_shopping_cart.py
+def test_something(empty_cart):  # ✅ Works!
+    pass
+
+# test_checkout.py
+def test_other_thing(cart_with_items):  # ✅ Works!
+    pass
+```
+
+**NO IMPORTS NEEDED!** pytest finds `conftest.py` automatically! 🪄
+
+**This is how PROFESSIONALS organize fixtures!** 💼
+
+---
+
+### **4. Fixture Chaining (Fixtures Using Other Fixtures!)**
+
+**Fixtures can use OTHER fixtures!**
+
+```python
+@pytest.fixture
+def database():
+    """Provide database connection."""
+    conn = connect_database()
+    yield conn
+    conn.close()
+
+@pytest.fixture
+def user_table(database):
+    """Create user table (uses database fixture!)."""
+    database.create_table("users")
+    yield database
+    database.drop_table("users")
+
+def test_add_user(user_table):
+    """Test adding user (uses user_table, which uses database!)."""
+    user_table.insert("users", {"name": "Ahad"})
+    assert user_table.count("users") == 1
+```
+
+**Fixture dependencies:** `test_add_user` → `user_table` → `database`
+
+**pytest handles the chain automatically!** 🔗
+
+---
+
+### **5. When to Use Fixtures vs Plain Setup**
+
+**Use FIXTURES when:**
+- ✅ Multiple tests need same setup
+- ✅ Setup is complex
+- ✅ You need cleanup (teardown)
+- ✅ You want to reuse across files
+
+**Use PLAIN SETUP when:**
+- ✅ Only ONE test needs it
+- ✅ Setup is trivial (`x = 5`)
+- ✅ No cleanup needed
+
+**Example (plain setup is fine):**
+
+```python
+def test_simple():
+    """Simple test doesn't need fixture."""
+    x = 10
+    y = 20
+    assert x + y == 30
+```
+
+**No fixture needed!** Keep it simple! ✅
+
+---
+
+## **Part 3: Complete Example (Putting It ALL Together!)**
+
+**Let's build a REAL test suite using EVERYTHING!**
+
+**Create `conftest.py`:**
+
+```python
+import pytest
+from shopping_cart import ShoppingCart
+
+@pytest.fixture
+def empty_cart():
+    """Provide empty cart."""
+    return ShoppingCart()
+
+@pytest.fixture
+def cart_with_items():
+    """Provide cart with multiple items."""
+    cart = ShoppingCart()
+    cart.add_item("Apple", 1.50, quantity=2)
+    cart.add_item("Banana", 0.75, quantity=3)
+    cart.add_item("Orange", 2.00, quantity=1)
+    return cart
+
+@pytest.fixture(params=[
+    ("Apple", 1.50, 1),
+    ("Banana", 0.75, 5),
+    ("Orange", 2.00, 3),
+])
+def item_data(request):
+    """Provide different item data for parametrized tests."""
+    return request.param
+```
+
+**Create `test_shopping_cart_complete.py`:**
+
+```python
+import pytest
+from shopping_cart import ShoppingCart
+
+# ============================================================================
+# BASIC FUNCTIONALITY TESTS
+# ============================================================================
+
+def test_new_cart_is_empty(empty_cart):
+    """Test new cart starts empty."""
+    assert empty_cart.is_empty() is True
+    assert empty_cart.get_item_count() == 0
+    assert empty_cart.get_total() == pytest.approx(0.0)
+
+def test_add_item_parametrized(empty_cart, item_data):
+    """Test adding various items."""
+    name, price, quantity = item_data
+
+    empty_cart.add_item(name, price, quantity)
+
+    assert empty_cart.get_item_count() == quantity
+    assert empty_cart.get_total() == pytest.approx(price * quantity)
+    assert not empty_cart.is_empty()
+
+# ============================================================================
+# POPULATED CART TESTS
+# ============================================================================
+
+def test_cart_total(cart_with_items):
+    """Test total calculation."""
+    # 2*1.50 + 3*0.75 + 1*2.00 = 7.25
+    expected = 7.25
+    assert cart_with_items.get_total() == pytest.approx(expected)
+
+def test_cart_item_count(cart_with_items):
+    """Test item counting."""
+    # 2 + 3 + 1 = 6 items
+    assert cart_with_items.get_item_count() == 6
+
+def test_remove_item_from_cart(cart_with_items):
+    """Test removing item."""
+    result = cart_with_items.remove_item("Apple")
+
+    assert result is True
+    assert cart_with_items.get_item_count() == 4  # 3 + 1 left
+    assert cart_with_items.get_total() == pytest.approx(4.25)
+
+# ============================================================================
+# ERROR HANDLING TESTS
+# ============================================================================
+
+def test_negative_price_raises_error(empty_cart):
+    """Test that negative price is rejected."""
+    with pytest.raises(ValueError) as exc:
+        empty_cart.add_item("Invalid", -10.00)
+
+    assert "negative" in str(exc.value).lower(), \
+        "Error message should mention negative price"
+
+def test_zero_quantity_raises_error(empty_cart):
+    """Test that zero quantity is rejected."""
+    with pytest.raises(ValueError) as exc:
+        empty_cart.add_item("Invalid", 1.00, quantity=0)
+
+    assert "quantity" in str(exc.value).lower()
+    assert "1" in str(exc.value)
+
+# ============================================================================
+# EDGE CASE TESTS
+# ============================================================================
+
+def test_remove_from_empty_cart(empty_cart):
+    """Test removing from empty cart."""
+    result = empty_cart.remove_item("Nonexistent")
+
+    assert result is False
+    assert empty_cart.is_empty()
+
+def test_clear_populated_cart(cart_with_items):
+    """Test clearing cart."""
+    assert not cart_with_items.is_empty()  # Starts with items
+
+    cart_with_items.clear()
+
+    assert cart_with_items.is_empty()
+    assert cart_with_items.get_item_count() == 0
+    assert cart_with_items.get_total() == 0.0
+```
+
+**Run it:**
+
+```bash
+pytest test_shopping_cart_complete.py -v
+```
+
+**Output:**
+
+```
+test_shopping_cart_complete.py::test_new_cart_is_empty PASSED
+test_shopping_cart_complete.py::test_add_item_parametrized[item_data0] PASSED
+test_shopping_cart_complete.py::test_add_item_parametrized[item_data1] PASSED
+test_shopping_cart_complete.py::test_add_item_parametrized[item_data2] PASSED
+test_shopping_cart_complete.py::test_cart_total PASSED
+test_shopping_cart_complete.py::test_cart_item_count PASSED
+test_shopping_cart_complete.py::test_remove_item_from_cart PASSED
+test_shopping_cart_complete.py::test_negative_price_raises_error PASSED
+test_shopping_cart_complete.py::test_zero_quantity_raises_error PASSED
+test_shopping_cart_complete.py::test_remove_from_empty_cart PASSED
+test_shopping_cart_complete.py::test_clear_populated_cart PASSED
+
+========================= 11 passed in 0.03s =========================
+```
+
+**11 TESTS! ALL PASSING!** 🎉
+
+**This test suite has:**
+- ✅ Multiple assertion types
+- ✅ Shared fixtures (`conftest.py`)
+- ✅ Parametrized fixtures
+- ✅ Clear organization
+- ✅ Edge cases
+- ✅ Error handling
+- ✅ Custom messages
+
+**THIS IS PROFESSIONAL-LEVEL TESTING!** 💼🔥
+
+---
+
+# **TOPIC 6 & 7: COMPLETE! ✅🧪**
+
+**YOU NOW KNOW:**
+
+**ASSERTIONS:**
+✅ Comparison assertions (`==`, `!=`, `>`, `<`)
+
+✅ Membership assertions (`in`, `not in`)
+
+✅ Identity assertions (`is`, `is not`)
+
+✅ Type assertions (`isinstance`)
+
+✅ Advanced exception assertions
+
+✅ Custom error messages
+
+✅ Approximate assertions for floats
+
+**FIXTURES:**
+✅ Fixture scopes (`function`, `module`, `session`)
+
+✅ Parametrized fixtures (one fixture, multiple inputs!)
+
+✅ `conftest.py` (shared fixtures!)
+
+✅ Fixture chaining (fixtures using fixtures!)
+
+✅ When to use fixtures vs plain setup
+
+**YOU'RE NOW A TESTING EXPERT!** 💪
+
+---
+

@@ -1,4 +1,4 @@
-import pytest
+import pytest # type: ignore
 from shopping_cart import ShoppingCart
 
 # ============================================================================
