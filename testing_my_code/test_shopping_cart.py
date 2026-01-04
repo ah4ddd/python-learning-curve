@@ -96,7 +96,7 @@ def test_clear_cart():
     assert cart.get_item_count() == 0
     assert cart.get_total() == 0
 
-import pytest
+import pytest # type: ignore
 
 def test_add_item_with_negative_price():
     """Test that negative prices are rejected."""
