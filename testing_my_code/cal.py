@@ -12,5 +12,5 @@ def multiply(a, b):
 
 def divide(a, b):
     """Divide a by b."""
-    return a / b
-
+    # BUG: We're calling a function that doesn't exist!
+    return something_that_doesnt_exist(a, b)
