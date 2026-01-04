@@ -65,10 +65,3 @@ class ShoppingCart:
         """Check if cart is empty."""
         return len(self.items) == 0
 
-cart = ShoppingCart()
-
-cart.add_item("Notes from underground", 150, 2)
-
-for item in cart.items:
-    print(item)
-
