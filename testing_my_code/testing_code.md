@@ -5642,4 +5642,3 @@ test_shopping_cart_complete.py::test_clear_populated_cart PASSED
 **YOU'RE NOW A TESTING EXPERT!** 💪
 
 ---
-
