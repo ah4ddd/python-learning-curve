@@ -26,3 +26,4 @@ def test_get_raise_mutates_state(employee_with_salary):
     employee_with_salary.get_raise()
 
     assert employee_with_salary.annual_salary == 266000
+
