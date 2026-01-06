@@ -1,9 +1,11 @@
 import asyncio
 
 async def task(name):
-    print(f"Starting {name}")
-    await asyncio.sleep(2)   # non-blocking wait
-    print(f"Finished {name}")
+    print(f"{name}: step 1")
+    await asyncio.sleep(1)
+    print(f"{name}: step 2")
+    await asyncio.sleep(1)
+    print(f"{name}: step 3")
 
 async def main():
     await asyncio.gather(
@@ -12,4 +14,3 @@ async def main():
     )
 
 asyncio.run(main())
-
