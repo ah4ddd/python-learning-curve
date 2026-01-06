@@ -1,16 +1,19 @@
 import asyncio
 
-async def task(name):
-    print(f"{name}: step 1")
-    await asyncio.sleep(1)
-    print(f"{name}: step 2")
-    await asyncio.sleep(1)
-    print(f"{name}: step 3")
+async def handle_request(user_id):
+    print(f"Handling user {user_id}")
+    await asyncio.sleep(3)   # simulates DB / network wait
+    print(f"Finished user {user_id}")
 
 async def main():
+    print("Server started")
+
     await asyncio.gather(
-        task("A"),
-        task("B")
+        handle_request(1),
+        handle_request(2),
+        handle_request(3),
     )
+
+    print("Server shutting down")
 
 asyncio.run(main())
