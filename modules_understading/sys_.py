@@ -13,7 +13,7 @@ char_count = len(text)
 word_count = len(text.split())
 
 # 4. Output results
-sys.stdout.write(f"your text : {text}")
+sys.stdout.write(f"your text : {text}\n")
 sys.stdout.write(f"Characters: {char_count}\n")
 sys.stdout.write(f"Words: {word_count}\n")
 
